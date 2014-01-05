@@ -58,6 +58,7 @@ BEGIN_MESSAGE_MAP(CProgressDialog, CDialog)
 	ON_BN_CLICKED(IDABORT, OnAbort)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDOK, &CProgressDialog::OnBnClickedOk)
+		// 2014-01-05: TODO: Where did it arise from?
 END_MESSAGE_MAP()
 
 
@@ -199,6 +200,7 @@ void CProgressDialog::OnKillFocus(CWnd* pNewWnd)
 */
 
 
+// 2014-01-05: TODO: Where did it arise from?
 void CProgressDialog::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
