@@ -1,0 +1,4 @@
+// Microsoft Developer Studio generated Help ID include file.
+// Used by MArc2.rc
+//
+#define HIDC_ROOMPROP_LIMIT             0x808803e8    // IDD_ROOM_PROPERTIES_DIALOG [English (U.S.)]
