@@ -147,7 +147,7 @@ int CFilesToArcView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 // Create the Image List
 	BOOL crRes = m_ctlImage.Create( IDB_FTOA_IMAGELIST, 16, 0, RGB(255,0,255));
 	if( !crRes )
-		AfxMessageBox( "CFilesToArcView::OnCreate(): Can't create Image List." );
+		AfxMessageBox( _T("CFilesToArcView::OnCreate(): Can't create Image List.") );
 //m_ctlImage.SetBkColor(GetSysColor(COLOR_WINDOW));	// TO DO
 //	ctlList.SetImageList( &m_ctlImage, LVSIL_NORMAL );
 //	ASSERT( ctlList.GetImageList( LVSIL_NORMAL ) == &m_ctlImage );
@@ -346,13 +346,13 @@ void CFilesToArcView::OnFileToArcDelete()
 	CFileToArc* pSelFile = GetSelectedFile();
 		// Get selected File
 	if( pSelFile->m_bSystem )	
-		AfxMessageBox( "This file is for system purposes.\n"
-					   "You can not delete it." );
+		AfxMessageBox( _T("This file is for system purposes.\n")
+					   _T("You cannot delete it.") );
 	else
 	{
-		if( AfxMessageBox(	"Are you sure to remove this File\n"
-							"from the Archiving list\n"
-							"and to delete all its Copies?", MB_YESNO ) == IDYES )	// (2)
+		if( AfxMessageBox(	_T("Are you sure to remove this File\n")
+							_T("from the Archiving list\n")
+							_T("and to delete all its Copies?"), MB_YESNO ) == IDYES )	// (2)
 		{
 			g_TheArchive.m_FilesToArc.FileDelete( pSelFile );
 		// Update display
@@ -395,7 +395,7 @@ CFileToArc* CFilesToArcView::GetSelectedFile()
 			lvItem.mask = LVIF_PARAM;
 			BOOL bSuccess = ctlList.GetItem( &lvItem );
 			if( !bSuccess )
-				AfxMessageBox( "CFilesToArcView::GetSelectedFile():\n GetItem() Error!" );
+				AfxMessageBox( _T("CFilesToArcView::GetSelectedFile():\n GetItem() Error!") );
 			pSelFile = (CFileToArc*)lvItem.lParam;
 		}
 	return pSelFile;
@@ -472,7 +472,7 @@ void CFilesToArcView::SetSubItems( int nItem, CFileToArc* pFile )
 		lvItem.iSubItem = m_nSizeColumn;
 		lvItem.mask = LVIF_TEXT;
 		CString tmp;
-		tmp.Format( "%d", pFile->m_nSize );
+		tmp.Format( _T("%d"), pFile->m_nSize );
 		LPCTSTR strItem = tmp;
 		lvItem.pszText = (LPTSTR)strItem;
 		VERIFY( ctlList.SetItem( &lvItem ) );
@@ -488,8 +488,8 @@ void CFilesToArcView::SetSubItems( int nItem, CFileToArc* pFile )
 	}
 
 	lvItem.iSubItem = m_nStatusColumn;
-	char * const strStatus[] = { "Not Found", "Up-to-date", "New", "Changed", 
-								 "Older", "System", "Paused" };
+	wchar_t * const strStatus[] = { _T("Not Found"), _T("Up-to-date"), _T("New"), _T("Changed"), 
+								 _T("Older"), _T("System"), _T("Paused") };
 	lvItem.mask = LVIF_IMAGE | LVIF_TEXT;
 	lvItem.iImage = pFile->m_nStatus;
 	lvItem.pszText = strStatus[ pFile->m_nStatus ];

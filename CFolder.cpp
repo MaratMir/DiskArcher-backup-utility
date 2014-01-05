@@ -107,7 +107,7 @@ int CFolder::GetItems()
 	
 	if ( hFind != INVALID_HANDLE_VALUE )
 		if( ! FindClose(hFind) )	// Free memory used while file searching
-			AfxMessageBox( "FileFind Close Error" );
+			AfxMessageBox( _T("FileFind Close Error") );
 	return result;
 }
 

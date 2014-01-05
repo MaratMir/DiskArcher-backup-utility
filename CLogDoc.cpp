@@ -44,7 +44,7 @@ BOOL CLogDoc::OnNewDocument()
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
 
-	SetTitle( "Log View" ); // M
+	SetTitle( _T("Log View") ); // M
 
 	return TRUE;
 }

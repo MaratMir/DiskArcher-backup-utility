@@ -153,8 +153,9 @@ void CLogView::ShowLog()
 	try
 	{
 	// Select all Copies
-		CString select = "SELECT * FROM ArcLog ORDER BY MessDateTime DESC";
-		hr = recSet->Open( (LPCSTR)select, 
+		wchar_t* select = _T("SELECT * FROM ArcLog ORDER BY MessDateTime DESC");
+		hr = recSet->Open( select, 
+			// zzz hr = recSet->Open( (LPCSTR)select, 
 							         g_pTheDB->m_pConnection, adOpenStatic, 
 							         adLockReadOnly, adCmdText );
     TESTHR( hr );
@@ -225,7 +226,7 @@ void CLogView::ShowLog()
 	}
 	catch(...)
 	{
-		AfxMessageBox( "Some error occured in CArchiveDB::CopiesLoad()." );
+		AfxMessageBox( _T("Some error occured in CArchiveDB::CopiesLoad().") );
 	}
 }
 
@@ -278,6 +279,6 @@ void CLogView::OnLogClear()
 	}
 	catch(...)
 	{
-		AfxMessageBox( "Some error occured in CLogView::OnLogClear()." );
+		AfxMessageBox( _T("Some error occured in CLogView::OnLogClear().") );
 	}
 }

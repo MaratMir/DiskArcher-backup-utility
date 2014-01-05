@@ -221,8 +221,8 @@ void CCopiesView::OnCopyExtract()
 	    if ( ! theApp.checkRegistration3() )
 	                // (11) Was: if ( ! theApp.CheckRegistration() )
 	    {
-				AfxMessageBox( "You have exceeded the limit for unregistered users.\n"
-							         "Please register." );  // (11)
+				AfxMessageBox( _T("You have exceeded the limit for unregistered users.\n")
+							         _T("Please register.") );  // (11)
         return;                               /* (11) Was:
         CNag nagScreen;				// (9)
 		    nagScreen.DoModal();	// (9) */
@@ -253,16 +253,16 @@ void CCopiesView::OnCopyDelete()
 // (6)	ASSERT( pSelFile );
 	if( pSelFile/*(6)*/
 	 &&	pSelFile->m_bSystem )
-		AfxMessageBox( "This file is for system purposes.\n"
-					   "You can not delete its copies." );
+		AfxMessageBox( _T("This file is for system purposes.\n")
+					   _T("You cannot delete its copies.") );
 	else
 	{
 		if( pSelCopy->m_bDeleteIt )
-			AfxMessageBox( "This copy has already been marked for deletion\n"
-						   "and will be actually deleted during next\n"
-						   "Archive Updating process." );
+			AfxMessageBox( _T("This copy has already been marked for deletion\n")
+						   _T("and will be actually deleted during next\n")
+						   _T("Archive Updating process.") );
 		else
-			if( AfxMessageBox( "Are you sure to delete this copy?", MB_YESNO ) == IDYES )
+			if( AfxMessageBox( _T("Are you sure to delete this copy?"), MB_YESNO ) == IDYES )
 			{
 			// Mark the Copy for deletion.
 			// It will be deleted during the next Archiving process
@@ -334,7 +334,7 @@ void CCopiesView::ShowCopyList()
 			lvItem.iSubItem = m_nIDColumn;
 				// TO DO: if it is not 0, it will not work!!!
 			CString sTmp;
-			sTmp.Format( "%d", pCurCopy->m_nCopyID );
+			sTmp.Format( _T("%d"), pCurCopy->m_nCopyID );
 			LPCTSTR strItem = sTmp;
 			lvItem.pszText = (LPTSTR)strItem;
 			lvItem.iImage = ( pCurCopy->m_bDeleteIt ? 0 : -1 );
@@ -385,7 +385,7 @@ bool CCopiesView::SetSubItems( int nItem, CFileCopy* pCopy )
 	lvItem.mask = LVIF_TEXT;
 	lvItem.iItem = nItem;
 	lvItem.iSubItem = m_nRoomIDColumn;
-	sTmp.Format( "%d", pCopy->GetRoom()->m_nRoomID );
+	sTmp.Format( _T("%d"), pCopy->GetRoom()->m_nRoomID );
 	/*	(4) Was lvItem.iSubItem = m_nBundleIDColumn;
 				sTmp.Format( "%d", pCopy->m_nBundleID );
 	*/	
@@ -425,7 +425,7 @@ CFileCopy* CCopiesView::GetSelectedCopy()
 			{
 				nItem = ctlList.GetNextSelectedItem(pos);
 				CString txt = ctlList.GetItemText( nItem, m_nIDColumn );
-				int nID = atoi( txt );
+				int nID = _ttoi(txt);  //atoi( txt );
 				pSelCopy = g_TheArchive.m_Copies.FindCopy( nID );
 			}
 	return pSelCopy;

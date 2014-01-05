@@ -15,7 +15,7 @@
 #include "resource.h"
 
 
-class CString;
+//class CString;
 class CMyArchive;
 
 class CLogFile

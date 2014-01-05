@@ -29,7 +29,7 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 	CBundle *pBundle = g_TheArchive.m_Bundles.BundleFind( m_nBundleID );
 	if( pBundle == NULL )
 	{
-		AfxMessageBox( "CFileCopy::Extract(): Can't find the Bundle." );
+		AfxMessageBox( _T("CFileCopy::Extract(): Can't find the Bundle.") );
 		bSuccess = false;
 	}
 
@@ -42,7 +42,7 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 		pRoom = g_TheArchive.m_Rooms.RoomFind( pBundle->m_nRoomID );
 		if( pRoom == NULL )
 		{
-			AfxMessageBox( "CFileCopy::Extract(): Can't find the Room." );
+			AfxMessageBox( _T("CFileCopy::Extract(): Can't find the Room.") );
 			bSuccess = false;
 		}
 	}
@@ -54,9 +54,9 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 			while( true )
 			{
 				CString mess;
-				mess.Format( "Please insert the disk labeled as"
-							 "\n\"Archive Room #%d\""
-					         "\ninto drive %s, then press \"OK\"", 
+				mess.Format( _T("Please insert the disk labeled as")
+							 _T("\n\"Archive Room #%d\"")
+					         _T("\ninto drive %s, then press \"OK\""), 
 							 pRoom->m_nRoomID, pRoom->m_strDrive );
 
 				CInsertDiskDlg insDlg;
@@ -67,7 +67,7 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 				{
 				case -1: 
 					AfxMessageBox( 
-						"'Insert Disk' dialog box could not be created!" );
+						_T("'Insert Disk' dialog box could not be created!") );
 					bSuccess = false;
 					break;
 				case IDABORT:
@@ -78,7 +78,7 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 					// Ok, continue extracting
 					break;
 				default:
-					AfxMessageBox( "Sudden Error in 'CFileCopy::Extract'" );
+					AfxMessageBox( _T("Sudden Error in 'CFileCopy::Extract'") );
 					break;
 				}
 
@@ -100,16 +100,16 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 			if( ! pRoom->IsAvailable() )
 			{
 				CString msg;
-				msg.Format( "The Room %d is unavailable. Path:\n%s"
-							      "\nIf it is a network drive then"
-							      "\ncheck that you have logged in.",
+				msg.Format( _T("The Room %d is unavailable. Path:\n%s")
+							      _T("\nIf it is a network drive then")
+							      _T("\ncheck that you have logged in."),
 							      pRoom->m_nRoomID, pRoom->getFullName() );
 				AfxMessageBox( msg );
 				bSuccess = false;
 			}
 			else if( !pRoom->CheckLabel() )
 			{
-				AfxMessageBox( "Room is damaged!" );	// TO DO
+				AfxMessageBox( _T("Room is damaged!") );	// TO DO
 				bSuccess = false;
 			}
 	}
@@ -152,7 +152,7 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 		if( bSuccess )
 		{
 			CString mess;
-			mess.Format( "File has been successfully extracted to\n%s", 
+			mess.Format( _T("File has been successfully extracted to\n%s"), 
 						 strExtractToFile );
 			AfxMessageBox( mess, MB_ICONINFORMATION );
 		}

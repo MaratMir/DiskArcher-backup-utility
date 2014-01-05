@@ -57,7 +57,7 @@ void COptionsDialog::OnBrowseButton()
 {
 	CFileDialog dlg( TRUE/*Open, not Save*/ );
 //	dlg.m_ofn.lpstrFile = "Today.txt";
-	dlg.m_ofn.lpstrFilter = "Pkzip 2.50 Command Line (PKZip25.exe)\0PKZip25.exe\0\0";
+/*	dlg.m_ofn.lpstrFilter = "Pkzip 2.50 Command Line (PKZip25.exe)\0PKZip25.exe\0\0";
 	dlg.m_ofn.nFilterIndex = 1;
 	dlg.m_ofn.lpstrTitle = "Path to compression utility";
 	dlg.m_ofn.Flags |= OFN_ENABLESIZING;
@@ -66,6 +66,7 @@ void COptionsDialog::OnBrowseButton()
 		m_sCompressorPath = dlg.m_ofn.lpstrFile;
 		UpdateData( FALSE );
 	}
+*/
 }
 
 

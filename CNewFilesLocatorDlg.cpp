@@ -193,7 +193,7 @@ void CNewFilesLocatorDlg::OnCancel()
 void CNewFilesLocatorDlg::CountFile()
 {
 	m_nCounter++;
-	m_strCounter.Format( "%d", m_nCounter );
+	m_strCounter.Format( _T("%d"), m_nCounter );
 }
 
 

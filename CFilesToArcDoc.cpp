@@ -43,7 +43,7 @@ BOOL CFilesToArcDoc::OnNewDocument()
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
 
-	SetTitle( "Files To Archive" ); // M
+	SetTitle( _T("Files To Archive") ); // M
 
 	return TRUE;
 }

@@ -225,13 +225,13 @@ void CMainFrame::OnWindowCopies()
 //==============================================================================
 void CMainFrame::OnClose() 
 {
-	static bIsStopping = false;		// (5)
+	static int bIsStopping = false;		// (5)
 	if( g_TheArchive.m_bIsWorking )	// (5) All this branch added
 	{
 		if( ! bIsStopping	)
 		{
 			bIsStopping = true;
-			if( AfxMessageBox( "Abort the archiving process?", 
+			if( AfxMessageBox( _T("Abort the archiving process?"), 
 								         MB_YESNO ) == IDYES )
 				g_TheArchive.m_bStopWorking = true;
 			bIsStopping = false;

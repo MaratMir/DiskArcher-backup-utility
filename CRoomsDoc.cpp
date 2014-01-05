@@ -43,7 +43,7 @@ BOOL CRoomsDoc::OnNewDocument()
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
 
-	SetTitle( "Archive Rooms" ); // M
+	SetTitle( _T("Archive Rooms") ); // M
 
 	return TRUE;
 }

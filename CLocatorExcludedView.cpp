@@ -70,6 +70,7 @@ CStringList* CLocatorExcludedView::GetSourceList()
 {
 	CStringList* pSrcList = NULL;
 	CNewFilesLocator* pLocator = GetLocator();
+	DBG_UNREFERENCED_LOCAL_VARIABLE( pLocator );
 	switch( GetDocument()->m_nShowType )
 	{
 		case LocExclFileTypes:
@@ -115,11 +116,11 @@ void CLocatorExcludedView::ShowList( enum LocatorWhatToExclude nShowType )
 	{
 		case LocExclFileTypes:
 			res = ctlList.InsertColumn( 0, _T("File type"), LVCFMT_LEFT, 80 );
-			pDoc->SetTitle( "File types to exclude from search" );
+			pDoc->SetTitle( _T("File types to exclude from search" ));
 			break;
 		case LocExclFolders:
 			res = ctlList.InsertColumn( 0, _T("Folder name"), LVCFMT_LEFT, 200 );
-			pDoc->SetTitle( "Folders to exclude from search" );
+			pDoc->SetTitle( _T("Folders to exclude from search") );
 			break;
 	}
 	POSITION pos;
@@ -219,7 +220,7 @@ void CLocatorExcludedView::OnLocatorExclAdd()
 			}
 			break;
 		default:
-			AfxMessageBox( "Sudden Error in 'OnLocatorExclAdd'" );
+			AfxMessageBox( _T("Sudden Error in 'OnLocatorExclAdd'") );
 			break;
 	}
 }
@@ -282,9 +283,9 @@ void CLocatorExcludedView::OnUpdateLocatorExclRestoreDefaults( CCmdUI* pCmdUI )
 
 void CLocatorExcludedView::OnLocatorExclRestoreDefaults() 
 {
-	if( AfxMessageBox( "Clear current settings\n"
-					      "(both excluded files and folders)\n"
-					       "and restore defaults?", 
+	if( AfxMessageBox( _T("Clear current settings\n")
+					      _T("(both excluded files and folders)\n")
+					       _T("and restore defaults?"), 
 					   MB_YESNO ) == IDYES )	// (1)
 	{
 		g_pTheDB->LocatorRestoreDefaultOptions( 44 );

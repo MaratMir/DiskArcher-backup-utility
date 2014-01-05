@@ -22,16 +22,16 @@ CDiskItem::CDiskItem( const CString &strFullName )
 {
 //   wchar_t cFullName[_MAX_PATH];
 //   _tcscpy( cFullName, fullName ); // M If Unicode
-	char/*wchar_t*/ drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
+	wchar_t drive[_MAX_DRIVE];
+	wchar_t dir[_MAX_DIR];
+	wchar_t fname[_MAX_FNAME];
+	wchar_t ext[_MAX_EXT];
 
 	CString strTmp = strFullName;	// (3) We copy the string because we can't change const &
 	if( strTmp.Right(1) == "\\" )	// (3) Consider a folder as a file
 		strTmp = strTmp.Left( strTmp.GetLength()-1 );
 
-	_splitpath/*_wsplitpath*/( strTmp/*(3)strFullName*/, drive, dir, fname, ext );
+	_wsplitpath_s( strTmp/*(3)strFullName*/, drive, dir, fname, ext );
 	// (3) m_strDrive = drive;
 	// (3) m_strDir = dir;
 	// (3) m_strName = CString(fname) + CString(ext);
@@ -43,10 +43,10 @@ CDiskItem::CDiskItem( const CString &strFullName )
 	{
 	// (3) In all places - strTmp instead of m_strDir
 
-		int compEnd = strTmp.Find( "\\", 2 );
+		int compEnd = strTmp.Find( _T("\\"), 2 );
 		m_strComputer = strTmp.Left( compEnd+1 );
 
-		int driveEnd = strTmp.Find( "\\", compEnd+1 );
+		int driveEnd = strTmp.Find( _T("\\"), compEnd+1 );
 		if( driveEnd == -1 )	// (3) Slash not found
 		{
 			m_strDrive = strTmp.Mid( compEnd+1 );
@@ -118,12 +118,12 @@ CString CDiskItem::getFullName() const
 //==============================================================================
 CString CDiskItem::getExtension() const
 {
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
+	wchar_t drive[_MAX_DRIVE];
+	wchar_t dir[_MAX_DIR];
+	wchar_t fname[_MAX_FNAME];
+	wchar_t ext[_MAX_EXT];
 
-	_splitpath( m_strName, drive, dir, fname, ext );
+	_wsplitpath_s( m_strName, drive, dir, fname, ext );
     return ext+1;   // exclude the period (.)
 }
 

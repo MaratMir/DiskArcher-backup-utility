@@ -134,8 +134,8 @@ bool CMyArchive::open()
 
 	if( ! dbFile.checkExistence() )
 	{
-		bSuccess = ( AfxMessageBox( "Database not found!\nIf it is the first running of the program, it's Ok.\n"
-								    "Do you want to create a new database?", 
+		bSuccess = ( AfxMessageBox( _T("Database not found!\nIf it is the first running of the program, it's Ok.\n")
+								    _T("Do you want to create a new database?"), 
 								    MB_YESNO | MB_ICONEXCLAMATION )==IDYES );
 // TODO: Ask DB ID string, store it in m_strArchiveID and somewhere in the database
 		if( bSuccess )
@@ -214,7 +214,7 @@ bool CMyArchive::open()
 	}
 
 // (13) Get system's Temp directory
-	char tmpDir[_MAX_PATH];
+	wchar_t tmpDir[_MAX_PATH];
 	/*int len =*/ ::GetTempPath( _MAX_PATH, tmpDir );
 	m_sTempPath = tmpDir;
 	
@@ -268,9 +268,9 @@ OpResult/*(16) Was int */ CMyArchive::update()
 // Check is there any file for archive
 	if( m_FilesToArc.GetCount() <= 1 ) // (4) Was  = 0
 	{
-		AfxMessageBox( "Please select files to archive first.\n"
-			             "To do this just drag files from Windows Explorer\n"
-			             "and drop them into the program window." );
+		AfxMessageBox( _T("Please select files to archive first.\n")
+			             _T("To do this just drag files from Windows Explorer\n")
+			             _T("and drop them into the program window.") );
 		nResult = OPR_USER_STOP; // (16) Was: bContinue = false;
 	}
 
@@ -278,9 +278,9 @@ OpResult/*(16) Was int */ CMyArchive::update()
 	if( nResult == OPR_SUCCESSFUL )  // (16) Was: if( bContinue )
 		if( m_Rooms.GetCount() == 0 )
 		{
-			AfxMessageBox( "Please create Archive Rooms first.\n"
-				"To do this press \"Show Rooms\" button on the toolbar,\n"
-				"then press \"Create Room\" button." );
+			AfxMessageBox( _T("Please create Archive Rooms first.\n")
+				_T("To do this press \"Show Rooms\" button on the toolbar,\n")
+				_T("then press \"Create Room\" button.") );
 		  nResult = OPR_USER_STOP; // (16) Was: bContinue = false;
 		}
 
@@ -298,8 +298,8 @@ OpResult/*(16) Was int */ CMyArchive::update()
 				pMainFrame->ShowRooms();
 				CRoomsFrame* pRoomsFrame = pMainFrame->m_pRoomsFrame;
 				pRoomsFrame->UpdateList();
-				int nYesNo = AfxMessageBox( "Not all Archive Rooms are available now.\n"
-							                      "Continue?", MB_YESNO );
+				int nYesNo = AfxMessageBox( _T("Not all Archive Rooms are available now.\n")
+							                      _T("Continue?"), MB_YESNO );
         nResult = ( nYesNo == IDYES ) ? OPR_WARNINGS : OPR_USER_STOP;
 	      /* (16) Was: 
         bContinue = ( AfxMessageBox( "Not all Archive Rooms are available now.\n"
@@ -307,7 +307,7 @@ OpResult/*(16) Was int */ CMyArchive::update()
 				if( nResult == OPR_WARNINGS )  // (16) Was: if( bContinue )
 				{
 					CString mess;
-					mess.Format( "Archive Room #%d is unavailable", pCurRoom->m_nRoomID );
+					mess.Format( _T("Archive Room #%d is unavailable"), pCurRoom->m_nRoomID );
 					m_LogFile.AddRecord( "", "", mess );
 				}
 				break;
@@ -333,7 +333,7 @@ OpResult/*(16) Was int */ CMyArchive::update()
 			nResult = OPR_FATAL_STOP;  // (16) Was: bContinue = false;	// (11)
 		}
 		if( nResult == OPR_FATAL_STOP ) // (16) Was: if( ! bContinue )		// (11)
-			AfxMessageBox( "Error creating copying process dialog." );		// (11)
+			AfxMessageBox( _T("Error creating copying process dialog.") );		// (11)
 	}
 
 	if( nResult <= OPR_WARNINGS )  // (16) Was: if( bContinue )
@@ -371,7 +371,7 @@ OpResult/*(16) Was int */ CMyArchive::update()
 			if( m_nFilesToUpdate == 1
 				/*(7) Was 0. "One" Because of Database - it changes always */ )
 			{
-				AfxMessageBox( "Nothing to do:\nThe Archive is up-to-date" );
+				AfxMessageBox( _T("Nothing to do:\nThe Archive is up-to-date") );
 				nResult = OPR_USER_STOP; // (16) Was: bContinue = false;
 			}		
 	}
@@ -456,12 +456,12 @@ OpResult/*(16) Was int */ CMyArchive::update()
 		m_pProgressDlg->m_OkButton.EnableWindow();
 		m_pProgressDlg->m_OkButton.SetFocus();
 		if( m_bStopWorking || m_pProgressDlg->m_bIsAborted )	// (12)
-			m_pProgressDlg->m_SuccessLabel.SetWindowText( "User break" );//(12)
+			m_pProgressDlg->m_SuccessLabel.SetWindowText( _T("User break") );//(12)
 		if( nResult == OPR_WARNINGS ) // (16)
-			m_pProgressDlg->m_SuccessLabel.SetWindowText( "There were some warnings" );
+			m_pProgressDlg->m_SuccessLabel.SetWindowText( _T("There were some warnings") );
 		if( nResult == OPR_NONFATAL_ERRORS ) // (16)
 			m_pProgressDlg->m_SuccessLabel.SetWindowText(
-                                           "There were errors. Check the Log" );
+                                           _T("There were errors. Check the Log") );
 		m_pProgressDlg->m_SuccessLabel.ShowWindow(SW_NORMAL);
 	}
 	if( nResult >= OPR_FATAL_STOP ) // (16) Was: if( ! bContinue )
@@ -524,8 +524,8 @@ repeat:
 			//======================================================
 			{
 				CString mess;
-				mess.Format( "Please insert the disk labeled as\n\"Archive Room #%d\""
-						         "\ninto drive %s, then press \"OK\"", 
+				mess.Format( _T("Please insert the disk labeled as\n\"Archive Room #%d\"")
+						         _T("\ninto drive %s, then press \"OK\""), 
     								 pCurRoom->m_nRoomID, pCurRoom->m_strDrive );
 				insDlg.m_InsDiskLabel = mess;
 				int nRet = insDlg.DoModal();
@@ -535,14 +535,14 @@ repeat:
         switch ( nRet )
 				{
 				case -1: 
-					AfxMessageBox( "'Insert Disk' dialog box could not be created!" );
+					AfxMessageBox( _T("'Insert Disk' dialog box could not be created!") );
 	        nResult = OPR_FATAL_STOP; // (16) Was: bContinue = false;
 					break;
 
 				case IDABORT:
 				case IDCANCEL:	// CANCEL - for pressing a cross in the window's
                         //   right top corner
-					nYesNo = AfxMessageBox( "Abort the archiving process?", MB_YESNO );
+					nYesNo = AfxMessageBox( _T("Abort the archiving process?"), MB_YESNO );
           if( nYesNo == IDYES )
              nResult = OPR_USER_STOP;
 						// (16) Was: bContinue = ! ( AfxMessageBox(
@@ -555,7 +555,7 @@ repeat:
 
 				case ID_SKIP_DISK:	// Skip this Room, proceed with next Room
 				// (1) Write to Log	
-					mess.Format( "Archive Room #%d skipped", pCurRoom->m_nRoomID );
+					mess.Format( _T("Archive Room #%d skipped"), pCurRoom->m_nRoomID );
 					m_LogFile.AddRecord( "", "", mess );
 					m_pProgressDlg->Advance( pCurRoom->CountFiles( CRoom::countAll ) );	// (7)
           nResult = max( OPR_WARNINGS, nResult ); // (16) Added
@@ -563,7 +563,7 @@ repeat:
 					break;
 
 				default:
-					AfxMessageBox( "Sudden Error in 'DoCopying'" );
+					AfxMessageBox( _T("Sudden Error in 'DoCopying'") );
 	        nResult = OPR_FATAL_STOP; // (16) Added
 					break;
 				}
@@ -637,7 +637,7 @@ repeat:
 					else
 					{
 						CString mess;
-						mess.Format( "Archive Room #%d skipped because it has a bad label", 
+						mess.Format( _T("Archive Room #%d skipped because it has a bad label"), 
 									 pCurRoom->m_nRoomID );
 // TODO: Counter - "There were N errors!" 
 						m_LogFile.AddRecord( "", "", mess );
@@ -927,9 +927,9 @@ bool CMyArchive::loadOptions()
 	try
 	{
 	// Select all Options
-		CString select = "SELECT * FROM ProgramOptions"
-						 " WHERE SectionName=\"Archive\"";
-		hr = rsOptions->Open( (LPCSTR)select, g_pTheDB->m_pConnection, adOpenStatic,
+		wchar_t* select = _T("SELECT * FROM ProgramOptions")
+						 _T(" WHERE SectionName=\"Archive\"");
+		hr = rsOptions->Open( select, g_pTheDB->m_pConnection, adOpenStatic,
 							            adLockReadOnly, adCmdText );
     TESTHR( hr );
 		while( ! rsOptions->adoEOF )
@@ -946,7 +946,7 @@ bool CMyArchive::loadOptions()
 			strValue.TrimRight();
 
 			if ( strOption == "nDefaultCopies" )
-				m_nDefaultCopies = atoi( strValue );
+				m_nDefaultCopies = _ttoi(strValue) ;//atoi( strValue );
 			if ( strOption == "CompressorName" )
 				m_pCompressor->m_strName = strValue;
 			if ( strOption == "CompressorPath" )
@@ -965,7 +965,7 @@ bool CMyArchive::loadOptions()
 	}
 	catch(...)
 	{
-		AfxMessageBox( "Some error occured in CMyArchive::LoadOptions()." );
+		AfxMessageBox( _T("Some error occured in CMyArchive::LoadOptions().") );
 	}
 
 	return bSuccess;
@@ -979,7 +979,7 @@ bool CMyArchive::saveOptions()
 
 // Default number of copies
 	CString tmp;
-	tmp.Format( "%d", m_nDefaultCopies );
+	tmp.Format( _T("%d"), m_nDefaultCopies );
 	bSuccess = g_pTheDB->optionSave( "Archive", "nDefaultCopies", tmp );
 
 // Compression utility name

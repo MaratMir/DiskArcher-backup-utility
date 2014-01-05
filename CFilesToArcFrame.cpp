@@ -365,7 +365,7 @@ void CFilesToArcFrame::OnUpdateFileCount(CCmdUI *pCmdUI)
 //(5)    CString strFiles((LPCSTR)ID_INDICATOR_FILES);
 //(5)	strFiles.TrimRight( '*' );
 	CString tmp;
-	tmp.Format( "Files in Archive: %d"/*(5)Was:"%d"*/, 
+	tmp.Format( _T("Files in Archive: %d")/*(5)Was:"%d"*/, 
 				      g_TheArchive.m_FilesToArc.GetCount() );
 //(5)	strFiles += tmp;
 /* (4) Was:

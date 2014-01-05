@@ -14,13 +14,13 @@ void CComputer::GetDrives()
 {
 	DWORD dwCount;
 	const int bufLen = 255;
-	char pDriveStrings[ bufLen ];	// It was LPTSTR lpDriveStrings
+	wchar_t pDriveStrings[ bufLen ];	// It was LPTSTR lpDriveStrings
 	bool bContinue=true;
 	
 	dwCount = GetLogicalDriveStrings( bufLen-1, pDriveStrings);
 	if( dwCount > bufLen-1 )
 	{
-		AfxMessageBox( "Error: dwCount > bufLen-1" );
+		AfxMessageBox( _T("Error: dwCount > bufLen-1") );
 		bContinue = false;
 	}
 
@@ -29,7 +29,7 @@ void CComputer::GetDrives()
 		int pos=0, prevBegin=0;
 		while( true )
 		{
-			char end = (*(pDriveStrings+pos)), end2 = (*(pDriveStrings+pos+1));
+			wchar_t end = (*(pDriveStrings+pos)), end2 = (*(pDriveStrings+pos+1));
 			pos++;
 			if( end == 0 )
 			{

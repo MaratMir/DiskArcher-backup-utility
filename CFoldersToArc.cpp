@@ -16,9 +16,9 @@
 bool CFoldersToArc::AddFolder( CString name )
 {
 	bool bResult = false;
-  AfxMessageBox( "You cannot add an entire folder.\n"
-                 "Please use the Files Locator to scan a folder.\n"
-                 "You can also select and add several files at once." );
+  AfxMessageBox( _T("You cannot add an entire folder.\n")
+                 _T("Please use the Files Locator to scan a folder.\n")
+                 _T("You can also select and add several files at once.") );
 // TODO: I could start Locator here...
 
 /*

@@ -105,7 +105,7 @@ void CNewFilesLocatorView::AddFileToListCtrl( const CFileOnDisk* pFile )
 	lvItem.iItem = newItem;
 	lvItem.iSubItem = m_nSizeColumn;
     CString tmp;
-	tmp.Format( "%d", pFile->m_nSize );
+	tmp.Format( _T("%d"), pFile->m_nSize );
 	strItem = tmp;
 	lvItem.pszText = (LPTSTR)strItem;
 	if( ! ctlList.SetItem(&lvItem) )

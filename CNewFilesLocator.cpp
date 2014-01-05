@@ -57,7 +57,7 @@ bool CNewFilesLocator::Init()
     bool bResult = false;
     CDocument* pDoc = theApp.m_pLocatorTemplate->OpenDocumentFile(NULL);
     if( ! pDoc )
-        AfxMessageBox( "Internal Error in Locator: OpenDoc" );
+        AfxMessageBox( _T("Internal Error in Locator: OpenDoc") );
     else
     {
         POSITION pos = pDoc->GetFirstViewPosition();
@@ -86,7 +86,7 @@ bool CNewFilesLocator::Init()
     if( bResult )
     {
     	if ( ! m_pDlg->Create( IDD_LOCATOR_DIALOG ) )
-	    	AfxMessageBox( "Cannot create Locator Dialog." );
+	    	AfxMessageBox( _T("Cannot create Locator Dialog.") );
 	    else
 	    {
 		    m_pDlg->ShowWindow( SW_NORMAL );
@@ -120,8 +120,8 @@ bool CNewFilesLocator::LoadOptions()
 	try
 	{
 	// Select all Options
-		CString select = "SELECT * FROM ProgramOptions"
-						 " WHERE SectionName=\"Locator\"";
+		wchar_t* select = _T("SELECT * FROM ProgramOptions")
+				  		  _T(" WHERE SectionName=\"Locator\"");
 		hr = rsOptions->Open( (LPCSTR)select, g_pTheDB->m_pConnection,
 							  adOpenStatic, adLockReadOnly, adCmdText );
         TESTHR( hr );
@@ -156,8 +156,8 @@ bool CNewFilesLocator::LoadOptions()
 	}
 	catch(...)
 	{
-		AfxMessageBox( "Some error occured"
-					   " in CNewFilesLocator::LocatorLoadOptions()." );
+		AfxMessageBox( _T("Some error occured")
+					   _T(" in CNewFilesLocator::LocatorLoadOptions().") );
 	}
 
 	return bSuccess;
@@ -326,9 +326,9 @@ bool CNewFilesLocator::AddExcludedToDB( LocatorWhatToExclude nType,
 			break;
 	}
 	CString cmd;
-	cmd.Format( "INSERT INTO ProgramOptions"
-				" (SectionName, OptionName, OptionValue, OptionValue2)"
-				" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )",
+	cmd.Format( _T("INSERT INTO ProgramOptions")
+				_T(" (SectionName, OptionName, OptionValue, OptionValue2)")
+				_T(" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )"),
 				sOptionName, sName );
 	bSuccess = g_pTheDB->ExecSQL( cmd );
   return bSuccess ;

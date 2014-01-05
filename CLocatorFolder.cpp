@@ -78,7 +78,7 @@ void CLocatorFolder::Analyze()
 
 
 // Then check files in this folder
-	for( pos=m_Items.GetHeadPosition(); pos != NULL; )
+	for( POSITION pos=m_Items.GetHeadPosition(); pos != NULL; )
 	{
 		if( m_pLocator->IsAborted() )	// Interrupted by user
 			break;
@@ -89,11 +89,11 @@ void CLocatorFolder::Analyze()
 		// Skipping useless files if it is required
 			if( m_pLocator->IsSkippingSomeFiles() )
 			{
-				char/*wchar_t*/ drive[_MAX_DRIVE];
-				char dir[_MAX_DIR];
-				char fname[_MAX_FNAME];
-				char ext[_MAX_EXT];
-				_splitpath( curItem->m_strName, drive, dir, fname, ext );
+				wchar_t drive[_MAX_DRIVE];
+				wchar_t dir[_MAX_DIR];
+				wchar_t fname[_MAX_FNAME];
+				wchar_t ext[_MAX_EXT];
+				_wsplitpath_s( curItem->m_strName, drive, dir, fname, ext );
 				
 			// (1)
 				CString sType = ext+1;	/* Skip the first character - a dot '.'*/

@@ -50,7 +50,7 @@ int CInputStringDialog::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO: Add your specialized creation code here
 	if( m_nMode == dlgTypeAdd )
 	{
-		SetWindowText( "Add item" );
+		SetWindowText( _T("Add item") );
 		m_strEdit = "";
 //		UpdateData( FALSE );
 	}	

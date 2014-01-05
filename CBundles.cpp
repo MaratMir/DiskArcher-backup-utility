@@ -57,9 +57,9 @@ CBundle* CBundles::BundleCreate( CRoom *pRoom, bundleType nBundleType/*(3)*/ )
 		pNewBundle->m_nBundleID = maxID + 1;
 
 		CString strBundleName;
-		strBundleName.Format( "%8d.%3s", pNewBundle->m_nBundleID, 
+		strBundleName.Format( _T("%8d.%3s"), pNewBundle->m_nBundleID, 
 							  pNewBundle->m_strExtension );
-		strBundleName.Replace( " ", "0" );
+		strBundleName.Replace( _T(" "), _T("0") );
 		pNewBundle->m_strName = strBundleName;
 
 	// Write the Bundle to DB

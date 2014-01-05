@@ -9,7 +9,7 @@
 
 #include "CBundle.h"
 
-class CString;
+//class CString;
 class CFileToArc;
 class CFileCompressor;
 

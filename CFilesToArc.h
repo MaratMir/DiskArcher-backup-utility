@@ -14,7 +14,7 @@
 #include "resource.h"
 #include "MyCommon.h"
 
-class CString;
+//class CString;
 class CFileToArc;
 
 class CFilesToArc

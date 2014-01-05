@@ -45,7 +45,7 @@ BOOL CNewFilesLocatorDoc::OnNewDocument()
 // TODO: add reinitialization code here
 // (SDI documents will reuse this document)
 
-	SetTitle( "Files found by Locator" ); // M
+	SetTitle( _T("Files found by Locator") ); // M
 
 	return TRUE;
 }

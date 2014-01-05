@@ -87,7 +87,7 @@ bool CRooms::RoomCreate()
 		// Check is this directory already in the Archive
 			CRoom* foundRoom = RoomFind( pNewRoom->getFullName() );
 			if( foundRoom != NULL )
-			{	AfxMessageBox( "There is already an Archive Room at given path." );
+			{	AfxMessageBox( _T("There is already an Archive Room at given path.") );
 					// TO DO: May be, in this case create another one Room?
 				bSuccess = false;
 			}
@@ -96,14 +96,14 @@ bool CRooms::RoomCreate()
 		else if( drive.m_nDriveType == DRIVE_REMOVABLE )
 		{
 			pNewRoom->m_bRemovable = true;
-			if( AfxMessageBox( "Please insert the disk and press Ok.", MB_OKCANCEL ) != IDOK )
+			if( AfxMessageBox( _T("Please insert the disk and press Ok."), MB_OKCANCEL ) != IDOK )
 				bSuccess = false;
 		}
 		else if( drive.m_nDriveType == DRIVE_CDROM )
 		{
 			pNewRoom->m_bRemovable = true;
-			if( AfxMessageBox( "Are you sure that this CD-drive is recordable\n"
-							   "and can be operated like a usual diskette?", MB_YESNO ) != IDYES )
+			if( AfxMessageBox( _T("Are you sure that this CD-drive is recordable\n")
+							   _T("and can be operated like a usual diskette?"), MB_YESNO ) != IDYES )
 				bSuccess = false;
 		}
 		else
@@ -113,8 +113,8 @@ bool CRooms::RoomCreate()
 			bSuccess = false;
 		*/
 			CString tmp;
-			tmp.Format( "Error: Can not get drive's type.\n"
-						"DriveName: <%s>. DriveType: %d", 
+			tmp.Format( _T("Error: Can not get drive's type.\n")
+						_T("DriveName: <%s>. DriveType: %d"), 
 						driveName, drive.m_nDriveType );
 			AfxMessageBox( tmp );
 			bSuccess = false;
@@ -124,7 +124,7 @@ bool CRooms::RoomCreate()
 	{
 		if( pNewRoom->checkExistence() )
 		{
-			AfxMessageBox( "There is already an Archive Room at given path." );
+			AfxMessageBox( _T("There is already an Archive Room at given path.") );
 			bSuccess = false;
 		}
 		else
@@ -141,7 +141,7 @@ bool CRooms::RoomCreate()
 			
 				DWORD err = GetLastError();
 				CString mess;
-				mess.Format( "Folder creation error:\nCode: %d.\nDescription:%s", err, (LPCSTR)lpMsgBuf );
+				mess.Format( _T("Folder creation error:\nCode: %d.\nDescription:%s"), err, (LPCSTR)lpMsgBuf );
 					// TO DO: Retry?
 				AfxMessageBox( mess );
 
@@ -179,14 +179,14 @@ bool CRooms::RoomCreate()
 		 ||	drive.m_nDriveType == DRIVE_CDROM )	// (5)
 		{
 			CString mess;
-			mess.Format( "Please label the disk as \"Archive Room #%d\"", 
+			mess.Format( _T("Please label the disk as \"Archive Room #%d\""), 
 						 pNewRoom->m_nRoomID );
 			AfxMessageBox( mess );
 		}
 	}
 	else
 	{
-		AfxMessageBox( "The Room has not been created" );
+		AfxMessageBox( _T("The Room has not been created") );
 		delete pNewRoom;
 	}
 	return bSuccess;
@@ -330,7 +330,7 @@ bool CRooms::Delete( CRoom* pRoom )
 		delete pRoom;	// (2)
 	}	
 	else
-		AfxMessageBox(	"There were some errors during Room deletion.\n" );
+		AfxMessageBox(	_T("There were some errors during Room deletion.\n") );
 
     return (bool)0;
 }

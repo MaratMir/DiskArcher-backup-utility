@@ -57,6 +57,7 @@ BEGIN_MESSAGE_MAP(CProgressDialog, CDialog)
 	ON_WM_CLOSE()
 	ON_BN_CLICKED(IDABORT, OnAbort)
 	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDOK, &CProgressDialog::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -196,3 +197,10 @@ void CProgressDialog::OnKillFocus(CWnd* pNewWnd)
 }
 
 */
+
+
+void CProgressDialog::OnBnClickedOk()
+{
+	// TODO: Add your control notification handler code here
+	CDialog::OnOK();
+}

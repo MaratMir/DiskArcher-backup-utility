@@ -78,6 +78,7 @@ BOOL CRoomsView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CRoomsView::OnDraw(CDC* pDC)
 {
+	UNREFERENCED_PARAMETER( pDC );
 	CRoomsDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	// TODO: add draw code for native data here
@@ -142,7 +143,7 @@ int CRoomsView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	BOOL crRes = m_ctlImage.Create( IDB_ROOMS_IMAGELIST, 16, 0, RGB(255,0,255));
 m_ctlImage.SetBkColor(GetSysColor(COLOR_WINDOW));
 	if( !crRes )
-		AfxMessageBox( "CRoomsView::OnCreate(): Image List Create Error." );
+		AfxMessageBox( _T("CRoomsView::OnCreate(): Image List Create Error.") );
 	ctlList.SetImageList( &m_ctlImage, LVSIL_SMALL );
 	
 	int res;
@@ -179,7 +180,7 @@ void CRoomsView::ShowRoomList()
 		lvItem.mask = LVIF_TEXT;
 		lvItem.iItem = ctlList.GetItemCount();	// Insert at the end
 		lvItem.iSubItem = 0;
-		sTmp.Format( "%d", pCurRoom->m_nRoomID );
+		sTmp.Format( _T("%d"), pCurRoom->m_nRoomID );
 		LPCTSTR strItem = sTmp;
 		lvItem.pszText = (LPTSTR)strItem;
 		lvItem.mask |= LVIF_IMAGE;
@@ -192,9 +193,11 @@ void CRoomsView::ShowRoomList()
 		lvItem.state = INDEXTOSTATEIMAGEMASK(nState);
 */
 		int newItem = ctlList.InsertItem(&lvItem);
+		DBG_UNREFERENCED_LOCAL_VARIABLE(newItem);
 
 		BOOL res = ctlList.SetItemState( newItem, INDEXTOSTATEIMAGEMASK( 11/*TO DO nState*/),
 			LVIS_STATEIMAGEMASK );//INDEXTOSTATEIMAGEMASK(nState) );
+		DBG_UNREFERENCED_LOCAL_VARIABLE(res);
 
 		SetSubItems( newItem, pCurRoom );
 	}
@@ -273,7 +276,7 @@ bool CRoomsView::SetSubItems( int nItem, CRoom* pRoom )
 	}
 	lvItem.iItem = nItem;
 	lvItem.iSubItem = 2;
-	strItem = pRoom->m_bRemovable ? "Yes" : "No";
+	strItem = pRoom->m_bRemovable ? _T("Yes") : _T("No");
 	lvItem.pszText = (LPTSTR)(strItem);
 	if( ! ctlList.SetItem(&lvItem) )
 		bOk = false;
@@ -281,7 +284,7 @@ bool CRoomsView::SetSubItems( int nItem, CRoom* pRoom )
 	lvItem.mask = LVIF_TEXT;
 	lvItem.iItem = nItem;
 	lvItem.iSubItem = 3;
-	sTmp.Format( "%d", pRoom->m_nSizeLimit >> 10 );
+	sTmp.Format( _T("%d"), pRoom->m_nSizeLimit >> 10 );
 	strItem = sTmp;
 	lvItem.pszText = (LPTSTR)(strItem);
 	if( ! ctlList.SetItem(&lvItem) )
@@ -299,7 +302,7 @@ bool CRoomsView::SetSubItems( int nItem, CRoom* pRoom )
 	else
 	{
 		// (2) lvItem.iImage = -1;	// Nothing
-		sTmp.Format( "%d", pRoom->m_nDiskSpaceFree >> 10 );
+		sTmp.Format( _T("%d"), pRoom->m_nDiskSpaceFree >> 10 );
 	}
 	strItem = sTmp;
 	lvItem.pszText = (LPTSTR)(strItem);
@@ -373,8 +376,8 @@ void CRoomsView::OnRoomDelete()
 
 // TO DO: Glass Cursor
 
-	if( AfxMessageBox( "Are you sure to delete this Room\n"
-					   "and all Copies stored within this Room?", MB_YESNO ) == IDYES )
+	if( AfxMessageBox( _T("Are you sure to delete this Room\n")
+					   _T("and all Copies stored within this Room?"), MB_YESNO ) == IDYES )
 	{
 		int nSelItem;
 		CRoom* pSelRoom = GetSelectedRoom( nSelItem );
@@ -399,7 +402,7 @@ CRoom* CRoomsView::GetSelectedRoom( int& nSelectedItem )
 	{
 		nSelectedItem = ctlList.GetNextSelectedItem( pos );
 		CString txt = ctlList.GetItemText( nSelectedItem, m_nIDColumn );
-		int nID = atoi( txt );
+		int nID = _ttoi(txt); // atoi( txt );
 		pSelRoom = g_TheArchive.m_Rooms.RoomFind( nID );
 	}
 	return pSelRoom;

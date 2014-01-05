@@ -9,7 +9,7 @@
 #include <afxtempl.h> // M
 
 class CDrive;
-class CString;
+//class CString;
 
 class CComputer
 {

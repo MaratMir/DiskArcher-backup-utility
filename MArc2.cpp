@@ -59,7 +59,7 @@ static char THIS_FILE[] = __FILE__;
 
 
 //= GLOBALS ====================================================================
-/*const Не получается*/ char* strMyComp = _T("My Computer");
+/*const Не получается*/ wchar_t* strMyComp = _T("My Computer");
                                                 // LATER: Или в ресурс ее?
 CMArc2App theApp; // The one and only CMArc2App object
 CMyArchive g_TheArchive; // (9) Was theArchive
@@ -92,13 +92,13 @@ BOOL CMArc2App::InitInstance()
 {
 	if(FAILED(CoInitialize(NULL)))	// (2)
 		return FALSE;
-
+/*
 #ifdef _AFXDLL
 	Enable3dControls();			// Call this when using MFC in a shared DLL
 #else
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
-
+*/
 	SetRegistryKey(_T("DiskArcher"));
 //(3)	LoadStdProfileSettings(0);  // Load standard INI file options (including MRU)
 
@@ -180,7 +180,7 @@ BOOL CMArc2App::InitInstance()
 void CMArc2App::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
-	CString strName = GetProfileString( "Settings", "User" );
+	CString strName = GetProfileString( _T("Settings"), _T("User") );
 	if( strName.IsEmpty() )
 		aboutDlg.m_strLicensedTo = "Unregistered Copy";
 	else
@@ -202,9 +202,9 @@ bool CMArc2App::AddFiles()
 {
 	bool success=true;
 	CFileDialog fileDialog( TRUE/*OpenDlg*/, NULL/*NoDefaultExtensionAdded*/,
-		"*.*"/*InitialFilename*/, OFN_ALLOWMULTISELECT );
+		_T("*.*")/*InitialFilename*/, OFN_ALLOWMULTISELECT );
 // Replace default buffer for filenames with a larger one
-	char buffer[ 8192 ] = "*.*";	
+	wchar_t buffer[ 8192 ] = _T("*.*");	
 	fileDialog.m_ofn.lpstrFile = buffer;
 	fileDialog.m_ofn.nMaxFile = 8191;
 
@@ -280,8 +280,8 @@ int CMArc2App::ExitInstance()
 bool CMArc2App::CheckRegistration()
 {
 	bool bOk = false;
-	CString strName = GetProfileString( "Settings", "User" );
-	CString strCode = GetProfileString( "Settings", "RegCode" );
+	CString strName = GetProfileString( _T("Settings"), _T("User") );
+	CString strCode = GetProfileString( _T("Settings"), _T("RegCode") );
 
 	bOk = theApp.CheckRegDataConformity( strName, strCode );
 	return bOk;
@@ -292,7 +292,7 @@ bool CMArc2App::CheckRegistration()
 //==============================================================================
 bool CMArc2App::checkRegistration2()
 {
-	CString strCode = GetProfileString( "Settings", "RegCode" );
+	CString strCode = GetProfileString( _T("Settings"), _T("RegCode") );
 	return ( strCode.GetLength() > 12  &&  strCode[12] == 'I' );
 }
 
@@ -323,8 +323,8 @@ bool CMArc2App::CheckRegDataConformity( CString i_strName, CString i_strCode )
 		long k = 0;
 		for( int i=0; i < i_strName.GetLength(); i++ )
 			k += i_strName[ i ];
-		long n = atol( i_strCode.Mid( 5, 5 ));
-		if( n == k )
+		/*long n = atol( i_strCode.Mid( 5, 5 ));
+		if( n == k )*/
 		// Next 5 characters must be "-zI3k", but now we don't check it
 			// (9) Disabled: if( strCode.Mid( 10, 5 ) == "-YREJ" )
 				bOk = true;
@@ -343,16 +343,16 @@ int CMArc2App::GetPassedDays( void )
 	CTime theTime = CTime::GetCurrentTime();
 	CTime baseTime( 2002, 01, 01, 0, 0, 0 );	// Just a basis for calculations
 	CTimeSpan tsFromBase = theTime - baseTime;
-	int nElapsedDaysFromBase = tsFromBase.GetDays();
+//	int nElapsedDaysFromBase = tsFromBase.GetDays();
 	int nPassedDays = 0;
-	
+/*	
 	int nFirstDay = GetProfileInt( "Settings", "FirstDay", -1 );
 	if( nFirstDay == -1 ) // Parameter wasn't found in the registy
   // Write today as a First day
 		VERIFY( WriteProfileInt( "Settings", "FirstDay", nElapsedDaysFromBase ) );
 	else
 		nPassedDays = nElapsedDaysFromBase - nFirstDay;
-
+*/
 	return nPassedDays;
 }
 

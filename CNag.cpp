@@ -89,7 +89,7 @@ void CNag::OnRegister()
 BOOL CNag::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-
+/*
 	CString tmp;
 	int nDays = theApp.GetPassedDays(); /* (3) Was:	
 // It would be nice to get the MDB create date. But it is impossible in FAT
@@ -105,8 +105,8 @@ BOOL CNag::OnInitDialog()
 										nElapsedDaysFromBase ) );
 	else
 		tmp.Format( "You have used\nDiskArcher\nfor %d days", 
-					nElapsedDaysFromBase - nFirstDay );*/
-	tmp.Format( "You have used\nDiskArcher\nfor %d days", nDays ); // (3)
+					nElapsedDaysFromBase - nFirstDay );* /
+	tmp.Format( _T("You have used\nDiskArcher\nfor %d days"), nDays ); // (3)
 	m_DaysCounter.SetWindowText( tmp );
 
 // Get a font and change Counter's font to bold
@@ -126,7 +126,7 @@ BOOL CNag::OnInitDialog()
 	m_nCounterTop = wndRect.top;
 
 	m_nTimer = SetTimer(1, 30, 0);
-
+*/
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }

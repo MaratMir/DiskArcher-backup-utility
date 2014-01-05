@@ -34,11 +34,12 @@ bool CLogFile::AddRecord( CString strFilePath, CString strFilename, CString strM
 /*			"INSERT INTO ArcLog (MessDateTime)"
 			" VALUES (\"%s\")",
 			dt, strFilePath, strFilename, strMessage );
-*/			"INSERT INTO ArcLog (MessDateTime, Path, Filename, Message)"
-			" VALUES (\"%s\", \"%s\", \"%s\", \"%s\")",
+*/			_T("INSERT INTO ArcLog (MessDateTime, Path, Filename, Message)")
+			_T(" VALUES (\"%s\", \"%s\", \"%s\", \"%s\")"),
 			dt, strFilePath, strFilename, strMessage );
+		bstr_t converted = cmd; //!!!zzzzzzzzzz
 		((_ConnectionPtr)g_pTheDB->m_pConnection)->Execute( 
-              													(LPCSTR)cmd, NULL, NULL );
+              													converted, NULL, NULL );
 		bSuccess = true;
 	}
 	catch(_com_error &e)
@@ -47,7 +48,7 @@ bool CLogFile::AddRecord( CString strFilePath, CString strFilename, CString strM
 	}
 	catch(...)
 	{
-		AfxMessageBox( "Some error occured in CLogFile::AddRecord()." );
+		AfxMessageBox( _T("Some error occured in CLogFile::AddRecord().") );
 	}
 	return bSuccess;
 }

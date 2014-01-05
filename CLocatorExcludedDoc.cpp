@@ -97,7 +97,7 @@ BOOL CLocatorExcludedDoc::SaveModified()
 {
 // Add your specialized code here and/or call the base class
 	if( IsModified() )
-		if( AfxMessageBox( "Save changes?", MB_YESNO ) == IDYES )
+		if( AfxMessageBox( _T("Save changes?"), MB_YESNO ) == IDYES )
 			Save();
 		else
 			m_pLocator->LoadOptions();
@@ -136,9 +136,9 @@ bool CLocatorExcludedDoc::Save()
 		for( pos = pSrcList->GetHeadPosition(); pos != NULL; )
 		{
 			CString cmd;
-			cmd.Format( "INSERT INTO ProgramOptions"
-				        " (SectionName, OptionName, OptionValue, OptionValue2)"
-						" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )",
+			cmd.Format( _T("INSERT INTO ProgramOptions")
+				        _T(" (SectionName, OptionName, OptionValue, OptionValue2)")
+						_T(" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )"),
 						sOptionName, pSrcList->GetNext( pos ) );
 			if( ! g_pTheDB->ExecSQL( cmd ) )
 			{

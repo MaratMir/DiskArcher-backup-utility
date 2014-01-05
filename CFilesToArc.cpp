@@ -48,8 +48,8 @@ bool CFilesToArc::FileAdd(CString name)
 		 && ( ! theApp.checkRegistration2() ) // (13) Was CheckRegistration()
 		 && theApp.GetPassedDays() >= 45 )	// (10), (11)
 					         // (10) It is worth checking only if more than 45 days passed
-				AfxMessageBox( "Files limit for unregistered users exceeded.\n"
-							         "Please register." );	// (9)
+				AfxMessageBox( _T("Files limit for unregistered users exceeded.\n")
+							         _T("Please register.") );	// (9)
 		else	// (9)
 		{		// (9)
 			CFileToArc *pNewFile = new CFileToArc( name );

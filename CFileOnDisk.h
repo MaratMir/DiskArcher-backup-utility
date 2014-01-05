@@ -11,7 +11,7 @@
 
 #include "CDiskItem.h"
 
-class CString;
+//class CString;
 
 
 class CFileOnDisk : public CDiskItem

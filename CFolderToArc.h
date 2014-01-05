@@ -13,7 +13,7 @@
 #include "CFolder.h"
 #include "MyCommon.h"
 
-const nFolderMasksLen = 50;	// M
+const int nFolderMasksLen = 50;	// M
 
 
 class CFolderToArc : public CFolder

@@ -418,7 +418,7 @@ bool CRoom::writeContents()
   bool bSuccess = true;
 	CStdioFile contFile;
   CString sRoomNum;
-	sRoomNum.Format( "Room #%d", m_nRoomID ); // (13)
+	sRoomNum.Format( _T("Room #%d"), m_nRoomID ); // (13)
   enum steps { eWriting, eClosing };
   steps nStep = eWriting;
 	try
@@ -426,7 +426,7 @@ bool CRoom::writeContents()
 		m_pArchive->m_pProgressDlg->SetMessage( "Writing Room's contents..." );
 		contFile.Open( getFullName() + "\\Contents.txt",
 				           CFile::modeCreate | CFile::modeWrite | CFile::typeText );
-		contFile.WriteString( "Archive Room Contents\n---------------------\n" );
+		contFile.WriteString( _T("Archive Room Contents\n---------------------\n") );
 
 		POSITION copiesPos;
 		for( copiesPos = m_pArchive->m_Copies.GetHeadPosition(); copiesPos != NULL; )
@@ -435,7 +435,7 @@ bool CRoom::writeContents()
 			CBundle* pCurBundle = 
 				            	m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
 			if( pCurBundle == NULL )
-				AfxMessageBox( "CRoom::DoCopying: Can't find the bundle" );
+				AfxMessageBox( _T("CRoom::DoCopying: Can't find the bundle") );
 			else
 				if( pCurBundle->m_nRoomID == m_nRoomID )
 				{

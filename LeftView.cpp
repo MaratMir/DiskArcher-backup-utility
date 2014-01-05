@@ -168,6 +168,7 @@ HTREEITEM CLeftView::GetDirItem( HTREEITEM hParentDirItem, CString dirName ) // 
 
 void CLeftView::OnSelChanged(NMHDR* pNMHDR, LRESULT* pResult) 
 {
+	UNREFERENCED_PARAMETER( pNMHDR ); UNREFERENCED_PARAMETER( pResult );
 	TrackSelChange();
 }
 
@@ -234,7 +235,7 @@ void CLeftView::UpdateTree()
 	ins.item.state = TVIS_BOLD;
 */
 	HTREEITEM hMyComp = ctlTree.InsertItem(&ins);
-	
+	DBG_UNREFERENCED_LOCAL_VARIABLE(hMyComp);	
 	
 //= Files =======================================
 	for( POSITION pos=g_TheArchive.m_FilesToArc.GetHeadPosition(); pos != NULL; )
@@ -271,24 +272,24 @@ void CLeftView::UpdateTree()
 					hCompItem /*Parent*/ /*, =InsertAfterLast*/ );
 			if( hDrvItem == NULL )
 			{
-				AfxMessageBox( "UpdateTree(): Can't add item! [1]" );
+				AfxMessageBox( _T("UpdateTree(): Can't add item! [1]") );
 				break;
 			}
 		}
 				
 	// Then find this Directory in this Drive
-		int pos = 0;
+		int nPos = 0;
 		HTREEITEM hCurDirItem, hParentDirItem = hDrvItem;
 		CString subDirs = pCurFile->m_strDir;
 		while( true )
 		{
 			CString curDir;
-			pos = subDirs.Find( "\\", 0 );
-			if( pos == -1 )
+			nPos = subDirs.Find( _T("\\"), 0 );
+			if( nPos == -1 )
 				break;
-			curDir = subDirs.Left( pos );
-			subDirs = subDirs.Right( subDirs.GetLength()-pos-1 );
-			if( pos != 0 )	// Excluding the leading slash
+			curDir = subDirs.Left( nPos );
+			subDirs = subDirs.Right( subDirs.GetLength()-nPos-1 );
+			if( nPos != 0 )	// Excluding the leading slash
 			{
 				hCurDirItem = GetDirItem( hParentDirItem, curDir );
 				if( hCurDirItem == NULL )
@@ -299,7 +300,7 @@ void CLeftView::UpdateTree()
 						hParentDirItem /*Parent*/ /*, =InsertAfterLast*/ );
 					if( hCurDirItem == NULL )
 					{
-						AfxMessageBox( "UpdateTree(): Can't add item! [2]" );
+						AfxMessageBox( _T("UpdateTree(): Can't add item! [2]") );
 						break;
 					}
 				}

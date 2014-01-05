@@ -51,20 +51,20 @@ END_MESSAGE_MAP()
 //==============================================================================
 void CRegisterDlg::OnOK() 
 {
-	UpdateData( TRUE );
+/*	UpdateData( TRUE );
 	bool bOk = false;
 
 // Check conformity	of user's name and the registration code
 	bOk = theApp.CheckRegDataConformity( m_strName, m_strCode );
 	if( bOk )
 	{
-		if( theApp.WriteProfileString( "Settings", "User",    m_strName ) 
-		 &&	theApp.WriteProfileString( "Settings", "RegCode", m_strCode )
+		if( theApp.WriteProfileString( _T("Settings"), _T("User"),    m_strName ) 
+		 &&	theApp.WriteProfileString( _T("Settings"), _T("RegCode"), m_strCode )
      && g_pTheDB->optionSave( "Archive", "R"/*I think it will be more difficult //(16)
-                to crack the program if this string is short*/, m_strCode ) ) //(16)
-			AfxMessageBox(  "Congratulations!"
-							        "\nYou have successfully registered"
-							        "\nyour copy of DiskArcher!" );
+                to crack the program if this string is short* /, m_strCode ) ) //(16)
+			AfxMessageBox(  _T("Congratulations!")
+							        _T("\nYou have successfully registered")
+							        _T("\nyour copy of DiskArcher!") );
 		else
 			AfxMessageBox(	"Unknown error during registering."
 							"\nPlease contact the program manufacturer." );
@@ -73,4 +73,5 @@ void CRegisterDlg::OnOK()
 	else
 		AfxMessageBox( "Given user name and code are not correct."
 			             "\nPlease check them very carefully and try again." );
+*/
 }

@@ -13,7 +13,7 @@
 
 
 class CRoom;
-class CString;
+//class CString;
 class CFileCopy;
 
 class CRooms

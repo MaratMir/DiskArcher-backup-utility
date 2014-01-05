@@ -30,16 +30,16 @@ bool CRoomLabel::Write()
 				// (1) Was m_pRoom->GetFullName() + "\\RoomID.txt",
 			CFile::modeCreate | CFile::modeWrite | CFile::typeText );
 		CString str;
-		str.Format( "Archive Room #%d."
+		str.Format( _T("Archive Room #%d.")
 // TODO: Archive ID <date-time>.
-					"\nPlease do not delete this file!"
-					"\n\nWHEN YOUR COMPUTER CRASHES, so, DiskArcher and its"
-					"\narchive are damaged too. In this case please:"
-					"\n\n1. Reinstall DiskArcher. If you don't have DiskArcher's"
-					"\nsetup.exe file, go http://diskarcher.mastak.com" // (3)
-					"\nor try to find \"DiskArcher\" on Internet search sites."
-					"\n\n2. Open DiskArcher Help, find \"How to restore data\" topic "
-					"\nand follow the instructions.", m_pRoom->m_nRoomID );
+					_T("\nPlease do not delete this file!")
+					_T("\n\nWHEN YOUR COMPUTER CRASHES, so, DiskArcher and its")
+					_T("\narchive are damaged too. In this case please:")
+					_T("\n\n1. Reinstall DiskArcher. If you don't have DiskArcher's")
+					_T("\nsetup.exe file, go http://diskarcher.mastak.com") // (3)
+					_T("\nor try to find \"DiskArcher\" on Internet search sites.")
+					_T("\n\n2. Open DiskArcher Help, find \"How to restore data\" topic ")
+					_T("\nand follow the instructions."), m_pRoom->m_nRoomID );
 /* (2) Was str.Format( "Archive Room #%d\nPlease do not delete this file.",
 					m_pRoom->m_nRoomID ); */
 // LATER: Make it Read-Only?
@@ -49,7 +49,7 @@ bool CRoomLabel::Write()
 	}
 	catch(...)
 	{
-		AfxMessageBox( "The label file could not be written." );
+		AfxMessageBox( _T("The label file could not be written.") );
 	}
 	return bSuccess;
 }
@@ -72,16 +72,16 @@ bool CRoomLabel::Check()
 			lblFile.Close();
 		
 			if( str.Left( 14 ) != "Archive Room #" )
-				AfxMessageBox( "The Room Label is corrupted." );
+				AfxMessageBox( _T("The Room Label is corrupted.") );
 					// TO DO: What must user do then?
 			else
 			{
 				str = str.Mid( 14/*Length of "Archive Room #"*/ );
-				int nID = atoi( str );
+				int nID = _ttoi(str); // atoi( str );
 				if( nID != m_pRoom->m_nRoomID )
 				{
 					CString mess;
-					mess.Format( "It isn't the Room #%d.", m_pRoom->m_nRoomID );
+					mess.Format( _T("It isn't the Room #%d."), m_pRoom->m_nRoomID );
 					if( m_pRoom->m_bRemovable )
 					{
 						mess += "\nPlease insert the proper disk then press 'Retry'."
@@ -102,14 +102,14 @@ bool CRoomLabel::Check()
 		}
 		catch( CFileException *fe )
 		{
-			char buff[200];
+			wchar_t buff[200];
 			fe->GetErrorMessage( buff, 199 );
 			CString mess;
-			mess.Format( "The Room not found on the disk."
-						 "\nPlease check that it is the Room Disk and it is inserted properly."
-						 "\nIf it is a network drive than check the network connection."
-						 "\n\nError Code=%d:"
-						 "\n%s", fe->m_cause, buff );
+			mess.Format( _T("The Room not found on the disk.")
+						 _T("\nPlease check that it is the Room Disk and it is inserted properly.")
+						 _T("\nIf it is a network drive than check the network connection.")
+						 _T("\n\nError Code=%d:")
+						 _T("\n%s"), fe->m_cause, buff );
 //			if( fe->m_lOsError == ERROR_PATH_NOT_FOUND )
 //			{	
 //			}
@@ -119,7 +119,7 @@ bool CRoomLabel::Check()
 		}
 		catch( ... )
 		{
-			AfxMessageBox( "Some error occured in CRoomLabel::Check()." );
+			AfxMessageBox( _T("Some error occured in CRoomLabel::Check().") );
 		}
 
 	return bSuccess;
@@ -139,14 +139,14 @@ bool CRoomLabel::Erase()
 			CStdioFile readmeFile( 
                        m_pRoom->getFullName() + "\\ReadMe.txt",
                        CFile::modeCreate | CFile::modeWrite | CFile::typeText );
-			readmeFile.WriteString( "This DiskArcher's Room was deleted from the program.\n"
-								 "You can delete it if you have enough copies of your files." );
+			readmeFile.WriteString( _T("This DiskArcher's Room was deleted from the program.\n")
+								 _T("You can delete it if you have enough copies of your files.") );
 			readmeFile.Close();
 			bSuccess = true;
 		}
 		catch( CFileException e )
 		{
-			AfxMessageBox( "Could not write ReadMe.txt file:\n" + e.m_cause );
+			AfxMessageBox( _T("Could not write ReadMe.txt file:\n") + e.m_cause );
 		}
 	return bSuccess;
 }

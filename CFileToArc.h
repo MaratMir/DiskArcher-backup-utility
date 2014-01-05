@@ -23,7 +23,7 @@
 class CRoom;
 class CBundle;
 class CFileCopy;
-class CString;
+//class CString;
 
 
 class CFileToArc : public CFileOnDisk

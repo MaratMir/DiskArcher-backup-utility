@@ -229,9 +229,9 @@ bool CFileToArc::PreCompress()
 // Create a temporary compressed file in the temp dir
 // Filenames could be the same in different folders, so we need to give 
 //	unique names for the temporary files
-	char szTempName[MAX_PATH]; 
-	if( ! ::GetTempFileName( g_TheArchive.getTempPath(), "DA_", 0, szTempName ) )
-		AfxMessageBox( "Couldn't get a temp filename." );
+	wchar_t szTempName[MAX_PATH]; 
+	if( ! ::GetTempFileName( g_TheArchive.getTempPath(), _T("DA_"), 0, szTempName ) )
+		AfxMessageBox( _T("Couldn't get a temp filename.") );
 	else
 	{
 		CDiskItem comprFile( szTempName );
@@ -239,7 +239,7 @@ bool CFileToArc::PreCompress()
 	// Delete this file from disk - otherwise PKZip will raise error
 		bSuccess = ( DeleteFile( szTempName ) != 0 );
 		if ( ! bSuccess )
-			AfxMessageBox( "Couldn't delete the temp file." );	
+			AfxMessageBox( _T("Couldn't delete the temp file.") );	
 		else
 		{
 			CString sFileToCompress = getFullName();
@@ -291,7 +291,7 @@ bool CFileToArc::PreCompress()
 			//	1 - file being compressed is opened - sharing violation
 			{
 // TODO: Log.  Error flag.  "Continue?"		"View Log"
-				CString s;	s.Format( "Compressor returned Exit Code: %d",
+				CString s;	s.Format( _T("Compressor returned Exit Code: %d"),
 									  dwExitCode );
 				AfxMessageBox( s );
 			}

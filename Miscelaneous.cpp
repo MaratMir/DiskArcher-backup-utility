@@ -21,7 +21,8 @@ bool BrowseForFolder( CString strCaption, CString& strFolder )
 //	LPITEMIDLIST pidlRoot;						// PIDL for Root folder
 	LPITEMIDLIST SelFolder;						// PIDL for selected folder
 	LPMALLOC pMalloc;							// IMalloc interface handler
-	char dispName[MAX_PATH];
+	_TCHAR dispName[MAX_PATH];
+	//char dispName[MAX_PATH];
 
 	SHGetMalloc(&pMalloc);						// Get the IMalloc interface
 //	SHGetSpecialFolderLocation(m_hWnd, CSIDL_DESKTOP, &pidlRoot);	// Get the Root folder
@@ -49,7 +50,7 @@ bool BrowseForFolder( CString strCaption, CString& strFolder )
 		}
 		else
 		{
-			AfxMessageBox( "You have selected an invalid folder.\nPlease try again." );
+			AfxMessageBox( _T("You have selected an invalid folder.\nPlease try again.") );
 			bSuccess = false;
 		}
 		//UpdateData(FALSE);		// Update the data in the window
@@ -75,7 +76,7 @@ CString GetErrDescription( bool bWithoutLF/*(1)*/ )
 			
 	DWORD err = GetLastError();
 	CString mess;
-	mess.Format( "Code: %d.%sDescription: %s", err, bWithoutLF ? " " : "\n", (LPCSTR)lpMsgBuf );
+	mess.Format( _T("Code: %d.%sDescription: %s"), err, bWithoutLF ? " " : "\n", (LPCSTR)lpMsgBuf );
 	
 	return mess;
 }
@@ -93,6 +94,7 @@ void MyWindowClose( CMDIChildWnd* pWnd )	// (2)
 		CMDIFrameWnd* pMainWnd = (CMDIFrameWnd*) AfxGetMainWnd();
 		pMainWnd->ActivateFrame();
 		CMDIChildWnd* pchw = pMainWnd->MDIGetActive();
+		pchw;
 	}
 }
 
@@ -106,8 +108,7 @@ bool DeleteReadOnlyFile( CString fname )
 	HANDLE hFind = FindFirstFile( fname, &FindFileData );
 	if( hFind == INVALID_HANDLE_VALUE )
 	{	CString msg;
-		msg.Format( "Deleting file:\n"	// (6) added
-					"Cannot find file\n%s.\n%s", fname, GetErrDescription() );
+		msg.Format( _T("Deleting file:\nCannot find file\n%s.\n%s"), fname, GetErrDescription() );
 		AfxMessageBox( msg );
 		bSuccess = true;	// (5) Was: false.
 			// We need to delete a file, but it does not exist.
@@ -124,8 +125,7 @@ bool DeleteReadOnlyFile( CString fname )
 			fileAttribs = fileAttribs & FindFileData.dwFileAttributes;
 			if ( ! SetFileAttributes( fname, fileAttribs ) )
 			{	CString msg;
-				msg.Format( "Deleting file:\n"	// (6) added
-							"Cannot clear read-only attribute.\n%s\n%s",
+				msg.Format( _T( "Deleting file:\nCannot clear read-only attribute.\n%s\n%s" ),
 						    fname, GetErrDescription() );
 				AfxMessageBox( msg );
 				bSuccess = false;
@@ -139,7 +139,7 @@ bool DeleteReadOnlyFile( CString fname )
 		if( ! bSuccess )
 		{	
 			CString msg;
-			msg.Format( "Cannot delete a file\n%s.\n%s", 
+			msg.Format( _T( "Cannot delete a file\n%s.\n%s" ), 
 						fname, GetErrDescription() );
 			AfxMessageBox( msg );
 		}
@@ -147,7 +147,7 @@ bool DeleteReadOnlyFile( CString fname )
 	if ( hFind != INVALID_HANDLE_VALUE )
 		if( ! FindClose(hFind) )	// Free memory used while file searching
 		{	CString msg;
-			msg.Format( "FindFileClose Error:\n%s", GetErrDescription() );
+			msg.Format( _T("FindFileClose Error:\n%s"), GetErrDescription() );
 			AfxMessageBox( msg );
 		} 
 	return bSuccess;
@@ -175,15 +175,15 @@ DWORD MyShellExecute( CString sExeFile, CString sParams, CString sDir, int nShow
 
 	BOOL bRes = ShellExecuteEx( &execInfo );
 	if( bRes == FALSE )
-		AfxMessageBox( "ShellExecuteEx() error." );
+		AfxMessageBox( _T("ShellExecuteEx() error.") );
 	else
 	{
 		HANDLE hProcess = execInfo.hProcess;
 		if( hProcess == 0 )
 		{
 			CString s;
-			s.Format( "MyShellExecute() error:\n"
-					  "Process handle is 0.\nExe: %s\nParams: %s",
+			s.Format( _T("MyShellExecute() error:\n")
+					  _T("Process handle is 0.\nExe: %s\nParams: %s"),
 					  sExeFile, sParams );
 			AfxMessageBox( s );
 		}
@@ -191,15 +191,15 @@ DWORD MyShellExecute( CString sExeFile, CString sParams, CString sDir, int nShow
 		{
 			DWORD dwResult = WaitForSingleObject(hProcess, INFINITE);
 			if( dwResult != WAIT_OBJECT_0 )
-				AfxMessageBox( "MyShellExecute():\nWaitForSingleObject() error." );
+				AfxMessageBox( _T("MyShellExecute():\nWaitForSingleObject() error.") );
 
 			if( ! GetExitCodeProcess( hProcess, &dwExitCode ) )
-				AfxMessageBox( "MyShellExecute():\nGetExitCodeProcess() error." );
+				AfxMessageBox( _T("MyShellExecute():\nGetExitCodeProcess() error.") );
 			else
 				if( dwExitCode != 0 )
 				{
 					CString s;
-					s.Format( "MyShellExecute() error:\n%s\n%s\nExit Code: %d",
+					s.Format( _T("MyShellExecute() error:\n%s\n%s\nExit Code: %d"),
 							  sExeFile, sParams, dwExitCode );
 					AfxMessageBox( s );
 				}

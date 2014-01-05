@@ -1,6 +1,3 @@
-// CDrive.cpp
-//
-
 #include "stdafx.h"
 #include "CDrive.h"
 #include "CFolder.h"

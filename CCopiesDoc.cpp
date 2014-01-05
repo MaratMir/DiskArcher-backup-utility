@@ -43,7 +43,7 @@ BOOL CCopiesDoc::OnNewDocument()
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
 
-	SetTitle( "File Copies" ); // M
+	SetTitle( _T("File Copies") ); // M
 
 	return TRUE;
 }

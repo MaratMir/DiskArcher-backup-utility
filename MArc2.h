@@ -31,7 +31,7 @@ class CMyArchive;
 
 extern CMArc2App theApp;
 extern CMyArchive g_TheArchive;	// (9) Was theArchive
-extern char* strMyComp;
+extern wchar_t* strMyComp;
 
 
 #define MyArcUserLen 10

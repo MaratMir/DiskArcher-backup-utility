@@ -56,6 +56,6 @@ void CFileToArcPropertiesDialog::On_CompressIt_Changed()
 	UpdateData();
 	if( m_bCompressIt )
 		if( ! g_TheArchive.isCompressorDefined() )
-			AfxMessageBox( "You nave not defined the compression utility yet.\n"
-						         "Go to \"File\" - \"Options\" menu item" );
+			AfxMessageBox( _T("You nave not defined the compression utility yet.\n")
+						         _T("Go to \"File\" - \"Options\" menu item") );
 }
