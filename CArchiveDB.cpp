@@ -1,6 +1,6 @@
 // DiskArcher.
 // CArchiveDB.cpp - Implementation of CArchiveDB class.
-// (C) Marat Mirgaleev, 2001-2002.
+// (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
 //	(1) 15.01.2002. Log Table added.
 //	(2) 04.02.2002. FilesToArc: Field "IsSystem" added.
@@ -398,33 +398,18 @@ bool CArchiveDB::FileAdd(CFileToArc* pFile)
 bool CArchiveDB::FileUpdate(CFileToArc *pFile)
 {
 	bool bSuccess = false;
-// (17)	try
-// (17)	{	
 // Update record
-		CString cmd;
-		cmd.Format( 
-			_T("UPDATE FilesToArchive ")
-				_T("SET Priority=%d, UpToCopies=%d, Paused=%s, CompressIt=%s ")
-				_T("WHERE Computer=\"%s\" AND Drive=\"%s\" AND Dir=\"%s\" ")
-					_T("AND Name=\"%s\""),
-			pFile->m_nPriority, pFile->m_nUpToCopies, 
-			TrueFalse( pFile->m_bPaused ), TrueFalse( pFile->m_bCompressIt ),
-			pFile->m_strComputer, pFile->m_strDrive, pFile->m_strDir, 
-			pFile->m_strName );
-		bSuccess = ExecSQL( cmd );
-			/* (17) Was:	
-		((_ConnectionPtr)m_pConnection)->Execute( (LPCSTR)cmd, NULL, NULL );
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
-	}
-	catch(...)
-	{
-		AfxMessageBox( "Some error occured in CArchiveDB::FileUpdate()." );
-	}*/
+	CString cmd;
+	cmd.Format( 
+		_T("UPDATE FilesToArchive ")
+			_T("SET Priority=%d, UpToCopies=%d, Paused=%s, CompressIt=%s ")
+			_T("WHERE Computer=\"%s\" AND Drive=\"%s\" AND Dir=\"%s\" ")
+				_T("AND Name=\"%s\""),
+		pFile->m_nPriority, pFile->m_nUpToCopies, 
+		TrueFalse( pFile->m_bPaused ), TrueFalse( pFile->m_bCompressIt ),
+		pFile->m_strComputer, pFile->m_strDrive, pFile->m_strDir, 
+		pFile->m_strName );
+	bSuccess = ExecSQL( cmd );
 
 	return bSuccess;
 }
@@ -487,19 +472,19 @@ bool CArchiveDB::FilesLoad()
 			CFileToArc *pCurFile = new CFileToArc();	// It will be freed in CMyArchive destructor
 			_bstr_t  bstrTmp; // Temporary string for type conversion
       bstrTmp = rstFiles->Fields->Item["Computer"]->Value;
-			pCurFile->m_strComputer = (LPCSTR)bstrTmp;
+			pCurFile->m_strComputer = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFile->m_strComputer.TrimRight();
             
       bstrTmp = rstFiles->Fields->Item["Drive"]->Value;
-			pCurFile->m_strDrive = (LPCSTR)bstrTmp;
+			pCurFile->m_strDrive = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFile->m_strDrive.TrimRight();
 
       bstrTmp = rstFiles->Fields->Item["Dir"]->Value;
-			pCurFile->m_strDir = bstrTmp.GetBSTR(); // zzzzz (LPCSTR)bstrTmp;
+			pCurFile->m_strDir = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFile->m_strDir.TrimRight();
 
       bstrTmp = rstFiles->Fields->Item["Name"]->Value;
-	  pCurFile->m_strName = bstrTmp.GetBSTR();
+      pCurFile->m_strName = bstrTmp.GetBSTR();
 			pCurFile->m_strName.TrimRight();
 
 			_variant_t vtTmp;
@@ -601,7 +586,7 @@ bool CArchiveDB::RoomsLoad()
 		bstr_t converted = select; //!!!zzzzzzzzzz
 		hr = rsRooms->Open( converted, m_pConnection, adOpenStatic,
 							 adLockReadOnly, adCmdText );
-        TESTHR( hr );
+    TESTHR( hr );
 
 // (17)	if( ! rsRooms->adoEOF )
 // (17)		rsRooms->MoveFirst();	// ? Is not necessary?
@@ -610,26 +595,26 @@ bool CArchiveDB::RoomsLoad()
 			_bstr_t  bstrTmp; // Temporary string for type conversion
 			_variant_t vtTmp;
 			CString strTmp;
-            bstrTmp = rsRooms->Fields->Item["Filename"]->Value;
-			strTmp = (LPCSTR)bstrTmp;
+      bstrTmp = rsRooms->Fields->Item["Filename"]->Value;
+			strTmp = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			strTmp.TrimRight();
 			CRoom *pCurRoom = new CRoom( strTmp );
-						// It will be freed in CMyArchive destructor
+			  // It will be freed in CMyArchive destructor
 
-            vtTmp = rsRooms->Fields->Item["RoomID"]->Value;
-            pCurRoom->m_nRoomID = (long)vtTmp;
+      vtTmp = rsRooms->Fields->Item["RoomID"]->Value;
+      pCurRoom->m_nRoomID = (long)vtTmp;
 
-            vtTmp = rsRooms->Fields->Item["Removable"]->Value;
-            pCurRoom->m_bRemovable = (bool)vtTmp;
+      vtTmp = rsRooms->Fields->Item["Removable"]->Value;
+      pCurRoom->m_bRemovable = (bool)vtTmp;
 
-            vtTmp = rsRooms->Fields->Item["SizeLimit"]->Value;
-            pCurRoom->m_nSizeLimit = (long)vtTmp;
+      vtTmp = rsRooms->Fields->Item["SizeLimit"]->Value;
+      pCurRoom->m_nSizeLimit = (long)vtTmp;
 
-            vtTmp = rsRooms->Fields->Item["SpaceFree"]->Value;
-            pCurRoom->m_nDiskSpaceFree = (long)vtTmp;
+      vtTmp = rsRooms->Fields->Item["SpaceFree"]->Value;
+      pCurRoom->m_nDiskSpaceFree = (long)vtTmp;
 			pCurRoom->m_nDiskSpaceFree = pCurRoom->m_nDiskSpaceFree << 10;	// LATER ???
 
-            vtTmp = rsRooms->Fields->Item["CompressionMode"]->Value;
+      vtTmp = rsRooms->Fields->Item["CompressionMode"]->Value;
 			if( vtTmp.vt == VT_NULL )	// The value not assigned
 				pCurRoom->m_nCompressionMode = rcmAllowed;
 			else
@@ -673,26 +658,7 @@ bool CArchiveDB::RoomUpdate(CRoom *pRoom)
 		pRoom->m_nSizeLimit, (int)(pRoom->m_nDiskSpaceFree >> 10)/*LATER!*/,
 		pRoom->m_nCompressionMode,
 		pRoom->m_nRoomID );
-	bSuccess = ExecSQL( cmd );		/*	(17) Was:
-	try
-	{
-	// Update record
-		cmd.Format( 
-			"UPDATE Rooms SET FileName=\"%s\", Removable=%s, SizeLimit=%d, SpaceFree=%d "
-				"WHERE RoomID=%d",
-			(LPCSTR)( pRoom->GetFullName()), (LPCSTR)( TrueFalse( pRoom->m_bRemovable )),  
-				pRoom->m_nSizeLimit, (int)(pRoom->m_nDiskSpaceFree >> 10)/*LATER!* /, pRoom->m_nRoomID );
-		((_ConnectionPtr)m_pConnection)->Execute( (LPCSTR)cmd, NULL, NULL );
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
-	}
-	catch(...)
-	{
-		AfxMessageBox( "Some error occured in CArchiveDB::RoomUpdate()." );
-	}*/
+	bSuccess = ExecSQL( cmd );
 	return bSuccess;
 }
 
@@ -917,7 +883,7 @@ bool CArchiveDB::CopiesLoad()
 		bstr_t converted = select; //!!!zzzzzzzzzz
 		hr = recSet->Open( converted, m_pConnection, adOpenStatic,
 							 adLockReadOnly, adCmdText );
-        TESTHR( hr );
+    TESTHR( hr );
 
 		while( ! recSet->adoEOF )
 		{
@@ -925,37 +891,37 @@ bool CArchiveDB::CopiesLoad()
 			_bstr_t  bstrTmp; // Temporary string for type conversion
 			_variant_t vtTmp;
 
-            vtTmp = recSet->Fields->Item["CopyID"]->Value;
-            pCurCopy->m_nCopyID = (long)vtTmp;
+      vtTmp = recSet->Fields->Item["CopyID"]->Value;
+      pCurCopy->m_nCopyID = (long)vtTmp;
 
-            bstrTmp = recSet->Fields->Item["Path"]->Value;
-			pCurCopy->m_strPath = (LPCSTR)bstrTmp;
+      bstrTmp = recSet->Fields->Item["Path"]->Value;
+			pCurCopy->m_strPath = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurCopy->m_strPath.TrimRight();
 
-            bstrTmp = recSet->Fields->Item["Filename"]->Value;
-			pCurCopy->m_strFilename = (LPCSTR)bstrTmp;
+      bstrTmp = recSet->Fields->Item["Filename"]->Value;
+			pCurCopy->m_strFilename = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurCopy->m_strFilename.TrimRight();
 
-            vtTmp = recSet->Fields->Item["FileDateTime"]->Value;
-            pCurCopy->m_FileDateTime = vtTmp;
+      vtTmp = recSet->Fields->Item["FileDateTime"]->Value;
+      pCurCopy->m_FileDateTime = vtTmp;
 #ifdef _DEBUG
 			CString copydt = pCurCopy->m_FileDateTime.Format();
 #endif			
 
-            vtTmp = recSet->Fields->Item["BundleID"]->Value;
+      vtTmp = recSet->Fields->Item["BundleID"]->Value;
 			pCurCopy->m_nBundleID = (long)vtTmp;
 
-            vtTmp = recSet->Fields->Item["DeleteIt"]->Value;	// (4)
-            pCurCopy->m_bDeleteIt = (bool)vtTmp;				// (4)
+      vtTmp = recSet->Fields->Item["DeleteIt"]->Value;	// (4)
+      pCurCopy->m_bDeleteIt = (bool)vtTmp;				// (4)
 
-            vtTmp = recSet->Fields->Item["SourceSize"]->Value;	// (5)
-            pCurCopy->m_nSize = (long)vtTmp;					// (5)
-            if( pCurCopy->m_nSize < 0 )							// (5) TO DO!
+      vtTmp = recSet->Fields->Item["SourceSize"]->Value;	// (5)
+      pCurCopy->m_nSize = (long)vtTmp;					// (5)
+      if( pCurCopy->m_nSize < 0 )							// (5) TO DO!
 				pCurCopy->m_nSize = 0;							// (5)
 
-            vtTmp = recSet->Fields->Item["PackedSize"]->Value;	// (5)
-            pCurCopy->m_nPackedSize = (long)vtTmp;				// (5)
-            if( pCurCopy->m_nPackedSize < 0 )					// (5) TO DO!
+      vtTmp = recSet->Fields->Item["PackedSize"]->Value;	// (5)
+      pCurCopy->m_nPackedSize = (long)vtTmp;				// (5)
+      if( pCurCopy->m_nPackedSize < 0 )					// (5) TO DO!
 				pCurCopy->m_nPackedSize = 0;					// (5)
 
 			m_pArchive->m_Copies.AddTail( pCurCopy );
@@ -1005,15 +971,15 @@ bool CArchiveDB::BundlesLoad()
 			CString fname;
 			int iTmp;
 
-            bstrTmp = recSet->Fields->Item["Path"]->Value;
-			fname = (LPCSTR)bstrTmp;
+      bstrTmp = recSet->Fields->Item["Path"]->Value;
+			fname = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			fname.TrimRight();
 
-            bstrTmp = recSet->Fields->Item["Filename"]->Value;
-			fname = fname + "\\" + (LPCSTR)bstrTmp;
+      bstrTmp = recSet->Fields->Item["Filename"]->Value;
+			fname = fname + "\\" + bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			fname.TrimRight();
 
-            vtTmp = recSet->Fields->Item["Type"]->Value;
+      vtTmp = recSet->Fields->Item["Type"]->Value;
 			iTmp = (long)vtTmp;
 			CBundle *pCurBundle = NULL;
 			switch( iTmp )	// (17)
@@ -1033,17 +999,17 @@ bool CArchiveDB::BundlesLoad()
 												                  "Unknown type of the Bundle" );
 				continue;	// Impossible to go on with this record, go to next
 			}
-            pCurBundle->m_nType = (bundleType)iTmp;
+      pCurBundle->m_nType = (bundleType)iTmp;
 			// End of (17). Was just: CBundle *pCurBundle = new CBundle( fname );
 
-            vtTmp = recSet->Fields->Item["BundleID"]->Value;
-            pCurBundle->m_nBundleID = (long)vtTmp;
+      vtTmp = recSet->Fields->Item["BundleID"]->Value;
+      pCurBundle->m_nBundleID = (long)vtTmp;
 
-            vtTmp = recSet->Fields->Item["RoomID"]->Value;
-            pCurBundle->m_nRoomID = (long)vtTmp;
+      vtTmp = recSet->Fields->Item["RoomID"]->Value;
+      pCurBundle->m_nRoomID = (long)vtTmp;
 
-            bstrTmp = recSet->Fields->Item["Extension"]->Value;
-			pCurBundle->m_strExtension = (LPCSTR)bstrTmp;
+      bstrTmp = recSet->Fields->Item["Extension"]->Value;
+			pCurBundle->m_strExtension = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurBundle->m_strExtension.TrimRight();
 
 			m_pArchive->m_Bundles.AddTail( pCurBundle );
@@ -1151,23 +1117,23 @@ void CArchiveDB::CheckLogTable( ADOX::_CatalogPtr pCatalog )
 {
 //	bool bSuccess = false;
 	bool bLogTableFound = false;
-    HRESULT hr = S_OK;
+  HRESULT hr = S_OK;
 
 // Get "ArcLog" Table
 	ADOX::_TablePtr pTable = NULL;
-    TESTHR( hr = pTable.CreateInstance(__uuidof(ADOX::Table)) );
-    _variant_t vIndex;
-    for (long lIndex = 0; lIndex < pCatalog->Tables->Count; lIndex ++)
-    {
+  TESTHR( hr = pTable.CreateInstance(__uuidof(ADOX::Table)) );
+  _variant_t vIndex;
+  for (long lIndex = 0; lIndex < pCatalog->Tables->Count; lIndex ++)
+  {
 		vIndex = lIndex;
-        pTable = pCatalog->Tables->GetItem( vIndex );
-		CString strCurTableName = (LPCSTR)pTable->Name;
-        if( strCurTableName == "ArcLog" )
+    pTable = pCatalog->Tables->GetItem( vIndex );
+		CString strCurTableName = pTable->Name.GetBSTR(); // Was (LPCSTR)pTable->Name;
+    if( strCurTableName == "ArcLog" )
 		{
 			bLogTableFound = true;
 			break;
 		}
-    }
+  }
 
 	if( ! bLogTableFound )
 	// "ArcLog" table not found, create this table
@@ -1211,26 +1177,7 @@ void CArchiveDB::CheckIsSystemField( ADOX::_CatalogPtr pCatalog )
 	ADOX::_TablePtr pTable = NULL;
 	pTable = pCatalog->Tables->Item["FilesToArchive"];
 
-	bSystemFieldFound = FindField( pTable, "IsSystem" );	/* (4) Was:
-    _variant_t vIndex;
-	ADOX::ColumnsPtr pColumns = NULL;
-	pColumns = pTable->Columns;
-	ADOX::_ColumnPtr pCurColumn = NULL;
-    HRESULT hr = S_OK;
-    TESTHR( hr = pCurColumn.CreateInstance(__uuidof(ADOX::Column)) );
-
-    for ( long lIndex = 0; lIndex < pColumns->Count; lIndex ++ )
-    {
-		vIndex = lIndex;
-        pCurColumn = pColumns->GetItem( vIndex );
-		CString strCurColumnName = (LPCSTR)pCurColumn->Name;
-        if( strCurColumnName == "IsSystem" )
-		{
-			bSystemFieldFound = true;
-			break;
-		}
-    }
-*/
+	bSystemFieldFound = FindField( pTable, "IsSystem" );
 	if( ! bSystemFieldFound )
 	// "IsSystem" field not found, add it
 	{
@@ -1445,20 +1392,20 @@ void CArchiveDB::CheckFoldersTable( ADOX::_CatalogPtr pCatalog )
 bool CArchiveDB::FindField( ADOX::_TablePtr pTable, CString strFieldName )
 {
 	bool bFieldFound = false;
-    _variant_t vIndex;
+  _variant_t vIndex;
 	ADOX::ColumnsPtr pColumns = pTable->Columns;
 	ADOX::_ColumnPtr pCurColumn = NULL;
-    for ( long lIndex = 0; lIndex < pColumns->Count; lIndex ++ )
-    {
+  for ( long lIndex = 0; lIndex < pColumns->Count; lIndex ++ )
+  {
 		vIndex = lIndex;
-        pCurColumn = pColumns->GetItem( vIndex );
-		CString strCurColumnName = (LPCSTR)pCurColumn->Name;
-        if( strCurColumnName == strFieldName )
+    pCurColumn = pColumns->GetItem( vIndex );
+		CString strCurColumnName = pCurColumn->Name.GetBSTR(); // Was (LPCSTR)pCurColumn->Name;
+    if( strCurColumnName == strFieldName )
 		{
 			bFieldFound = true;
 			break;
 		}
-    }
+  }
 	return bFieldFound;
 }
 
@@ -1470,18 +1417,18 @@ bool CArchiveDB::CheckIsTableInDB( ADOX::_CatalogPtr pCatalog,
 {
 	bool bTableFound = false;
 	ADOX::_TablePtr pTable = NULL;
-    _variant_t vIndex;
-    for (long lIndex = 0; lIndex < pCatalog->Tables->Count; lIndex ++)
-    {
+  _variant_t vIndex;
+  for (long lIndex = 0; lIndex < pCatalog->Tables->Count; lIndex ++)
+  {
 		vIndex = lIndex;
-        pTable = pCatalog->Tables->GetItem( vIndex );
-		CString strCurTableName = (LPCSTR)pTable->Name;
-        if( strCurTableName == strTableName )
+    pTable = pCatalog->Tables->GetItem( vIndex );
+		CString strCurTableName = pTable->Name.GetBSTR(); // Was (LPCSTR)pTable->Name;
+    if( strCurTableName == strTableName )
 		{
 			bTableFound = true;
 			break;
 		}
-    }
+  }
 	return bTableFound;
 }
 
@@ -1549,7 +1496,7 @@ bool CArchiveDB::FoldersLoad()
 			_variant_t vtTmp;
 			CString strTmp;
       bstrTmp = rsFolders->Fields->Item["FolderIDlename"]->Value;
-			strTmp = (LPCSTR)bstrTmp;
+			strTmp = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			strTmp.TrimRight();
 			CFolderToArc *pCurFolder = new CFolderToArc();
 				// It will be freed in CMyArchive destructor
@@ -1558,22 +1505,22 @@ bool CArchiveDB::FoldersLoad()
       pCurFolder->m_nFolderID = (long)vtTmp;
 
 
-		// This group of field is the same as in FilesToArchive table
+		// This group of fields is the same as in FilesToArchive table
 		//------------------------------------------------------------
-            bstrTmp = rsFolders->Fields->Item["Computer"]->Value;
-			pCurFolder->m_strComputer = (LPCSTR)bstrTmp;
+      bstrTmp = rsFolders->Fields->Item["Computer"]->Value;
+			pCurFolder->m_strComputer = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFolder->m_strComputer.TrimRight();
             
       bstrTmp = rsFolders->Fields->Item["Drive"]->Value;
-			pCurFolder->m_strDrive = (LPCSTR)bstrTmp;
+			pCurFolder->m_strDrive = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFolder->m_strDrive.TrimRight();
 
       bstrTmp = rsFolders->Fields->Item["Dir"]->Value;
-			pCurFolder->m_strDir = (LPCSTR)bstrTmp;
+			pCurFolder->m_strDir = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFolder->m_strDir.TrimRight();
 
       bstrTmp = rsFolders->Fields->Item["Name"]->Value;
-			pCurFolder->m_strName = (LPCSTR)bstrTmp;
+			pCurFolder->m_strName = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFolder->m_strName.TrimRight();
 
       vtTmp = rsFolders->Fields->Item["UpToCopies"]->Value;
@@ -1582,11 +1529,11 @@ bool CArchiveDB::FoldersLoad()
 
             
 			bstrTmp = rsFolders->Fields->Item["Masks"]->Value;
-			pCurFolder->m_strMasks = (LPCSTR)bstrTmp;
+			pCurFolder->m_strMasks = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFolder->m_strMasks.TrimRight();
 
 			bstrTmp = rsFolders->Fields->Item["ExcludeMasks"]->Value;
-			pCurFolder->m_strExcludeMasks = (LPCSTR)bstrTmp;
+			pCurFolder->m_strExcludeMasks = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			pCurFolder->m_strExcludeMasks.TrimRight();
 
       vtTmp = rsFolders->Fields->Item["UpToCopies"]->Value;
@@ -1714,7 +1661,7 @@ bool CArchiveDB::optionRead( CString i_sSection, CString i_sOptionName,
 			_variant_t vtTmp;
 			
       bstrTmp = rsOptions->Fields->Item["OptionValue"]->Value;
-			o_sValue = (LPCSTR)bstrTmp;
+			o_sValue = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
 			o_sValue.TrimRight();
 
       bSuccess = true;
