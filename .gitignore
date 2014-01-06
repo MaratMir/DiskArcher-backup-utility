@@ -11,6 +11,7 @@
 *.a
 
 # MMR: VS Temporary files
+MArc2.aps
 *.opensdf
 *.sdf
 *.ipch
