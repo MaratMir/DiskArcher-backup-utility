@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -18,60 +18,34 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_TREEIMAGELIST       BITMAP  DISCARDABLE     "res\\bmp00002.bmp"
-IDB_FTOA_IMAGELIST      BITMAP  DISCARDABLE     "res\\FToA_ima.bmp"
-IDB_ROOMS_IMAGELIST     BITMAP  DISCARDABLE     "res\\rooms_im.bmp"
-IDB_COPIES_IMAGELIST    BITMAP  DISCARDABLE     "res\\CopiesImageList.bmp"
-IDB_LOGO                BITMAP  DISCARDABLE     "res\\darclogo.bmp"
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Russian resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-#ifdef _WIN32
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDB_TICK                BITMAP  DISCARDABLE     "res\\tick.bmp"
-IDB_LIGHTBULB           BITMAP  DISCARDABLE     "res\\litebulb.bmp"
-IDB_BITMAP1             BITMAP  DISCARDABLE     "res\\bitmap1.bmp"
+IDB_TICK                BITMAP                  "res\\tick.bmp"
+IDB_LIGHTBULB           BITMAP                  "res\\litebulb.bmp"
+IDB_BITMAP1             BITMAP                  "res\\bitmap1.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_TIP DIALOG DISCARDABLE  0, 0, 231, 164
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_TIP DIALOG 0, 0, 231, 164
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Tip of the Day"
 FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         "",-1,"Static",SS_BLACKFRAME,12,11,207,123
     LTEXT           "Some String",IDC_TIPSTRING,28,63,177,60
-    CONTROL         "&Show Tips on StartUp",IDC_STARTUP,"Button",
-                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,146,85,10
+    CONTROL         "&Show Tips on StartUp",IDC_STARTUP,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,146,85,10
     PUSHBUTTON      "&Next Tip",IDC_NEXTTIP,109,143,50,14,WS_GROUP
     DEFPUSHBUTTON   "&Close",IDOK,168,143,50,14,WS_GROUP
     CONTROL         "",IDC_BULB,"Static",SS_BITMAP,20,17,190,111
@@ -84,7 +58,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_TIP, DIALOG
     BEGIN
@@ -102,76 +76,91 @@ END
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     CG_IDS_DIDYOUKNOW       "Did you know..."
     CG_IDS_FILE_ABSENT      "Tips file does not exist in the prescribed directory"
     CG_IDP_FILE_CORRUPT     "Trouble reading the tips file"
 END
 
-#endif    // Russian resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// Neutral resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDR_LOCATOR             BITMAP  MOVEABLE PURE   "res\\LocatoTB.bmp"
-IDR_FILESTOARC          BITMAP  MOVEABLE PURE   "res\\FilesToA.bmp"
-IDR_ROOMS               BITMAP  MOVEABLE PURE   "res\\RoomsTB.bmp"
-IDR_COPIES              BITMAP  MOVEABLE PURE   "res\\Copies.bmp"
-__DUMMY__               BITMAP  DISCARDABLE     "res\\__dummy_.bmp"
-IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\mainfram.bmp"
-IDR_LOCATOR_EXCL        BITMAP  MOVEABLE PURE   "res\\locatorExcl.bmp"
+IDB_TREEIMAGELIST       BITMAP                  "res\\bmp00002.bmp"
+IDB_FTOA_IMAGELIST      BITMAP                  "res\\FToA_ima.bmp"
+IDB_ROOMS_IMAGELIST     BITMAP                  "res\\rooms_im.bmp"
+IDB_COPIES_IMAGELIST    BITMAP                  "res\\CopiesImageList.bmp"
+IDB_LOGO                BITMAP                  "res\\darclogo.bmp"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_LOCATOR             BITMAP                  "res\\LocatoTB.bmp"
+IDR_FILESTOARC          BITMAP                  "res\\FilesToA.bmp"
+IDR_ROOMS               BITMAP                  "res\\RoomsTB.bmp"
+IDR_COPIES              BITMAP                  "res\\Copies.bmp"
+__DUMMY__               BITMAP                  "res\\__dummy_.bmp"
+IDR_MAINFRAME           BITMAP                  "res\\mainfram.bmp"
+IDR_LOCATOR_EXCL        BITMAP                  "res\\locatorExcl.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_NAG DIALOG DISCARDABLE  0, 0, 197, 181
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_NAG DIALOG 0, 0, 197, 181
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Please Register"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "&Register...",ID_REGISTER,135,140,55,14
     PUSHBUTTON      "Register &Later",IDCANCEL,135,158,55,14
     LTEXT           "Static",IDC_REGISTER_TEXT,10,5,120,170
-    CTEXT           "You have used\nDiskArcher\nfor 31 days",
-                    IDC_DAYS_COUNTER,135,80,55,55
+    CTEXT           "You have used\nDiskArcher\nfor 31 days",IDC_DAYS_COUNTER,135,80,55,55
 END
 
-IDD_FILETOARC_PROPERTIES_DIALOG DIALOG DISCARDABLE  0, 0, 186, 118
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_FILETOARC_PROPERTIES_DIALOG DIALOG 0, 0, 186, 118
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "File's Properties"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,38,99,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,96,99,50,14
     LTEXT           "Filename:",IDC_STATIC,10,9,31,8
-    EDITTEXT        IDC_EDIT_FILENAME,15,20,160,30,ES_MULTILINE | 
-                    ES_AUTOVSCROLL | ES_READONLY
-    CONTROL         "Compress copies of this file ",IDC_COMPRESS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,73,103,10
+    EDITTEXT        IDC_EDIT_FILENAME,15,20,160,30,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY
+    CONTROL         "Compress copies of this file ",IDC_COMPRESS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,73,103,10
     GROUPBOX        "",IDC_STATIC,4,0,177,90
     LTEXT           "Up to copies:",IDC_STATIC,10,56,43,8
-    EDITTEXT        IDC_EDIT_UPTOCOPIES,55,54,40,14,ES_AUTOHSCROLL | 
-                    ES_READONLY | ES_NUMBER
+    EDITTEXT        IDC_EDIT_UPTOCOPIES,55,54,40,14,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
 END
 
-IDD_REGISTER_DIALOG DIALOG DISCARDABLE  0, 0, 186, 141
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_REGISTER_DIALOG DIALOG 0, 0, 186, 141
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Registering DiskArcher"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -182,43 +171,36 @@ BEGIN
     CTEXT           "PLEASE ENTER:",IDC_STATIC,10,10,160,8
     LTEXT           "Your registration name:",IDC_STATIC,10,45,160,8
     LTEXT           "Registration code:",IDC_STATIC,10,79,58,8
-    CTEXT           "(or just copy these data from received registration message and paste here)",
-                    IDC_STATIC,5,20,170,20
+    CTEXT           "(or just copy these data from received registration message and paste here)",IDC_STATIC,5,20,170,20
 END
 
 IDD_LOCATOR_DIALOG DIALOGEX 0, 0, 260, 159
-STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Locator of new and changed files"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Browse...",IDC_LCTR_BROWSE,215,22,38,14
-    EDITTEXT        IDC_LOCATOR_DAYS,145,42,25,14,ES_AUTOHSCROLL | ES_NUMBER,
-                    WS_EX_RIGHT
-    CONTROL         "Spin1",IDC_LOCATOR_DAYS_SPIN,"msctls_updown32",
-                    UDS_SETBUDDYINT | UDS_AUTOBUDDY,172,42,11,15
+    EDITTEXT        IDC_LOCATOR_DAYS,145,42,25,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "Spin1",IDC_LOCATOR_DAYS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY,172,42,11,15
     DEFPUSHBUTTON   "Search...",IDOK,79,138,60,14
     PUSHBUTTON      "Cancel",IDABORT,147,138,50,14
     CTEXT           "Current Folder",IDC_LOCATOR_CURRENT_FOLDE,28,109,225,8
     LTEXT           "Search in folder:",IDC_STATIC,35,10,65,10
-    CONTROL         "<Select path>",IDC_LOCATOR_START_PATH,"Static",
-                    SS_LEFTNOWORDWRAP | SS_SUNKEN | WS_GROUP,36,24,178,11
-    LTEXT           "Files checked:",IDC_CHECKED_FILES,71,122,67,8,NOT 
-                    WS_VISIBLE,WS_EX_RIGHT
+    CONTROL         "<Select path>",IDC_LOCATOR_START_PATH,"Static",SS_LEFTNOWORDWRAP | SS_SUNKEN | WS_GROUP,36,24,178,11
+    LTEXT           "Files checked:",IDC_CHECKED_FILES,71,122,67,8,NOT WS_VISIBLE,WS_EX_RIGHT
     LTEXT           "Static",IDC_COUNTER,147,122,40,8
     ICON            IDR_LOCATOR,IDC_STATIC,5,5,20,20
-    RTEXT           "Select files modified during last ",IDC_STATIC,15,45,
-                    125,10
+    RTEXT           "Select files modified during last ",IDC_STATIC,15,45,125,10
     LTEXT           "days",IDC_STATIC,185,45,30,8
-    CONTROL         "Skip useless files and folders (*.tmp, Cookies, ...)",
-                    IDC_SKIP_SOME_FILES,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,43,70,178,10
+    CONTROL         "Skip useless files and folders (*.tmp, Cookies, ...)",IDC_SKIP_SOME_FILES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,43,70,178,10
     PUSHBUTTON      "File types...",IDC_EXCL_FILE_TYPES_BUTTON,87,84,50,14
     PUSHBUTTON      "Folders...",IDC_EXCL_FOLDERS_BUTTON,147,84,50,14
     GROUPBOX        "",IDC_STATIC,35,62,210,41
 END
 
-IDD_INPUT_STRING_DIALOG DIALOG DISCARDABLE  0, 0, 186, 68
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_INPUT_STRING_DIALOG DIALOG 0, 0, 186, 68
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Dialog"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -229,102 +211,83 @@ BEGIN
 END
 
 IDD_OPTIONS_DIALOG DIALOGEX 0, 0, 259, 129
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Archive Options"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,86,108,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,147,108,50,14
-    EDITTEXT        IDC_COMPRESSOR_PATH_EDIT,73,79,133,14,ES_AUTOHSCROLL | 
-                    ES_READONLY
+    EDITTEXT        IDC_COMPRESSOR_PATH_EDIT,73,79,133,14,ES_AUTOHSCROLL | ES_READONLY
     GROUPBOX        "Use compression utility:",IDC_STATIC,41,44,211,56
     LTEXT           "Path:",IDC_STATIC,46,82,24,8,0,WS_EX_RIGHT
     PUSHBUTTON      "Browse...",IDC_BROWSE_BUTTON,209,78,40,14
-    GROUPBOX        "Default number of copies (for new files):",IDC_STATIC,
-                    41,7,211,33
+    GROUPBOX        "Default number of copies (for new files):",IDC_STATIC,41,7,211,33
     ICON            IDR_MAINFRAME,IDC_STATIC,8,12,21,20
-    EDITTEXT        IDC_DEFAULT_NUMBER_OF_COPIES_EDIT,96,21,40,14,
-                    ES_AUTOHSCROLL
-    COMBOBOX        IDC_COMPRESSION_UTILITY_COMBO,73,61,134,49,
-                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_DEFAULT_NUMBER_OF_COPIES_EDIT,96,21,40,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMPRESSION_UTILITY_COMBO,73,61,134,49,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Name:",IDC_STATIC,46,62,24,8,0,WS_EX_RIGHT
 END
 
-IDD_PROGRESS_DIALOG DIALOG DISCARDABLE  0, 0, 186, 132
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_PROGRESS_DIALOG DIALOG 0, 0, 186, 132
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Updating the Archive"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "View Log...",IDOK,34,111,60,14,WS_DISABLED
     PUSHBUTTON      "Stop",IDABORT,101,111,50,14
-    LTEXT           "Analysing changes of archived files...",IDC_STATIC,36,
-                    23,143,8
-    LTEXT           "Copying files...",IDC_COPYING_LABEL,35,36,68,8,
-                    WS_DISABLED
-    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",WS_BORDER,
-                    17,74,152,9
-    CONTROL         140,IDC_ANALYSING_BMP,"Static",SS_BITMAP | SS_SUNKEN | 
-                    NOT WS_VISIBLE,21,22,12,11
-    CONTROL         140,IDC_COPYING_BMP,"Static",SS_BITMAP | SS_SUNKEN | NOT 
-                    WS_VISIBLE,21,36,12,11
-    CTEXT           "The Archive has been successfully updated!",
-                    IDC_COPYING_SUCCESS,7,90,172,8,NOT WS_VISIBLE | NOT 
-                    WS_GROUP
+    LTEXT           "Analysing changes of archived files...",IDC_STATIC,36,23,143,8
+    LTEXT           "Copying files...",IDC_COPYING_LABEL,35,36,68,8,WS_DISABLED
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",WS_BORDER,17,74,152,9
+    CONTROL         140,IDC_ANALYSING_BMP,"Static",SS_BITMAP | SS_SUNKEN | NOT WS_VISIBLE,21,22,12,11
+    CONTROL         140,IDC_COPYING_BMP,"Static",SS_BITMAP | SS_SUNKEN | NOT WS_VISIBLE,21,36,12,11
+    CTEXT           "The Archive has been successfully updated!",IDC_COPYING_SUCCESS,7,90,172,8,NOT WS_VISIBLE | NOT WS_GROUP
     CTEXT           "Current Filename",IDC_CURRENT_FILENAME,7,62,172,8
 END
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 252, 146
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUTBOX DIALOGEX 0, 0, 252, 146
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About DiskArcher"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     CONTROL         151,IDC_STATIC,"Static",SS_BITMAP,10,9,96,64
-    LTEXT           "DiskArcher 2.21",IDC_STATIC,115,10,131,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2001-2006",IDC_STATIC,115,64,133,8
+    LTEXT           "DiskArcher 2.3",IDC_STATIC,115,23,131,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2001-2014",IDC_STATIC,115,33,133,8
     DEFPUSHBUTTON   "OK",IDOK,101,127,50,14,WS_GROUP
-    LTEXT           "All rights reserved.",IDC_STATIC,125,84,124,8
-    LTEXT           "E-mail:\n    support@diskarcher.mastak.com",IDC_STATIC,
-                    115,41,130,17,SS_NOPREFIX
-    LTEXT           "DiskArcher Software Co.",IDC_STATIC,125,74,121,8
-    LTEXT           "Web:\n   http://diskarcher.mastak.com",IDC_STATIC,116,
-                    22,130,17,SS_NOPREFIX
+    LTEXT           "All rights reserved.",IDC_STATIC,125,53,124,8
+    LTEXT           "Marat Mirgaleev",IDC_STATIC,125,43,121,8
     LTEXT           "",IDC_STATIC,5,99,240,2,SS_SUNKEN
     CTEXT           "Licensed to:",IDC_LICENSED_TO,0,107,249,8
+    LTEXT           "E-mail:\n    support@diskarcher.mastak.com",IDC_STATIC,115,81,130,17,SS_NOPREFIX | NOT WS_VISIBLE
+    LTEXT           "Web:\n   http://diskarcher.mastak.com",IDC_STATIC,116,62,130,17,SS_NOPREFIX | NOT WS_VISIBLE
 END
 
 IDD_ROOM_PROPERTIES_DIALOG DIALOGEX 0, 0, 211, 126
-STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CONTEXTHELP | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Room's Properties"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,61,105,40,14
     PUSHBUTTON      "Cancel",IDCANCEL,110,105,40,14
-    EDITTEXT        IDC_ROOMPROP_LIMIT,63,17,40,14,ES_AUTOHSCROLL | 
-                    ES_NUMBER,0,HIDC_ROOMPROP_LIMIT
+    EDITTEXT        IDC_ROOMPROP_LIMIT,63,17,40,14,ES_AUTOHSCROLL | ES_NUMBER,0,HIDC_ROOMPROP_LIMIT
     LTEXT           "Room's Size Limit:, KB:",IDC_STATIC,48,7,95,8
     ICON            IDR_ROOMS,IDR_ROOMS,7,7,20,20
     LTEXT           "(If 0, it is unlimited)",IDC_STATIC,127,20,77,8
-    GROUPBOX        " When to use file compression",
-                    IDC_ROOM_WHEN_USE_COMPRESSION,16,39,178,57
-    CONTROL         "If compression has been set for a file",
-                    IDC_ROOM_COMPRESSION_ALLOWED,"Button",BS_AUTORADIOBUTTON,
-                    33,54,151,10
-    CONTROL         "Always",IDC_ROOM_COMPRESSION_ALWAYS,"Button",
-                    BS_AUTORADIOBUTTON,33,66,119,10
-    CONTROL         "Never",IDC_ROOM_COMPRESSION_NEVER,"Button",
-                    BS_AUTORADIOBUTTON,33,78,35,10
+    GROUPBOX        " When to use file compression",IDC_ROOM_WHEN_USE_COMPRESSION,16,39,178,57
+    CONTROL         "If compression has been set for a file",IDC_ROOM_COMPRESSION_ALLOWED,
+                    "Button",BS_AUTORADIOBUTTON,33,54,151,10
+    CONTROL         "Always",IDC_ROOM_COMPRESSION_ALWAYS,"Button",BS_AUTORADIOBUTTON,33,66,119,10
+    CONTROL         "Never",IDC_ROOM_COMPRESSION_NEVER,"Button",BS_AUTORADIOBUTTON,33,78,35,10
 END
 
-IDD_INS_DISK_DIALOG DIALOG DISCARDABLE  0, 0, 203, 83
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_INS_DISK_DIALOG DIALOG 0, 0, 203, 83
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Insert Disk"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,18,62,50,14
     PUSHBUTTON      "Skip this disk",ID_SKIP_DISK,76,62,50,14
     PUSHBUTTON      "Stop",IDABORT,134,62,50,14
-    CTEXT           "Please insert the Disk labeled ""Room #""\ninto drive Z,\nthen press ""OK""",
-                    IDC_INS_DISK_LBL,35,19,154,34
+    CTEXT           "Please insert the Disk labeled ""Room #""\ninto drive Z,\nthen press ""OK""",IDC_INS_DISK_LBL,35,19,154,34
     ICON            IDR_ROOMS,IDC_STATIC,14,15,20,20
 END
 
@@ -335,7 +298,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_NAG, DIALOG
     BEGIN
@@ -424,20 +387,20 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\main.ico"
-IDR_LOCATOR             ICON    DISCARDABLE     "res\\Locator.ico"
-IDR_LOCATOR_EXCL        ICON    DISCARDABLE     "res\\LocatorExcl.ico"
-IDR_FILESTOARC          ICON    DISCARDABLE     "res\\MArc2Doc.ico"
-IDR_ROOMS               ICON    DISCARDABLE     "res\\ico00001.ico"
-IDR_COPIES              ICON    DISCARDABLE     "res\\Copies.ico"
-IDR_LOG                 ICON    DISCARDABLE     "res\\log.ico"
+IDR_MAINFRAME           ICON                    "res\\main.ico"
+IDR_LOCATOR             ICON                    "res\\Locator.ico"
+IDR_LOCATOR_EXCL        ICON                    "res\\LocatorExcl.ico"
+IDR_FILESTOARC          ICON                    "res\\MArc2Doc.ico"
+IDR_ROOMS               ICON                    "res\\ico00001.ico"
+IDR_COPIES              ICON                    "res\\Copies.ico"
+IDR_LOG                 ICON                    "res\\log.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
 //
 
-IDR_LOCATOR TOOLBAR DISCARDABLE  16, 15
+IDR_LOCATOR TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_LOCATOR_ADD
     BUTTON      ID_LOCATOR_REMOVE
@@ -445,7 +408,7 @@ BEGIN
     BUTTON      ID_LOCATOR_ADD_EXCL_TYPE
 END
 
-IDR_FILESTOARC TOOLBAR DISCARDABLE  16, 15
+IDR_FILESTOARC TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_FILETOARC_PROPERTIES
     BUTTON      ID_FILETOARC_SHOWCOPIES
@@ -458,21 +421,21 @@ BEGIN
     BUTTON      ID_FILETOARC_DELETE
 END
 
-IDR_ROOMS TOOLBAR DISCARDABLE  16, 15
+IDR_ROOMS TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_ROOM_NEW
     BUTTON      ID_ROOM_DELETE
     BUTTON      ID_ROOM_PROPERTIES
 END
 
-IDR_COPIES TOOLBAR DISCARDABLE  16, 15
+IDR_COPIES TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_COPY_EXTRACT
     SEPARATOR
     BUTTON      ID_COPY_DELETE
 END
 
-__DUMMY__ TOOLBAR DISCARDABLE  16, 15
+__DUMMY__ TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_SHOWINFO
     BUTTON      ID_EDIT_PASTE
@@ -480,7 +443,7 @@ BEGIN
     BUTTON      ID_LOCATOR_ADD_EXCL_FOLDER
 END
 
-IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_ARCHIVE_UPDATE
     SEPARATOR
@@ -494,7 +457,7 @@ BEGIN
     BUTTON      ID_CONTEXT_HELP
 END
 
-IDR_LOCATOR_EXCL TOOLBAR DISCARDABLE  16, 15
+IDR_LOCATOR_EXCL TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_LOCATOR_EXCL_ADD
     BUTTON      ID_LOCATOR_EXCL_REMOVE
@@ -527,18 +490,18 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_OLE_RESOURCES\r\n"
     "#define _AFX_NO_TRACKER_RESOURCES\r\n"
@@ -563,7 +526,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -600,7 +563,7 @@ BEGIN
     END
 END
 
-IDR_FILETOARC_POPUP MENU DISCARDABLE 
+IDR_FILETOARC_POPUP MENU
 BEGIN
     POPUP "FileToArc"
     BEGIN
@@ -616,7 +579,7 @@ BEGIN
     END
 END
 
-IDR_FILESTOARC MENU DISCARDABLE 
+IDR_FILESTOARC MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -656,7 +619,7 @@ BEGIN
     END
 END
 
-IDR_FILESTOARC_POPUP MENU DISCARDABLE 
+IDR_FILESTOARC_POPUP MENU
 BEGIN
     POPUP "&FileToArc"
     BEGIN
@@ -665,7 +628,7 @@ BEGIN
     END
 END
 
-IDR_ROOMS_POPUP MENU DISCARDABLE 
+IDR_ROOMS_POPUP MENU
 BEGIN
     POPUP "Rooms"
     BEGIN
@@ -673,7 +636,7 @@ BEGIN
     END
 END
 
-IDR_ROOM_POPUP MENU DISCARDABLE 
+IDR_ROOM_POPUP MENU
 BEGIN
     POPUP "Room"
     BEGIN
@@ -684,7 +647,7 @@ BEGIN
     END
 END
 
-IDR_COPY_POPUP MENU DISCARDABLE 
+IDR_COPY_POPUP MENU
 BEGIN
     POPUP "Copy"
     BEGIN
@@ -694,7 +657,7 @@ BEGIN
     END
 END
 
-IDR_COPIES_POPUP MENU DISCARDABLE 
+IDR_COPIES_POPUP MENU
 BEGIN
     POPUP "Copies"
     BEGIN
@@ -702,7 +665,7 @@ BEGIN
     END
 END
 
-IDR_MENU__DUMMY__ MENU DISCARDABLE 
+IDR_MENU__DUMMY__ MENU
 BEGIN
     POPUP "&Edit"
     BEGIN
@@ -714,7 +677,7 @@ BEGIN
     END
 END
 
-IDR_LOG_POPUP MENU DISCARDABLE 
+IDR_LOG_POPUP MENU
 BEGIN
     POPUP "&Clear"
     BEGIN
@@ -722,7 +685,7 @@ BEGIN
     END
 END
 
-IDR_LOCATOR_POPUP MENU DISCARDABLE 
+IDR_LOCATOR_POPUP MENU
 BEGIN
     POPUP "Locator"
     BEGIN
@@ -733,7 +696,7 @@ BEGIN
     END
 END
 
-IDR_LOCATOR_EXCL_POPUP MENU DISCARDABLE 
+IDR_LOCATOR_EXCL_POPUP MENU
 BEGIN
     POPUP "Locator"
     BEGIN
@@ -748,7 +711,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
     VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
@@ -759,15 +722,14 @@ BEGIN
 END
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,2,1,0
- PRODUCTVERSION 2,2,1,0
+ FILEVERSION 2,3,0,0
+ PRODUCTVERSION 2,3,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -782,18 +744,14 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "The First Backup Utility for Everyone\0"
-            VALUE "CompanyName", "DiskArcher Software\0"
-            VALUE "FileDescription", "DiskArcher Backup Utility main file\0"
-            VALUE "FileVersion", "2, 2, 1, 0\0"
-            VALUE "InternalName", "MArc2\0"
-            VALUE "LegalCopyright", "Copyright (C) 2001-2006 DiskArcher Software\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "DiskArc.EXE\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "DiskArcher Backup Utility\0"
-            VALUE "ProductVersion", "2, 2, 1, 0\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "Comments", "The First Backup Utility for Everyone"
+            VALUE "CompanyName", "Marat Mirgaleev"
+            VALUE "FileDescription", "DiskArcher Backup Utility main file"
+            VALUE "FileVersion", "2.3.0.0"
+            VALUE "InternalName", "MArc2"
+            VALUE "LegalCopyright", "Copyright (C) 2001-2014 Marat Mirgaleev"
+            VALUE "ProductName", "DiskArcher Backup Utility"
+            VALUE "ProductVersion", "2.3.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -802,37 +760,35 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table
 //
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "DiskArcher"
 END
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "DiskArcher"
     AFX_IDS_IDLEMESSAGE     "For Help, press F1"
     AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_INDICATOR_FILES      " L o a d i n g   i n f o r m a t i o n . . ."
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_OPEN            "Add files to Archive\nAdd files"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit DiskArcher\nExit"
@@ -843,13 +799,13 @@ BEGIN
     ID_HELP                 "Display help for current task or command\nHelp"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
     ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
@@ -857,7 +813,7 @@ BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_FIND            "zzz  Find the specified text\nFind"
     ID_EDIT_PASTE           "zzz  Insert Clipboard contents\nPaste"
@@ -865,13 +821,13 @@ BEGIN
     ID_EDIT_REDO            "zzz  Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -882,24 +838,24 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
     AFX_IDS_MDICHILD        "Activate this window"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_DETAILS         "Displays detailed information about each item in the window.\nDetails"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_SHOWINFO             "Show Archive summary information\nShow Info"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_FILETOARC_SHOWCOPIES "Show the list of file's copies\nShow copies"
     ID_WINDOW_FILESTOARCHIVE 
@@ -914,7 +870,7 @@ BEGIN
     ID_COPY_EXTRACT         "Extract selected copy\nExtract"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_LOCATOR_REMOVE       "Do not archive selected files, remove them from the list\nDon't archive"
     ID_LOCATOR_ADD          "Add selected files to ""Files To Archive"" list\nAdd to Archive"
@@ -929,14 +885,14 @@ BEGIN
                             "Exclude selected file types from further search\nExclude file types"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_UPDATE_FILES         "Refresh files information\nUpdate"
     ID_SHOW_WINDOW_ROOMS    "Show ""Archive Rooms"" window\nShow Rooms"
     ID_FILETOARC_DELETE     "Delete this file from Archive\nDelete from Archive"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_VIEW_LOG             "Show ""Log"" window\nShow Log"
     ID_LOG_CLEAR            "Delete all records from the Log\nClear the Log"
@@ -946,24 +902,24 @@ BEGIN
     ID_START_LOCATOR        "Look for new and changed files which are not in Archive yet\nFiles Locator"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDR_LOG                 "Log View"
     IDR_MARC2TYPE           "\nMArc2\nMArc2\n\n\nMArc2.Document\nMArc2 Document"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_LOCATOR_ADD_EXCL_FOLDER 
                             "Exclude selected folders from further search\nExclude folders"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_REGISTER             "Enter the registration code\nRegister the program"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
