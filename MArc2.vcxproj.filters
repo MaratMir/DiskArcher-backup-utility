@@ -123,9 +123,6 @@
     <ClCompile Include="CMyListView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CNag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CNewFilesLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -308,9 +305,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMyListView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CNewFilesLocator.h">

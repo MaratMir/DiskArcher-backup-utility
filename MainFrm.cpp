@@ -28,7 +28,6 @@
 #include "LeftView.h"
 #include "CFileCompressor.h"
 #include "COptionsDialog.h"	// (9)
-#include "CNag.h"		    // (4)
 #include "CNewFilesLocator.h" // (10)
 #include "CRegisterDlg.h"
 
@@ -240,12 +239,6 @@ void CMainFrame::OnClose()
 	else
 	{
 		g_TheArchive.close();		
-	
-		if ( ! theApp.CheckRegistration() )	// (4)
-		{
-			CNag nagScreen;				// (4)
-			nagScreen.DoModal();		// (4)
-		}
 
 		CMDIFrameWnd::OnClose();
 	}

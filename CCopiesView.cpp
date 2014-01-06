@@ -23,7 +23,6 @@
 #include "CCopiesView.h"
 #include "CCopiesDoc.h"
 #include "CMyArchive.h"
-#include "CNag.h"		// (9)
 #include "CFileToArc.h"
 #include "CRoom.h"
 #include "Miscelaneous.h"
@@ -210,36 +209,23 @@ void CCopiesView::OnCopyExtract()
 
 // Ask where extract to
 //......................
-	CString strExtractTo;
-	bool bSuccess = BrowseForFolder( "Select a folder where extract the copy to",
-							                     strExtractTo );
-	if( bSuccess )
-	{
-  // Nag screen (9) ..
-    if( g_TheArchive.m_Copies.GetCount() > 50 ) // (11)
-                                  // zzz ј срок использовани€ не надо провер€ть?
-	    if ( ! theApp.checkRegistration3() )
-	                // (11) Was: if ( ! theApp.CheckRegistration() )
-	    {
-				AfxMessageBox( _T("You have exceeded the limit for unregistered users.\n")
-							         _T("Please register.") );  // (11)
-        return;                               /* (11) Was:
-        CNag nagScreen;				// (9)
-		    nagScreen.DoModal();	// (9) */
-	    }
+  CString strExtractTo;
+  bool bSuccess = BrowseForFolder( "Select a folder where extract the copy to",
+                                   strExtractTo );
+  if( bSuccess )
+  {
+// TODO: Default - to original path?
 
-// TO DO: Default - to original path?
+// TODO: Option: with/without path
 
-// TO DO: Option: with/without path
-
-	// Get selected Copy.	TO DO: Get several selected Copies
-	// There is a selected copy definitely 
-	//		because otherwise this function can't be called
-	//			because buttons would be disabled
-		CFileCopy* pSelCopy = GetSelectedCopy();
-			// (10) Was: ExtractToFile = strExtractTo + pSelCopy->m_strFilename;
-		bSuccess = pSelCopy->Extract( strExtractTo ); // (10) Was strExtractToFile
-	}
+  // Get selected Copy. TODO: Get several selected Copies
+  // There is a selected copy definitely 
+  //   because otherwise this function can't be called
+  //   because buttons would be disabled
+    CFileCopy* pSelCopy = GetSelectedCopy();
+      // (10) Was: ExtractToFile = strExtractTo + pSelCopy->m_strFilename;
+    bSuccess = pSelCopy->Extract( strExtractTo ); // (10) Was strExtractToFile
+  }
 }
 
 

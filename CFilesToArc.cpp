@@ -41,42 +41,30 @@ bool CFilesToArc::FileAdd(CString name)
 	}
 	else
 	{
-	// Do not allow to add more files if the user is not registered and
-	//	he or she has used the program for quite long time and there are more
-	//	than 30 files in the Archive
-		if(	this->GetCount() >= 30		// (9) Count of Files To Archive
-		 && ( ! theApp.checkRegistration2() ) // (13) Was CheckRegistration()
-		 && theApp.GetPassedDays() >= 45 )	// (10), (11)
-					         // (10) It is worth checking only if more than 45 days passed
-				AfxMessageBox( _T("Files limit for unregistered users exceeded.\n")
-							         _T("Please register.") );	// (9)
-		else	// (9)
-		{		// (9)
-			CFileToArc *pNewFile = new CFileToArc( name );
-			pNewFile->m_nStatus = fsNew;
-			pNewFile->getInfo();
-			pNewFile->m_nPriority = -1;	// (1) "Not Used"   LATER
-			pNewFile->m_nUpToCopies = g_TheArchive.m_nDefaultCopies;	// (1)
-			pNewFile->m_nFolderID = 0;		// (4)
-			pNewFile->m_bPaused = false;	// (4)
+    CFileToArc *pNewFile = new CFileToArc( name );
+    pNewFile->m_nStatus = fsNew;
+    pNewFile->getInfo();
+    pNewFile->m_nPriority = -1;	// (1) "Not Used"   LATER
+    pNewFile->m_nUpToCopies = g_TheArchive.m_nDefaultCopies;	// (1)
+    pNewFile->m_nFolderID = 0;		// (4)
+    pNewFile->m_bPaused = false;	// (4)
 
-		/* (4) Out
-		   (3) Check is it directory
-			if( pNewFile->GetType() == CDiskItem::DI_FOLDER )
-				AfxMessageBox( "Backup of folders has not been implemented yet." );
-			else
-			{*/
+  /* (4) Out
+      (3) Check is it directory
+    if( pNewFile->GetType() == CDiskItem::DI_FOLDER )
+      AfxMessageBox( "Backup of folders has not been implemented yet." );
+    else
+    {*/
 
-		// Write to DB
-			bResult = g_pTheDB->FileAdd( pNewFile );
+  // Write to DB
+    bResult = g_pTheDB->FileAdd( pNewFile );
 
-		// Add to the list in memory
-			AddTail( pNewFile );
+  // Add to the list in memory
+    AddTail( pNewFile );
 
-		/*	}  (4) */
-			bResult = true;
-		}	// (9)
-	}
+  /*	}  (4) */
+    bResult = true;
+  }
 	return bResult;
 }
 

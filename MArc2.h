@@ -42,12 +42,6 @@ class CMArc2App : public CWinApp
 public:
 	CMArc2App();
 
-	bool CheckRegDataConformity( CString strName, CString strCode );	//(3)
-	bool CheckRegistration();	  // (3)
-	bool checkRegistration2();	// (9)
-	bool checkRegistration3();	// (9)
-	int GetPassedDays( void );	// (8)
-
 	void UpdateTreeAndList();
 	void FilesGetStatus();
 	bool AddFiles();
