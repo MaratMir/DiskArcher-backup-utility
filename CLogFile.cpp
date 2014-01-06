@@ -25,32 +25,29 @@ CLogFile::CLogFile()
 //===============================================
 bool CLogFile::AddRecord( CString strFilePath, CString strFilename, CString strMessage )
 {
-	bool bSuccess = false;
-	try
-	{	// Append record
-		CString cmd;
-		CString dt = COleDateTime::GetCurrentTime().Format();
-		cmd.Format( 
-/*			"INSERT INTO ArcLog (MessDateTime)"
-			" VALUES (\"%s\")",
-			dt, strFilePath, strFilename, strMessage );
-*/			_T("INSERT INTO ArcLog (MessDateTime, Path, Filename, Message)")
-			_T(" VALUES (\"%s\", \"%s\", \"%s\", \"%s\")"),
-			dt, strFilePath, strFilename, strMessage );
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
-		((_ConnectionPtr)g_pTheDB->m_pConnection)->Execute( 
-              													converted, NULL, NULL );
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{	// Notify the user of errors if any
-		ShowADOErrors( e, g_pTheDB->m_pConnection );
-	}
-	catch(...)
-	{
-		AfxMessageBox( _T("Some error occured in CLogFile::AddRecord().") );
-	}
-	return bSuccess;
+  bool bSuccess = false;
+  try
+  {	// Append record
+    CString cmd;
+    CString dt = COleDateTime::GetCurrentTime().Format();
+    cmd.Format( 
+      L"INSERT INTO ArcLog (MessDateTime, Path, Filename, Message)"
+      L" VALUES (\"%s\", \"%s\", \"%s\", \"%s\")",
+      dt, strFilePath, strFilename, strMessage );
+    bstr_t converted = cmd;
+    ((_ConnectionPtr)g_pTheDB->m_pConnection)->Execute( 
+                                        converted, NULL, NULL );
+    bSuccess = true;
+  }
+  catch(_com_error &e)
+  {	// Notify the user of errors if any
+    ShowADOErrors( e, g_pTheDB->m_pConnection );
+  }
+  catch(...)
+  {
+    AfxMessageBox( _T("Some error occured in CLogFile::AddRecord().") );
+  }
+  return bSuccess;
 }
 
 

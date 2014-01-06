@@ -57,8 +57,8 @@ BEGIN_MESSAGE_MAP(CProgressDialog, CDialog)
 	ON_WM_CLOSE()
 	ON_BN_CLICKED(IDABORT, OnAbort)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDOK, &CProgressDialog::OnBnClickedOk)
-		// 2014-01-05: TODO: Where did it arise from?
+//ON_BN_CLICKED(IDOK, &CProgressDialog::OnBnClickedOk)
+		// 2014-01-05: Removing. It came somehow during migration to VS 2012
 END_MESSAGE_MAP()
 
 
@@ -199,10 +199,10 @@ void CProgressDialog::OnKillFocus(CWnd* pNewWnd)
 
 */
 
-
-// 2014-01-05: TODO: Where did it arise from?
+/* 2014-01-05: Removing. It came somehow during migration to VS 2012
 void CProgressDialog::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
 	CDialog::OnOK();
 }
+*/

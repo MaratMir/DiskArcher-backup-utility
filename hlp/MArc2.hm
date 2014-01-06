@@ -1,74 +1,10 @@
  
 // Commands (ID_* and IDM_*) 
-HID_SKIP_DISK                           0x10004
-HID_REGISTER                            0x103F2
-HID_SHOWTREE                            0x1800A
-HID_SHOWINFO                            0x1800E
-HID_FILETOARC_SHOWCOPIES                0x18010
-HID_WINDOW_FILESTOARCHIVE               0x18011
-HID_ROOM_NEW                            0x18012
-HID_ROOM_DELETE                         0x18014
-HID_ROOM_PROPERTIES                     0x18016
-HID_ARCHIVE_UPDATE                      0x18018
-HID_WINDOW_COPIES                       0x18019
-HID_COPY_PROPERTIES                     0x1801A
-HID_COPY_DELETE                         0x1801B
-HID_COPY_EXTRACT                        0x1801F
-HID_COPIES_THISISCOPIESLIST             0x18021
-HID_UPDATE_FILES                        0x18025
-HID_SHOW_WINDOW_ROOMS                   0x18026
-HID_FILETOARC_DELETE                    0x1802F
-HID_VIEW_LOG                            0x18030
-HID_LOG_CLEAR                           0x18032
-HID_FILETOARC_GO                        0x18033
-HID_FILETOARC_PAUSE                     0x18034
-HID_HELP_TIPOFTHEDAY                    0x1803D
-HID_START_LOCATOR                       0x1803F
-HID_LOCATOR_REMOVE                      0x18041
-HID_LOCATOR_ADD                         0x18042
-HID_LOCATOR_EXCL_ADD                    0x18045
-HID_LOCATOR_EXCL_REMOVE                 0x18046
-HID_LOCATOR_EXCL_ACCEPT                 0x18047
-HID_LOCATOR_EXCL_RESTORE_DEFAULTS       0x18048
-HID_FILE_OPTIONS                        0x18049
-HID_FILETOARC_PROPERTIES                0x1804A
-HID_LOCATOR_ADD_EXCL_TYPE               0x1804F
-HID_LOCATOR_ADD_EXCL_FOLDER             0x18051
-HID_INDICATOR_FILES                     0x1E706
  
 // Prompts (IDP_*) 
  
 // Resources (IDR_*) 
-HIDR_MAINFRAME                          0x20080
-HIDR_FILESTOARC                         0x20081
-HIDR_FILETOARC_POPUP                    0x20083
-HIDR_ROOMS                              0x20084
-HIDR_COPIES                             0x20085
-HIDR_ROOMS_POPUP                        0x20089
-HIDR_COPIES_POPUP                       0x2008F
-HIDR_MENU__DUMMY__                      0x20094
-HIDR_LOG                                0x20098
-HIDR_LOG_POPUP                          0x20099
-HIDR_FILESTOARC_POPUP                   0x2009B
-HIDR_ROOM_POPUP                         0x2009C
-HIDR_COPY_POPUP                         0x2009D
-HIDR_MARC2TYPE                          0x2009E
-HIDR_LOCATOR                            0x200A0
-HIDR_LOCATOR_POPUP                      0x200A2
-HIDR_LOCATOR_EXCL                       0x200A4
-HIDR_LOCATOR_EXCL_POPUP                 0x20405
  
 // Dialogs (IDD_*) 
-HIDD_ABOUTBOX                           0x20064
-HIDD_TIP                                0x20067
-HIDD_ROOM_PROPERTIES_DIALOG             0x20088
-HIDD_PROGRESS_DIALOG                    0x2008A
-HIDD_INS_DISK_DIALOG                    0x2008E
-HIDD_NAG                                0x2009A
-HIDD_REGISTER_DIALOG                    0x2009F
-HIDD_LOCATOR_DIALOG                     0x200A1
-HIDD_INPUT_STRING_DIALOG                0x200A5
-HIDD_OPTIONS_DIALOG                     0x200A6
-HIDD_FILETOARC_PROPERTIES_DIALOG        0x200A9
  
 // Frame Controls (IDW_*) 

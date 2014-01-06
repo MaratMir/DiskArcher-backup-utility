@@ -88,7 +88,7 @@ bool CRooms::RoomCreate()
 			CRoom* foundRoom = RoomFind( pNewRoom->getFullName() );
 			if( foundRoom != NULL )
 			{	AfxMessageBox( _T("There is already an Archive Room at given path.") );
-					// TO DO: May be, in this case create another one Room?
+					// TODO: May be, in this case create another one Room?
 				bSuccess = false;
 			}
 			pNewRoom->m_bRemovable = false;
@@ -108,14 +108,10 @@ bool CRooms::RoomCreate()
 		}
 		else
 		{
-		/*  Was:
-			AfxMessageBox( "Error: Can not get drive's type.\nDriveName: <" + driveName + ">" );
-			bSuccess = false;
-		*/
 			CString tmp;
-			tmp.Format( _T("Error: Can not get drive's type.\n")
-						_T("DriveName: <%s>. DriveType: %d"), 
-						driveName, drive.m_nDriveType );
+			tmp.Format( L"Error: Cannot get the drive's type.\n"
+						      L"DriveName: <%s>. DriveType: %d", 
+						      driveName, drive.m_nDriveType );
 			AfxMessageBox( tmp );
 			bSuccess = false;
 		}

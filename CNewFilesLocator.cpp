@@ -120,22 +120,22 @@ bool CNewFilesLocator::LoadOptions()
 	try
 	{
 	// Select all Options
-		wchar_t* select = _T("SELECT * FROM ProgramOptions")
-				  		  _T(" WHERE SectionName=\"Locator\"");
-		hr = rsOptions->Open( (LPCSTR)select, g_pTheDB->m_pConnection,
+		wchar_t* select = L"SELECT * FROM ProgramOptions"
+				  		        L" WHERE SectionName=\"Locator\"";
+		hr = rsOptions->Open( select, g_pTheDB->m_pConnection,
 							  adOpenStatic, adLockReadOnly, adCmdText );
-        TESTHR( hr );
+    TESTHR( hr );
 		while( ! rsOptions->adoEOF )
 		{
 			_bstr_t  bstrTmp; // Temporary string for type conversion
 			_variant_t vtTmp;
 			
-            bstrTmp = rsOptions->Fields->Item["OptionName"]->Value;
-			CString strOption = (LPCSTR)bstrTmp;
+      bstrTmp = rsOptions->Fields->Item["OptionName"]->Value;
+			CString strOption = bstrTmp.GetBSTR(); // Was: (LPCSTR)bstrTmp;
 			strOption.TrimRight();
 
-            bstrTmp = rsOptions->Fields->Item["OptionValue"]->Value;
-			CString strValue = (LPCSTR)bstrTmp;
+      bstrTmp = rsOptions->Fields->Item["OptionValue"]->Value;
+			CString strValue = bstrTmp.GetBSTR(); // Was: (LPCSTR)bstrTmp;
 			strValue.TrimRight();
 			strValue.MakeUpper();	// (3)
 
@@ -167,7 +167,7 @@ bool CNewFilesLocator::LoadOptions()
 //------------------------------------------------------------------------------
 void CNewFilesLocator::AddToList( CFileOnDisk* pFile )
 {	
-    m_foundFiles.AddTail( pFile );  // (5)
+  m_foundFiles.AddTail( pFile );  // (5)
 	m_pView->AddFileToListCtrl( pFile );
 }
 
@@ -252,9 +252,9 @@ void CNewFilesLocator::ShowFolderInDlg( const CString& strFolder ) const
 //------------------------------------------------------------------------------
 void CNewFilesLocator::Analyze( const CString& startPath/*(5)Added*/ )
 {
-    if( m_pStartFolder != NULL )    // For repeated
-        delete m_pStartFolder;      //      use
-    m_pStartFolder = new CLocatorFolder( startPath, this );
+  if( m_pStartFolder != NULL )    // For repeated
+      delete m_pStartFolder;      //      use
+  m_pStartFolder = new CLocatorFolder( startPath, this );
 	m_pStartFolder->GetItems();
 	m_pStartFolder->Analyze(); // Recursively
 /* (1) Was:

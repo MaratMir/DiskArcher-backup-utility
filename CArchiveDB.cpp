@@ -28,6 +28,8 @@
 // (17) 11.05-20.11.2003. Compression.
 // (18) 02.05.2006. ADO compilation warning suppressed.
 //                  optionRead() added.
+// (19) 23.12.2013. Migration to VS 2012 and Unicode.
+//                  See the modification history on Github.
 //======================================================================================
 
 #include "stdafx.h"
@@ -48,10 +50,8 @@
 // Returns a "TRUE" or "FALSE" string.
 //======================================
 const CString TrueFalse( bool value )
-	// zzzzzz const char* const TrueFalse( bool value )
 {
 	return CString( value ? "TRUE" : "FALSE" );
-		// zzzreturn value ? "TRUE" : "FALSE";
 }
 
 
@@ -364,15 +364,14 @@ bool CArchiveDB::FileAdd(CFileToArc* pFile)
 		{
 			CString cmd;
 			cmd.Format( 
-				_T("INSERT INTO FilesToArchive (Computer, Drive, Dir, Name, Priority, UpToCopies, ")
-										    _T("IsSystem, ") // (2)
-											_T("FolderID, Paused)")	// (8)
-				_T(" VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %s, %d, %s)"),
-				pFile->m_strComputer, pFile->m_strDrive, pFile->m_strDir, pFile->m_strName,
-				pFile->m_nPriority, pFile->m_nUpToCopies, TrueFalse( pFile->m_bSystem ),
-				pFile->m_nFolderID/*(8)*/, TrueFalse( pFile->m_bPaused )/*(8)*/ );
-
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
+        L"INSERT INTO FilesToArchive (Computer, Drive, Dir, Name, Priority, UpToCopies, "
+                                     L"IsSystem, " // (2)
+                                     L"FolderID, Paused)"	// (8)
+        L" VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %s, %d, %s)",
+        pFile->m_strComputer, pFile->m_strDrive, pFile->m_strDir, pFile->m_strName,
+        pFile->m_nPriority, pFile->m_nUpToCopies, TrueFalse( pFile->m_bSystem ),
+        pFile->m_nFolderID/*(8)*/, TrueFalse( pFile->m_bPaused )/*(8)*/ );
+		  bstr_t converted = cmd;
 			((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 			bSuccess = true;
 		}
@@ -428,7 +427,7 @@ bool CArchiveDB::FileDelete( CFileToArc *pFile )
 					pFile->m_strComputer, pFile->m_strDrive, 
 					pFile->m_strDir, pFile->m_strName );
 	// Delete File's record from the FilesToArchive table
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
+		bstr_t converted = cmd;
 		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 		bSuccess = true;
 	}
@@ -458,12 +457,12 @@ bool CArchiveDB::FilesLoad()
 	{
 	// Select all files
 		CString select = "SELECT * FROM FilesToArchive "
-						 "ORDER BY Drive, Dir, Name" 
-							/* (13) Was: "ORDER BY Name" */ ;
-		bstr_t converted = select; //!!!zzzzzzzzzz
+						         "ORDER BY Drive, Dir, Name" 
+							        /* (13) Was: "ORDER BY Name" */ ;
+		bstr_t converted = select;
 		hr = rstFiles->Open( converted, m_pConnection, adOpenStatic,
-							 adLockReadOnly, adCmdText );
-        TESTHR( hr );
+		          					 adLockReadOnly, adCmdText );
+    TESTHR( hr );
 
 		if( ! rstFiles->adoEOF )
 			rstFiles->MoveFirst();
@@ -548,13 +547,13 @@ bool CArchiveDB::RoomAdd(CRoom *pRoom)
 	{	// Append record
 		CString cmd;
 		cmd.Format( 
-			_T("INSERT INTO Rooms ( RoomID, FileName, Removable, SizeLimit, SpaceFree,\n")
-			_T("                    CompressionMode )\n")	// (17)
-			_T(" VALUES ( %d, \"%s\", %s, %d, %d, %d )"),
+			L"INSERT INTO Rooms ( RoomID, FileName, Removable, SizeLimit, SpaceFree,\n"
+			                   L" CompressionMode )\n"	// (17)
+			L" VALUES ( %d, \"%s\", %s, %d, %d, %d )",
 			pRoom->m_nRoomID, pRoom->getFullName(),
 			TrueFalse( pRoom->m_bRemovable ), pRoom->m_nSizeLimit,
 			pRoom->m_nDiskSpaceFree, pRoom->m_nCompressionMode );
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
+		bstr_t converted = cmd;
 		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 		bSuccess = true;
 	}
@@ -583,7 +582,7 @@ bool CArchiveDB::RoomsLoad()
 	{
 	// Select all Rooms
 		CString select = "SELECT * FROM Rooms";  // LATER: ORDER BY
-		bstr_t converted = select; //!!!zzzzzzzzzz
+		bstr_t converted = select;
 		hr = rsRooms->Open( converted, m_pConnection, adOpenStatic,
 							 adLockReadOnly, adCmdText );
     TESTHR( hr );
@@ -683,7 +682,7 @@ bool CArchiveDB::RoomDelete(CRoom *pRoom)
 		CString cmd;
 		cmd.Format( _T("DELETE FROM Rooms WHERE RoomID=%d"), pRoom->m_nRoomID );
 	// Delete Room's record from the "Rooms" table
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
+		bstr_t converted = cmd;
 		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 		bSuccess = true;
 	}
@@ -706,31 +705,31 @@ bool CArchiveDB::RoomDelete(CRoom *pRoom)
 //==============================================================================
 bool CArchiveDB::CopyUpdate(CFileCopy *pCopy)
 {
-	bool bSuccess = false;
-	CString cmd;
-	try
-	{	// Update record
-		CString dt = pCopy->m_FileDateTime.Format();
-		cmd.Format( 
-			_T("UPDATE FileCopies SET Path=\"%s\", FileName=\"%s\", UserID=\"%s\", FileDateTime=\"%s\", ")
-					_T("SourceSize=%d, PackedSize=%d, BundleID=%d, DeleteIt=%s ")
-				_T("WHERE CopyID=%d"),
-			pCopy->m_strPath, pCopy->m_strFilename, pCopy->m_strUser, dt,
-				pCopy->m_nSize, pCopy->m_nPackedSize, pCopy->m_nBundleID,					
-				TrueFalse( pCopy->m_bDeleteIt )/*(4)*/, pCopy->m_nCopyID );
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
-		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
-	}
-	catch(...)
-	{
-		AfxMessageBox( _T("Some error occured in CArchiveDB::CopyUpdate().") );
-	}
-	return bSuccess;
+  bool bSuccess = false;
+  CString cmd;
+  try
+  {	// Update record
+    CString dt = pCopy->m_FileDateTime.Format();
+    cmd.Format( 
+      L"UPDATE FileCopies SET Path=\"%s\", FileName=\"%s\", UserID=\"%s\", FileDateTime=\"%s\", "
+             L"SourceSize=%d, PackedSize=%d, BundleID=%d, DeleteIt=%s "
+      L"WHERE CopyID=%d",
+      pCopy->m_strPath, pCopy->m_strFilename, pCopy->m_strUser, dt,
+      pCopy->m_nSize, pCopy->m_nPackedSize, pCopy->m_nBundleID,					
+      TrueFalse( pCopy->m_bDeleteIt )/*(4)*/, pCopy->m_nCopyID );
+    bstr_t converted = cmd;
+    ((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
+    bSuccess = true;
+  }
+  catch(_com_error &e)
+  {	// Notify the user of errors if any
+    ShowADOErrors( e, m_pConnection );
+  }
+  catch(...)
+  {
+    AfxMessageBox( _T("Some error occured in CArchiveDB::CopyUpdate().") );
+  }
+  return bSuccess;
 }
 
 
@@ -756,16 +755,16 @@ bool CArchiveDB::CopyAdd( CFileCopy *pCopy )
 		{
 		// Append the record
 		//============================================
-			CString cmd, dt = pCopy->m_FileDateTime.Format();
-			cmd.Format( 
-				_T("INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, ")
-									_T("SourceSize, PackedSize, BundleID)")
-					_T(" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d)"),
-				pCopy->m_nCopyID, pCopy->m_strPath, pCopy->m_strFilename, 
-					pCopy->m_strUser, dt, pCopy->m_nSize, 
-					pCopy->m_nPackedSize, pCopy->m_nBundleID );
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
-			((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
+      CString cmd, dt = pCopy->m_FileDateTime.Format();
+      cmd.Format( 
+        L"INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, "
+                    L"SourceSize, PackedSize, BundleID)"
+        L" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d)",
+        pCopy->m_nCopyID, pCopy->m_strPath, pCopy->m_strFilename, 
+        pCopy->m_strUser, dt, pCopy->m_nSize, 
+        pCopy->m_nPackedSize, pCopy->m_nBundleID );
+      bstr_t converted = cmd;
+      ((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 
 			bSuccess = true;
 		}
@@ -796,7 +795,7 @@ bool CArchiveDB::CopyDelete( CFileCopy *pCopy )
 		CString cmd;
 		cmd.Format( _T("DELETE FROM FileCopies WHERE CopyID=%d"), pCopy->m_nCopyID );
 	// Delete the Copy record from the FileCopies table
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
+		bstr_t converted = cmd;
 		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 		bSuccess = true;
 	}
@@ -830,30 +829,30 @@ int CArchiveDB::CopyGetMaxID()
 // Returns -1 if any error occurs
 //==============================================================================
 int CArchiveDB::GetMaxID( CString strTableName, CString strFieldName, 
-						              CString strAdditionalClauses )
+                          CString strAdditionalClauses )
 {
 	int nMax = -1;
 	HRESULT hr;
 	CString cmd;
 	try
 	{
-		_RecordsetPtr rsMax;
-		rsMax.CreateInstance(__uuidof(Recordset)); 
-		cmd.Format( _T("SELECT MAX(%s) As MaxID FROM %s %s"), 
-					strFieldName, strTableName, strAdditionalClauses );
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
-		hr = rsMax->Open( converted, m_pConnection, adOpenStatic,
-						  adLockReadOnly, adCmdText );
-        TESTHR( hr );
+    _RecordsetPtr rsMax;
+    rsMax.CreateInstance(__uuidof(Recordset)); 
+    cmd.Format( L"SELECT MAX(%s) As MaxID FROM %s %s",
+                strFieldName, strTableName, strAdditionalClauses );
+    bstr_t converted = cmd;
+    hr = rsMax->Open( converted, m_pConnection, adOpenStatic,
+                      adLockReadOnly, adCmdText );
+    TESTHR( hr );
 
 		_variant_t vtTmp;
-	    vtTmp = rsMax->Fields->Item["MaxID"]->Value;
+	  vtTmp = rsMax->Fields->Item["MaxID"]->Value;
 		if( vtTmp.vt == VT_NULL )	// There aren't any records in Rooms
 			nMax = 0;
 		else
 			nMax = (long)vtTmp;
 		hr = rsMax->Close();
-        TESTHR( hr );
+    TESTHR( hr );
 	}
 	catch(_com_error &e)
 	{	// Notify the user of errors if any
@@ -879,8 +878,8 @@ bool CArchiveDB::CopiesLoad()
 	try
 	{
 	// Select all Copies
-		CString select = _T("SELECT * FROM FileCopies ORDER BY FileDateTime");
-		bstr_t converted = select; //!!!zzzzzzzzzz
+		CString select = L"SELECT * FROM FileCopies ORDER BY FileDateTime";
+		bstr_t converted = select;
 		hr = recSet->Open( converted, m_pConnection, adOpenStatic,
 							 adLockReadOnly, adCmdText );
     TESTHR( hr );
@@ -958,11 +957,11 @@ bool CArchiveDB::BundlesLoad()
 	try
 	{
 	// Select all Bundles
-		CString select = _T("SELECT * FROM Bundles");
-		bstr_t converted = select; //!!!zzzzzzzzzz
+		CString select = L"SELECT * FROM Bundles";
+		bstr_t converted = select;
 		hr = recSet->Open( converted, m_pConnection, adOpenStatic,
-							 adLockReadOnly, adCmdText );
-        TESTHR( hr );
+							         adLockReadOnly, adCmdText );
+    TESTHR( hr );
 
 		while( ! recSet->adoEOF )
 		{
@@ -1046,13 +1045,13 @@ bool CArchiveDB::BundleAdd(CBundle *pBundle)
 		// Append the record
 		//============================================
 			CString cmd;
-			cmd.Format( 
-				_T("INSERT INTO Bundles (BundleID, RoomID, Extension, Type, Path, Filename)")
-					_T(" VALUES (%d, %d, \"%s\", %d, \"%s\", \"%s\")"),
-				pBundle->m_nBundleID, pBundle->m_nRoomID, pBundle->m_strExtension, 
-					pBundle->m_nType, pBundle->getFullPath(), pBundle->m_strName );
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
-			((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
+      cmd.Format( 
+          L"INSERT INTO Bundles (BundleID, RoomID, Extension, Type, Path, Filename)"
+          L" VALUES (%d, %d, \"%s\", %d, \"%s\", \"%s\")",
+          pBundle->m_nBundleID, pBundle->m_nRoomID, pBundle->m_strExtension, 
+          pBundle->m_nType, pBundle->getFullPath(), pBundle->m_strName );
+      bstr_t converted = cmd;
+      ((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 
 			bSuccess = true;
 		}
@@ -1091,9 +1090,9 @@ bool CArchiveDB::BundleDelete( CBundle* pBundle )
 	try
 	{
 		CString cmd;
-		cmd.Format( _T("DELETE FROM Bundles WHERE BundleID=%d"), pBundle->m_nBundleID );
+		cmd.Format( L"DELETE FROM Bundles WHERE BundleID=%d", pBundle->m_nBundleID );
 	// Delete Bundle's record from the "Bundles" table
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
+		bstr_t converted = cmd;
 		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 		bSuccess = true;
 	}
@@ -1284,15 +1283,15 @@ bool CArchiveDB::CheckIsFileInArc( CFileToArc* pFile )
 	// Select Files with this filename - their number must be JUST ONE
 	// Will use \" symbol, because ' symbol can be found in filenames!
 	// Be careful, there can be spaces in filenames!
-		CString select = _T("SELECT * FROM FilesToArchive WHERE Computer=\"")
-					   + pFile->m_strComputer;
-		select += _T("\" AND Drive=\"") + pFile->m_strDrive;
-		select += _T("\" AND Dir=\"") + pFile->m_strDir;
-		select += _T("\" AND Name=\"") + pFile->m_strName + "\"";
-		bstr_t converted = select; //!!!zzzzzzzzzz
-		hr = rstFiles->Open( converted, m_pConnection, adOpenStatic,
-							 adLockReadOnly, adCmdText );
-        TESTHR( hr );
+    CString select = L"SELECT * FROM FilesToArchive WHERE Computer=\""
+                   + pFile->m_strComputer;
+    select += L"\" AND Drive=\"" + pFile->m_strDrive;
+    select += L"\" AND Dir=\"" + pFile->m_strDir;
+    select += L"\" AND Name=\"" + pFile->m_strName + L"\"";
+    bstr_t converted = select;
+    hr = rstFiles->Open( converted, m_pConnection, adOpenStatic,
+                         adLockReadOnly, adCmdText );
+    TESTHR( hr );
 
 		long rCount = rstFiles->GetRecordCount();
 		if( rCount == 0 )
@@ -1483,7 +1482,7 @@ bool CArchiveDB::FoldersLoad()
 	// Select all Folders
 		CString select = L"SELECT * FROM FoldersToArc";
 // LATER: ORDER BY
-		bstr_t converted = select; //!!!zzzzzzzzzz
+		bstr_t converted = select;
 		hr = rsFolders->Open( converted, m_pConnection, adOpenStatic,
 							  adLockReadOnly, adCmdText );
     TESTHR( hr );
@@ -1651,7 +1650,7 @@ bool CArchiveDB::optionRead( CString i_sSection, CString i_sOptionName,
 	// Select all Options
 		CString select = "SELECT * FROM ProgramOptions"
 			" WHERE SectionName=\"Archive\" AND OptionName=\"" + i_sOptionName + "\"";
-		bstr_t converted = select; //!!!zzzzzzzzzz
+		bstr_t converted = select;
 		hr = rsOptions->Open( converted, g_pTheDB->m_pConnection, adOpenStatic,
 							            adLockReadOnly, adCmdText );
     TESTHR( hr );
@@ -1687,44 +1686,46 @@ bool CArchiveDB::optionRead( CString i_sSection, CString i_sOptionName,
 void CArchiveDB::LocatorRestoreDefaultOptions( int nOptionsSection )
 {
 // LATER: Use CArchiveDB::OptionSave()
-// Default Values
-	char* fileTypes[]   = { "log", "cab", "lnk", "bak", "tmp", 
-							"swp", "mab", NULL };
-	char* folderNames[] = { "Cookies", "Temporary Internet Files", "Recent",
-							"System Volume Information",
-							"RECYCLED", "RECYCLER", NULL };
+// LATER: Move to the Locator respective class
 
-	if(    nOptionsSection == 44/* Locator's Options */
-		|| nOptionsSection == 99/* All Options */ )
-	{
-		bool bOk = ExecSQL( "DELETE FROM ProgramOptions"
-							" WHERE SectionName=\"Locator\"" ); 
-						// (14) Was: OptionName
-		if( bOk )
-			for( int i=0; fileTypes[i] != NULL; i++ )
-			{
-				CString cmd;
-				cmd.Format( _T("INSERT INTO ProgramOptions")
-					         _T(" (SectionName, OptionName, OptionValue, OptionValue2) ")
-							 _T(" VALUES (\"Locator\", \"exclFileType\", \"%s\", \"\" )"),
-							fileTypes[i] );
-				bOk = ExecSQL( cmd );
-				if( ! bOk )
-					break;
-			}
-		if( bOk )
-			for( int i=0; folderNames[i] != NULL; i++ )
-			{
-				CString cmd;
-				cmd.Format( _T("INSERT INTO ProgramOptions")
-					         _T(" (SectionName, OptionName, OptionValue, OptionValue2) ")
-							 _T(" VALUES (\"Locator\", \"exclFolder\", \"%s\", \"\" )"),
-							folderNames[i] );
-				bOk = ExecSQL( cmd );
-				if( ! bOk )
-					break;
-			}
-	}
+// Default Values
+  wchar_t* fileTypes[]   = { L"log", L"cab", L"lnk", L"bak", L"tmp", 
+                             L"swp", L"mab", NULL };
+  wchar_t* folderNames[] = { L"Cookies", L"Temporary Internet Files", L"Recent",
+                             L"System Volume Information",
+                             L"RECYCLED", L"RECYCLER", NULL };
+
+  if(    nOptionsSection == 44/* Locator's Options */
+      || nOptionsSection == 99/* All Options */ )
+  {
+    bool bOk = ExecSQL( "DELETE FROM ProgramOptions"
+                        " WHERE SectionName=\"Locator\"" ); 
+            // (14) Was: OptionName
+    if( bOk )
+      for( int i=0; fileTypes[i] != NULL; i++ )
+      {
+        CString cmd;
+        cmd.Format( L"INSERT INTO ProgramOptions"
+                    L" (SectionName, OptionName, OptionValue, OptionValue2) "
+                    L" VALUES (\"Locator\", \"exclFileType\", \"%s\", \"\" )",
+                    fileTypes[i] );
+        bOk = ExecSQL( cmd );
+        if( ! bOk )
+          break;
+      }
+    if( bOk )
+      for( int i=0; folderNames[i] != NULL; i++ )
+      {
+        CString cmd;
+        cmd.Format( L"INSERT INTO ProgramOptions"
+                    L" (SectionName, OptionName, OptionValue, OptionValue2) "
+                    L" VALUES (\"Locator\", \"exclFolder\", \"%s\", \"\" )",
+                    folderNames[i] );
+        bOk = ExecSQL( cmd );
+        if( ! bOk )
+          break;
+      }
+  }
 }
 
 
@@ -1763,7 +1764,7 @@ void CArchiveDB::CheckFieldsForCompress( ADOX::_CatalogPtr pCatalog )
 									// Initial value will be NULL! Be careful
 		g_TheArchive.m_LogFile.AddRecord( "DATABASE", "UPDATING", 
 								                  		"CompressionMode field added" );
-	}	
+	}
 }
 
 
@@ -1774,7 +1775,7 @@ bool CArchiveDB::ExecSQL( CString cmd )
 	bool bSuccess = false;
 	try
 	{
-		bstr_t converted = cmd; //!!!zzzzzzzzzz
+		bstr_t converted = cmd;
 		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 		bSuccess = true;
 	}

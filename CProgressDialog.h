@@ -67,8 +67,8 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedOk();
-		// 2014-01-05: TODO: Where did it arise from?
+// afx_msg void OnBnClickedOk();
+		// 2014-01-05: Removing. It came somehow during migration to VS 2012.
 
 };
 

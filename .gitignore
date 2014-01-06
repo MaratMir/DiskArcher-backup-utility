@@ -32,3 +32,8 @@ MArc2.log
 MArc2.res
 MArc.MDB~
 MArc.ldb
+hlp/MArc2.hm
+
+# MMR: Debug and Release files
+Debug/*.*
+Release/*.*

@@ -155,7 +155,6 @@ void CLogView::ShowLog()
 	// Select all Copies
 		wchar_t* select = _T("SELECT * FROM ArcLog ORDER BY MessDateTime DESC");
 		hr = recSet->Open( select, 
-			// zzz hr = recSet->Open( (LPCSTR)select, 
 							         g_pTheDB->m_pConnection, adOpenStatic, 
 							         adLockReadOnly, adCmdText );
     TESTHR( hr );
