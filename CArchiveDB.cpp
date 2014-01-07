@@ -2,26 +2,26 @@
 // CArchiveDB.cpp - Implementation of CArchiveDB class.
 // (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
-//	(1) 15.01.2002. Log Table added.
-//	(2) 04.02.2002. FilesToArc: Field "IsSystem" added.
-//	(3) 09.02.2002. FilesToArc: A record about the Database.
-//	(4) 10.02.2002.	IsOpen() added.
-//					FileCopies: Field "DeleteIt" added.
-//	(5)	11.02.2002. CopyDelete() added.
-//	(6)	18.02.2002. FileDelete() added.
-//	(7)	20.02.2002. BundleDelete() and RoomDelete() added.
-//	(8) 03.03.2002. "FoldersToArc" table added.
-//					In "FilesToArchive" table "FolderID" and "Paused" 
-//						fields added.
-//	(9) 07.03.2002. FileUpdate() added.
+//  (1) 15.01.2002. Log Table added.
+//  (2) 04.02.2002. FilesToArc: Field "IsSystem" added.
+//  (3) 09.02.2002. FilesToArc: A record about the Database.
+//  (4) 10.02.2002. IsOpen() added.
+//                  FileCopies: Field "DeleteIt" added.
+//  (5) 11.02.2002. CopyDelete() added.
+//  (6) 18.02.2002. FileDelete() added.
+//  (7) 20.02.2002. BundleDelete() and RoomDelete() added.
+//  (8) 03.03.2002. "FoldersToArc" table added.
+//                  In "FilesToArchive" table "FolderID" and "Paused" 
+//                  fields added.
+//  (9) 07.03.2002. FileUpdate() added.
 // (10) 09.04.2002. Correcting error in path capitalization
-//					when the DB file is adding to FilesToArc.
+//                  when the DB file is adding to FilesToArc.
 // (11) 09.05.2002. CoInitialize() and CoUninitialize() moved out from here.
-//					FilesLoad() - ORDER BY FileName.
+//                  FilesLoad() - ORDER BY FileName.
 // (12) 15.10.2002. Creating of DB copies before structure modifications 
-//					disabled.
-//					Table "Options" added.
-// (13) 12.11.2002. Files Order	changed.
+//                  disabled.
+//                  Table "Options" added.
+// (13) 12.11.2002. Files Order changed.
 // (14) 26.01.2003. Error in LocatorRestoreDefaultOptions() fixed.
 // (15) 12.03.2003. More detailed error tracking in Create().
 // (16) 06.04.2003. Corrections in (15).
@@ -1606,7 +1606,7 @@ bool CArchiveDB::optionSave( CString sSection, CString sOptionName,
 		CString sCmd = "DELETE FROM ProgramOptions"
 					         " WHERE SectionName='" + sSection + "'";
 		sCmd += " AND OptionName='" + sOptionName + "'";
-	  bSuccess = g_pTheDB->ExecSQL( sCmd );
+	  bSuccess = ExecSQL( sCmd );
 
 	// Write the new option value into DB 
 		if( bSuccess )
@@ -1622,7 +1622,7 @@ bool CArchiveDB::optionSave( CString sSection, CString sOptionName,
 	catch(_com_error &e)
 	{
 	// Notify the user of errors if any
-		ShowADOErrors( e, g_pTheDB->m_pConnection );
+		ShowADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -1651,7 +1651,7 @@ bool CArchiveDB::optionRead( CString i_sSection, CString i_sOptionName,
 		CString select = "SELECT * FROM ProgramOptions"
 			" WHERE SectionName=\"Archive\" AND OptionName=\"" + i_sOptionName + "\"";
 		bstr_t converted = select;
-		hr = rsOptions->Open( converted, g_pTheDB->m_pConnection, adOpenStatic,
+		hr = rsOptions->Open( converted, m_pConnection, adOpenStatic,
 							            adLockReadOnly, adCmdText );
     TESTHR( hr );
 		if( ! rsOptions->adoEOF )
@@ -1670,7 +1670,7 @@ bool CArchiveDB::optionRead( CString i_sSection, CString i_sOptionName,
 	catch(_com_error &e)
 	{
 	// Notify the user of errors if any
-		ShowADOErrors( e, g_pTheDB->m_pConnection );
+		ShowADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{

@@ -1,19 +1,19 @@
 // DiskArcher.
-// CMyArchive class - the main .
+// CMyArchive - the main class of the application business logic.
 // (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
-// (1) 19.01.2002. Log file.
-// (2) 20.01.2002. "Miscelaneous.h" added.
-// (3) 21.01.2002. FileAdd() - Check is it directory.
-// (4) 09.02.2002. Empty database - not when 0 files, but when 1 file!
-//                 Open/Create database - changes in logic.
-// (5) 13.02.2002. Changes in Progress Dialog.
-// (6) 16.02.2002. Classes CFilesToArc, CBundles and CRooms created 
-//                 and some methods was moved there.
-// (7) 19.02.2002. Copies replacing logic changed.
-// (8) 04.03.2002. Folders added.
-// (9) 03.07.2002. Flags m_bIsWorking and m_bStopWorking added.
-//                 Loading process bar.
+//  (1) 19.01.2002. Log file.
+//  (2) 20.01.2002. "Miscelaneous.h" added.
+//  (3) 21.01.2002. FileAdd() - Check is it directory.
+//  (4) 09.02.2002. Empty database - not when 0 files, but when 1 file!
+//                  Open/Create database - changes in logic.
+//  (5) 13.02.2002. Changes in Progress Dialog.
+//  (6) 16.02.2002. Classes CFilesToArc, CBundles and CRooms created 
+//                  and some methods were moved there.
+//  (7) 19.02.2002. Copies replacing logic changed.
+//  (8) 04.03.2002. Folders added.
+//  (9) 03.07.2002. Flags m_bIsWorking and m_bStopWorking added.
+//                  Loading process bar.
 // (10) 01.11.2002. theDB changed to *pTheDB.
 // (11) 19.11.2002. Public progressDlg changed to a member m_pProgressDlg.
 // (12) 05.01.2003. Bug in (11) fixing.
@@ -49,7 +49,7 @@
 
 
 CArchiveDB* g_pTheDB;	// M	The Database to store and get info
-// (10) Was: CArchiveDB theDB;	// M	The Database to store and get info
+// ZZZZ 2014: I DON'T LIKE THE FACT THAT THERE IS A GLOBAL VARIABLE
 
 
 // Constructor
@@ -675,7 +675,7 @@ bool CMyArchive::deleteOldestCopyOfFile( CFileToArc* const i_pFile )
   // Freeing space because of deleting old Copy
     CRoom *pRoomDeleteFrom = i_pFile->m_pCopyToReplace->GetRoom();
     if( pRoomDeleteFrom )
-	    pRoomDeleteFrom->m_nPrognosisFree +=
+      pRoomDeleteFrom->m_nPrognosisFree +=
                                        i_pFile->m_pCopyToReplace->m_nPackedSize;
   }
   return bSuccess;
@@ -692,144 +692,60 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
   OpResult nSuccess = OPR_SUCCESSFUL;
 
 
-	if ( i_pFile->m_nStatus == fsNotFound )
-	//----------------------------------------------------------------
-	{
-		i_pFile->m_nCommand = fcNothing;
-		m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName,
-							           "Could not find the file" );	// (6)
-    nSuccess = OPR_WARNINGS;  // (16)
-	}
+  if ( i_pFile->m_nStatus == fsNotFound )
+  //----------------------------------------------------------------
+  {
+    i_pFile->m_nCommand = fcNothing;
+    m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName,
+                         "Could not find the file" );
+    nSuccess = OPR_WARNINGS;
+  }
 
 
   if ( i_pFile->m_nStatus == fsUpToDate ) 
   //----------------------------------------------------------------
     i_pFile->m_nCommand = fcNothing;
-// ZZZ Add another copy
-// Add more than one copy at once!!!
-//		if(only one copy?)	curFileCommand = fcAddAnotherCopy;
-//zzz if there are not enough copies
-// Is it a dangerous change if I add more than one copy at once?
+    // TODO: Check there is enough copies. Add/remove copies respectively.
 
 
-	if( i_pFile->m_nStatus == fsNew || i_pFile->m_nStatus == fsChanged )
-	//----------------------------------------------------------------
-	{
-		int nCopiesToHave = i_pFile->getRequiredCopiesNum();
-
-		int nFileCopies = m_Copies.GetCopiesCount( i_pFile );
-		if( nFileCopies >= nCopiesToHave )	// LATER: "while" instead of "if"
-					// for a situation when user decreases number of file copies
-		{
-		// There is enough number of copies.
-		// We are deleting the oldest copy, then search where should we place 
-		//		a new copy.
-    //.....................................................................
-		// This way copies will be re-spread among the Rooms, 
-		//		especially if Rooms list changes.
-		// LATER: But may be there is a better and more intelligent method to improve 
-		//		  reliability
-      deleteOldestCopyOfFile( i_pFile ); /* (16) Was:
-			pFile->m_pCopyToReplace = m_Copies.GetOldestCopy( pFile );
-			ASSERT( pFile->m_pCopyToReplace );
-			CRoom *pRoomDeleteFrom = pFile->m_pCopyToReplace->GetRoom();
-			ASSERT( pRoomDeleteFrom );
-
-			pFile->m_nCommand = fcAddCopy;
-			pFile->m_pCopyToReplace->MarkForDeletion();
-			pRoomDeleteFrom->m_nPrognosisFree 
-							+= pFile->m_pCopyToReplace->m_nPackedSize;	
-				// (6) Freeing space because of deleting old Copy
-      */
-      i_pFile->m_nCommand = fcAddCopy;
-		}
-		
-
-	// Add a new copy
-	//................
-    OpResult nCurResult = addCopyOfFile( i_pFile ); // (16)
-    nSuccess = max( nSuccess, nCurResult );         /* (16) Was:
-	// Select a Room - only from accessible Rooms, which has enough space 
-	//	 for the file and which has least number of this File's Copies
-		CRoom *pRoomTo = NULL;
-		int leastCopies = 999999;
-		POSITION pos;
-		for( pos = m_Rooms.GetHeadPosition(); pos != NULL; )
-		{
-			CRoom *pCurRoom = m_Rooms.GetNext( pos );
-			if( pCurRoom->m_nDiskSpaceFree != -1 )	// Is the Room accessible?
-			{ 
-			// To compress or not to compress (for this very Room)?
-			//		Refer to project documentation.
-				if( IsCompressorDefined() )									// (13)
-				{
-					if(	   ( pCurRoom->m_nCompressionMode == rcmAlways )	// (13)
-						|| ( pCurRoom->m_nCompressionMode == rcmAllowed &&  // (13)
-							 pFile->m_bCompressIt ))						// (13)
-					{
-						if( ! pFile->IsPreCompressed() )		// (13)
-						// The file could be compressed during negotiation 
-						//	with one of previous Rooms
-						{
-							bSuccess = pFile->PreCompress();	// (13) Pre-compress file
-							if( ! bSuccess )					// (13)
-								break;							// (13)
-						}
-					}
-				  else	// Don't compress
-					  pFile->m_nPredictedCompressedSize = pFile->m_nSize;
-				}
-				else	// Don't compress
-					pFile->m_nPredictedCompressedSize = pFile->m_nSize;
-
-				if( pCurRoom->m_nPrognosisFree > 
-					pFile->m_nPredictedCompressedSize + 65536/*(15)Was:10240* /
-                               /*Reserve space for Room's contents and so on* / )
-					// (13) Was: if( pCurRoom->m_nPrognosisFree > pFile->m_nSize + 5000 )
-				// Is there enough space? -------------------------------------
-				{
-					int curCopiesCount = m_Copies.GetCopiesCount( pFile, 
-														pCurRoom->m_nRoomID );
-					if( curCopiesCount < leastCopies )
-					// Yes, this Room has least number of Copies
-					{
-						leastCopies = curCopiesCount;
-						pRoomTo = pCurRoom;
-					}
-				}
-			}
-		}
-		if( bSuccess ) // (13) - if
-			if( pRoomTo == NULL )
-			{
-				m_LogFile.AddRecord( pFile->GetFullPath(), pFile->m_strName,
-									 "Could not find an appropriate Room"
-										" for the Copy of this File" );
-					// LATER: Flag "There were errors"
-				pFile->m_nCommand = fcNothing;
-			}
-			else
-			{
-				pFile->m_nCommand = fcAddCopy;
-				pFile->m_pRoom = pRoomTo;
-
-				pRoomTo->m_nPrognosisFree -= pFile->m_nPredictedCompressedSize;
-					// (13) Was	pRoomTo->m_nPrognosisFree -= pFile->m_nSize; // (6)
-			}
-*/
-	}	// endIf new or changed
-
-
-	if ( i_pFile->m_nStatus == fsOlder )	// (4)
-	//----------------------------------------------------------------
+  if( i_pFile->m_nStatus == fsNew || i_pFile->m_nStatus == fsChanged )
+  //----------------------------------------------------------------
   {
-		m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName,
-					               "Warning: The file on disk is older than in Archive" );
-		nSuccess = max( nSuccess, OPR_WARNINGS ); // (16) 
+    int nCopiesToHave = i_pFile->getRequiredCopiesNum();
+
+    int nFileCopies = m_Copies.GetCopiesCount( i_pFile );
+    if( nFileCopies >= nCopiesToHave )	// LATER: "while" instead of "if"
+          // for a situation when user decreases number of file copies
+    {
+    // There is enough number of copies.
+    // We are deleting the oldest copy, then search where should we place 
+    //   a new copy.
+    //.....................................................................
+    // This way copies will be re-spread among the Rooms, 
+    //   especially if Rooms list changes.
+      deleteOldestCopyOfFile( i_pFile );
+      i_pFile->m_nCommand = fcAddCopy;
+    }
+    
+  // Add a new copy
+  //................
+    OpResult nCurResult = addCopyOfFile( i_pFile );
+    nSuccess = max( nSuccess, nCurResult );
+
+  }	// endIf new or changed
+
+
+  if ( i_pFile->m_nStatus == fsOlder )
+  //----------------------------------------------------------------
+  {
+    m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName,
+                         "Warning: The file on disk is older than in Archive" );
+    nSuccess = max( nSuccess, OPR_WARNINGS );
   }
 
-	return nSuccess;
-}
+  return nSuccess;
+
+} // decideAboutFile()
 
 
 // (15) Extracted from "spaghetti" code.
