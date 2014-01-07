@@ -1,19 +1,19 @@
 // DiskArcher.
-// CMyArchive.cpp - Implementation of CMyArchive class.
-// (C) Marat Mirgaleev, 2001-2003.
+// CMyArchive class - the main .
+// (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
-//	(1) 19.01.2002. Log file.
-//	(2) 20.01.2002. "Miscelaneous.h" added.
-//	(3) 21.01.2002. FileAdd() - Check is it directory.
-//	(4) 09.02.2002. Empty database - not when 0 files, but when 1 file!
-//					Open/Create database - changes in logic.
-//	(5) 13.02.2002. Changes in Progress Dialog.
-//	(6) 16.02.2002. Classes CFilesToArc, CBundles and CRooms created 
-//					and some methods was moved there.
-//	(7) 19.02.2002. Copies replacing logic changed.
-//	(8) 04.03.2002. Folders added.
-//	(9) 03.07.2002. Flags m_bIsWorking and m_bStopWorking added.
-//					Loading process bar.
+// (1) 19.01.2002. Log file.
+// (2) 20.01.2002. "Miscelaneous.h" added.
+// (3) 21.01.2002. FileAdd() - Check is it directory.
+// (4) 09.02.2002. Empty database - not when 0 files, but when 1 file!
+//                 Open/Create database - changes in logic.
+// (5) 13.02.2002. Changes in Progress Dialog.
+// (6) 16.02.2002. Classes CFilesToArc, CBundles and CRooms created 
+//                 and some methods was moved there.
+// (7) 19.02.2002. Copies replacing logic changed.
+// (8) 04.03.2002. Folders added.
+// (9) 03.07.2002. Flags m_bIsWorking and m_bStopWorking added.
+//                 Loading process bar.
 // (10) 01.11.2002. theDB changed to *pTheDB.
 // (11) 19.11.2002. Public progressDlg changed to a member m_pProgressDlg.
 // (12) 05.01.2003. Bug in (11) fixing.
@@ -22,7 +22,9 @@
 // (15) 11.12.2004. Increased reserve space on disks.
 // (16) 23.05.2006. Error tracking improved.
 // (17) 20.08.2006. Bug fixed: All controls are disabled after the "Create Rooms
-//        first" message.
+//                  first" message.
+// (19) 23.12.2013. Migration to VS 2012 and Unicode.
+//                  See the modification history on Github.
 //==============================================================================
 
 #include "stdafx.h"
@@ -54,13 +56,13 @@ CArchiveDB* g_pTheDB;	// M	The Database to store and get info
 //===========================
 CMyArchive::CMyArchive()
 {
-	m_nDefaultCopies = 5;	// If there is the respective option in DB,
-							//		it will be gotten from DB later
-	m_bIsWorking = false;	// (9)
-	m_LogFile.m_pArchive = this;
-	m_pProgressDlg = NULL;
-	m_pCompressor = NULL;	// (13)
-    m_pLocator = NULL;      // (14)
+  m_nDefaultCopies = 5; // If there is the respective option in DB,
+                        //  it will be gotten from DB later
+  m_bIsWorking = false; // (9)
+  m_LogFile.m_pArchive = this;
+  m_pProgressDlg = NULL;
+  m_pCompressor = NULL; // (13)
+  m_pLocator = NULL;    // (14)
 }
 
 
@@ -680,14 +682,14 @@ bool CMyArchive::deleteOldestCopyOfFile( CFileToArc* const i_pFile )
 }
 
 
-// Analyse file status and decide what to do with it - add a copy or replace...
+// Analyse the file's status and decide what to do with it - add a copy or replace...
 // TODO:
 //	From network drive - to my local disk. From local disk - to network Room...
 //		Then among local phisycal drives. Then among local logical drives.
 //==============================================================================
-OpResult /*(16) Was: bool*/ CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
+OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
 {
-  OpResult nSuccess = OPR_SUCCESSFUL; // (16) Was: bool bSuccess = true;
+  OpResult nSuccess = OPR_SUCCESSFUL;
 
 
 	if ( i_pFile->m_nStatus == fsNotFound )
@@ -700,25 +702,20 @@ OpResult /*(16) Was: bool*/ CMyArchive::decideAboutFile( CFileToArc* const i_pFi
 	}
 
 
-	if ( i_pFile->m_nStatus == fsUpToDate ) 
-	//----------------------------------------------------------------
-		i_pFile->m_nCommand = fcNothing;
+  if ( i_pFile->m_nStatus == fsUpToDate ) 
+  //----------------------------------------------------------------
+    i_pFile->m_nCommand = fcNothing;
 // ZZZ Add another copy
-// ÍÅ ÄÎÁÀÂËßÒÜ ÇÀ ÎÄÈÍ ÐÀÇ ÁÎËÜØÅ ÎÄÍÎÉ ÊÎÏÈÈ? - ÝÒÎ ÍÅÏÐÀÂÈËÜÍÎ!
+// Add more than one copy at once!!!
 //		if(only one copy?)	curFileCommand = fcAddAnotherCopy;
 //zzz if there are not enough copies
-// À Ó ÌÅÍß ÂÑ¨ ÏÐÀÂÈËÜÍÎ ÑÐÀÁÎÒÀÅÒ, ÅÑËÈ ß ÑÐÀÇÓ ÒÐÈ ÊÎÏÈÈ ÁÓÄÓ ÄÎÁÀÂËßÒÜ?
+// Is it a dangerous change if I add more than one copy at once?
 
 
 	if( i_pFile->m_nStatus == fsNew || i_pFile->m_nStatus == fsChanged )
 	//----------------------------------------------------------------
 	{
-		int nCopiesToHave = i_pFile->getRequiredCopiesNum();  /* (16) Was:
-		int nCopiesToHave;
-		if( i_pFile->m_nUpToCopies > 0 && i_pFile->m_nUpToCopies < 100 )
-			nCopiesToHave = i_pFile->m_nUpToCopies;
-		else
-			nCopiesToHave = m_nDefaultCopies;*/
+		int nCopiesToHave = i_pFile->getRequiredCopiesNum();
 
 		int nFileCopies = m_Copies.GetCopiesCount( i_pFile );
 		if( nFileCopies >= nCopiesToHave )	// LATER: "while" instead of "if"
