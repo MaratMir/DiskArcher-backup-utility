@@ -530,6 +530,7 @@ makehm IDW_,HIDW_,0x50000 resource.h &gt;&gt;"hlp\$(TargetName).hm"
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CMyArchive.cd" />
     <None Include="res\__dummy_.bmp" />
     <None Include="res\bitmap1.bmp" />
     <None Include="res\bmp00002.bmp" />

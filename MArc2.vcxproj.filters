@@ -481,6 +481,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ReadMe.txt" />
+    <None Include="CMyArchive.cd" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resource.h">

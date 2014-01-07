@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CMyArchive">
+    <Position X="5.75" Y="0.5" Width="1.75" />
+    <Members>
+      <Method Name="~CMyArchive" Hidden="true" />
+      <Method Name="addCopyOfFile" Hidden="true" />
+      <Method Name="deleteOldestCopyOfFile" Hidden="true" />
+      <Method Name="doCopying" Hidden="true" />
+      <Method Name="loadOptions" Hidden="true" />
+      <Field Name="m_nFilesToUpdate" Hidden="true" />
+      <Field Name="m_sTempPath" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAgQEAgAJAAEAAgAACCAIAgCACASKAAAAYIBQCIEAAw=</HashCode>
+      <FileName>CMyArchive.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_Copies" />
+      <Field Name="m_pDB" />
+      <Field Name="m_Rooms" />
+      <Field Name="m_FilesToArc" />
+      <Field Name="m_pProgressDlg" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CFilesCopies">
+    <Position X="5.5" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAQAAAAAQgAAAAAAACAAAAAAA=</HashCode>
+      <FileName>CFilesCopies.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFileCopy">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAABAAAkRAAgAAAgAAAAAAAAAgEAAAAAAQAAgAA=</HashCode>
+      <FileName>CFileCopy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CArchiveDB">
+    <Position X="8.5" Y="0.5" Width="2.25" />
+    <Members>
+      <Method Name="CheckDeleteItField" Hidden="true" />
+      <Method Name="CheckFieldsForCompress" Hidden="true" />
+      <Method Name="CheckFilesTableFolderAndPausedFields" Hidden="true" />
+      <Method Name="CheckFoldersTable" Hidden="true" />
+      <Method Name="CheckIsFileInArc" Hidden="true" />
+      <Method Name="CheckIsSystemField" Hidden="true" />
+      <Method Name="CheckIsTableInDB" Hidden="true" />
+      <Method Name="CheckLogTable" Hidden="true" />
+      <Method Name="CheckOptionsTable" Hidden="true" />
+      <Method Name="CheckRecordAboutDB" Hidden="true" />
+      <Method Name="CreateArcLogTable" Hidden="true" />
+      <Method Name="DBStructureModifications" Hidden="true" />
+      <Method Name="DBStructureModifications2" Hidden="true" />
+      <Method Name="FindField" Hidden="true" />
+      <Method Name="GetMaxID" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>YBABAAAQIiAAJANgAQQUGAYiCCgSAUEEmwggJACAIAA=</HashCode>
+      <FileName>CArchiveDB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CRooms">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAQAAAAACAEAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>CRooms.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFilesToArc">
+    <Position X="2.75" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAGgAAAAAgAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CFilesToArc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CProgressDialog">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Members>
+      <Method Name="DoDataExchange" Hidden="true" />
+      <Method Name="OnAbort" Hidden="true" />
+      <Method Name="OnCancel" Hidden="true" />
+      <Method Name="OnClose" Hidden="true" />
+      <Method Name="OnOK" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="CProgressDialog::__unnamed_enum_0059_1" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CProgressDialog.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AIgAACAIAAJAEEAEABiAAgIBEABAAAIAAAoAAAAAAQI=</HashCode>
+      <FileName>CProgressDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
