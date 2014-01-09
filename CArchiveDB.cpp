@@ -1,5 +1,5 @@
 // DiskArcher.
-// CArchiveDB.cpp - Implementation of CArchiveDB class.
+// CArchiveDB class - the interface to the program database.
 // (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
 //  (1) 15.01.2002. Log Table added.
@@ -757,8 +757,7 @@ bool CArchiveDB::CopyAdd( CFileCopy *pCopy )
 		//============================================
       CString cmd, dt = pCopy->m_FileDateTime.Format();
       cmd.Format( 
-        L"INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, "
-                    L"SourceSize, PackedSize, BundleID)"
+        L"INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, SourceSize, PackedSize, BundleID)"
         L" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d)",
         pCopy->m_nCopyID, pCopy->m_strPath, pCopy->m_strFilename, 
         pCopy->m_strUser, dt, pCopy->m_nSize, 

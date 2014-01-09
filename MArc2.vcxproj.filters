@@ -361,9 +361,6 @@
     <ClInclude Include="enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fileCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="fileStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>

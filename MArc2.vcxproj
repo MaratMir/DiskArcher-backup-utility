@@ -481,7 +481,6 @@
     <ClInclude Include="CTipDlg.h" />
     <ClInclude Include="CZipBundle.h" />
     <ClInclude Include="enums.h" />
-    <ClInclude Include="fileCommand.h" />
     <ClInclude Include="fileStatus.h" />
     <ClInclude Include="LeftView.h" />
     <ClInclude Include="MainFrm.h" />

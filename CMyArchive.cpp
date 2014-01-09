@@ -369,23 +369,23 @@ OpResult/*(16) Was int */ CMyArchive::update()
   			nResult = OPR_USER_STOP; // (16) Was: bContinue = false;			// (13)
 		}
 
-  	if( nResult <= OPR_WARNINGS )  // (16) Was: if( bContinue )
-			if( m_nFilesToUpdate == 1
-				/*(7) Was 0. "One" Because of Database - it changes always */ )
-			{
-				AfxMessageBox( _T("Nothing to do:\nThe Archive is up-to-date") );
-				nResult = OPR_USER_STOP; // (16) Was: bContinue = false;
-			}		
-	}
+    if( nResult <= OPR_WARNINGS )
+      if( m_nFilesToUpdate == 0 || m_nFilesToUpdate == 1 ) // "One" because of the Database - it changes always
+                                                          // TODO: Not sure it changes really always - try repetive 'Go'
+      {
+        AfxMessageBox( _T("Nothing to do:\nThe Archive is up-to-date") );
+        nResult = OPR_USER_STOP; // (16) Was: bContinue = false;
+      }
+  }
 
 
 // Assign a Room, a Bundle for every file, if it is necessary
 //------------------------------------------------------------
-  if( nResult <= OPR_NONFATAL_ERRORS )  // (16) Was: if( bContinue )
+  if( nResult <= OPR_NONFATAL_ERRORS )
 	{
 		POSITION pos;
 		m_pProgressDlg->SetMaxRange( m_FilesToArc.GetCount() ); 
-    m_nFilesToUpdate = 0;  // (16) Let's count it again, more carefully.
+    m_nFilesToUpdate = 0;  // Let's count it again, more carefully.
                           // For example, we will not count files
                          //  if we don't find an appropriate room for it.
 		for( pos = m_FilesToArc.GetHeadPosition(); pos != NULL; )
@@ -394,12 +394,13 @@ OpResult/*(16) Was int */ CMyArchive::update()
 
 		// Assign a Room, a Bundle for the file, if necessary
 		//----------------------------------------------------
-      OpResult nCurResult/*(16) Was: bContinue*/ = decideAboutFile( pCurFile );
+      OpResult nCurResult = decideAboutFile( pCurFile );
+    //....................................................
       nResult = max( nResult, nCurResult );
-			if( nResult >= OPR_FATAL_STOP )  // (16) Was: if( ! bContinue )	// (13)
-				break;			// (13)
-      if( pCurFile->m_pRoom != NULL )   // (16)
-        m_nFilesToUpdate++;             // (16)
+			if( nResult >= OPR_FATAL_STOP )
+				break;
+      
+      m_nFilesToUpdate += pCurFile->m_CopyToRooms.size();
 			m_pProgressDlg->Advance( 1 );
 		}
 		m_pProgressDlg->m_CopyingLabel.EnableWindow();
@@ -520,9 +521,9 @@ OpResult /*(16) bool*/ CMyArchive::doCopying()
 
 repeat:
 		if( pCurRoom->m_bRemovable )
-			if( pCurRoom->CountFiles( CRoom::countForCopying ) > 0 )
-			// If there is any copy to add or replace in the Room
-			//	than show the "Insert Disk" dialog
+			if( pCurRoom->CountFilesBeingCopied() > 0 )
+			// If there is any copy to add or replace in the Room,
+			//	then show the "Insert Disk" dialog
 			//======================================================
 			{
 				CString mess;
@@ -555,14 +556,13 @@ repeat:
 					// Ok, continue archiving
 					break;
 
-				case ID_SKIP_DISK:	// Skip this Room, proceed with next Room
-				// (1) Write to Log	
-					mess.Format( _T("Archive Room #%d skipped"), pCurRoom->m_nRoomID );
-					m_LogFile.AddRecord( "", "", mess );
-					m_pProgressDlg->Advance( pCurRoom->CountFiles( CRoom::countAll ) );	// (7)
-          nResult = max( OPR_WARNINGS, nResult ); // (16) Added
-					continue;
-					break;
+        case ID_SKIP_DISK: // Skip this Room, proceed with next Room
+          mess.Format( _T("Archive Room #%d skipped"), pCurRoom->m_nRoomID );
+          m_LogFile.AddRecord( "", "", mess );
+          m_pProgressDlg->Advance( pCurRoom->CountAllFiles() );
+          nResult = max( OPR_WARNINGS, nResult );
+          continue;
+          break;
 
 				default:
 					AfxMessageBox( _T("Sudden Error in 'DoCopying'") );
@@ -596,7 +596,7 @@ repeat:
 #endif
 			} // if Count > 0
 			else
-				m_pProgressDlg->Advance( pCurRoom->CountFiles( CRoom::countAll ) );
+				m_pProgressDlg->Advance( pCurRoom->CountAllFiles() );
 
 #ifdef _DEBUG
 	  /*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
@@ -649,7 +649,7 @@ repeat:
 #endif
 				}
 				else	// The Room is unavailable - move the Progress Bar
-					m_pProgressDlg->Advance( pCurRoom->CountFiles( CRoom::countAll ) );
+					m_pProgressDlg->Advance( pCurRoom->CountAllFiles() );
 			}
 #ifdef _DEBUG
 			/*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
@@ -662,21 +662,19 @@ repeat:
 } // End of doCopying()
 
 
-// (16) Extracted from decideAboutFile().
 //==============================================================================
 bool CMyArchive::deleteOldestCopyOfFile( CFileToArc* const i_pFile )
 {
   bool bSuccess = true;
-  i_pFile->m_pCopyToReplace = m_Copies.GetOldestCopy( i_pFile );
-  if( i_pFile->m_pCopyToReplace )
+  CFileCopy* pCopy = m_Copies.GetOldestCopy( i_pFile );
+  if( pCopy )
   {
-    i_pFile->m_pCopyToReplace->MarkForDeletion();
+    pCopy->MarkForDeletion();
 
-  // Freeing space because of deleting old Copy
-    CRoom *pRoomDeleteFrom = i_pFile->m_pCopyToReplace->GetRoom();
+  // Freeing space because of deleting an old Copy
+    CRoom *pRoomDeleteFrom = pCopy->GetRoom();
     if( pRoomDeleteFrom )
-      pRoomDeleteFrom->m_nPrognosisFree +=
-                                       i_pFile->m_pCopyToReplace->m_nPackedSize;
+      pRoomDeleteFrom->m_nPrognosisFree += pCopy->m_nPackedSize;
   }
   return bSuccess;
 }
@@ -695,42 +693,68 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
   if ( i_pFile->m_nStatus == fsNotFound )
   //----------------------------------------------------------------
   {
-    i_pFile->m_nCommand = fcNothing;
+    i_pFile->m_nCommand = CFileToArc::fcNothing;
     m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName,
                          "Could not find the file" );
     nSuccess = OPR_WARNINGS;
   }
 
 
-  if ( i_pFile->m_nStatus == fsUpToDate ) 
-  //----------------------------------------------------------------
-    i_pFile->m_nCommand = fcNothing;
-    // TODO: Check there is enough copies. Add/remove copies respectively.
+  int nCopiesToHave = i_pFile->getRequiredCopiesNum();
+  int nFileCopies = m_Copies.GetCopiesCount( i_pFile );
+
+
+  if ( i_pFile->m_nStatus == fsUpToDate ) // The file has not changed
+  //----------------------------------------------------------------------
+  {
+    if( nFileCopies == nCopiesToHave ) // Just enough copies
+    {
+      i_pFile->m_nCommand = CFileToArc::fcNothing; 
+    }
+    else
+    { 
+      // Only one of the two following 'for's will actually work
+
+      // Add as many copies as needed
+      //.................................................
+      for( int i = nFileCopies; i < nCopiesToHave; i++ )
+      {
+        // Add new copies
+        OpResult nCurResult = addCopyOfFile( i_pFile );
+        nSuccess = max( nSuccess, nCurResult );
+      }
+
+      // Remove all excessive copies (mutually exclusive with the previous 'for')
+      for( int i=nFileCopies; i > nCopiesToHave; i-- )
+      {
+        deleteOldestCopyOfFile( i_pFile );
+      }
+    }
+  } // endif fsUpToDate
 
 
   if( i_pFile->m_nStatus == fsNew || i_pFile->m_nStatus == fsChanged )
-  //----------------------------------------------------------------
+  //------------------------------------------------------------------
   {
-    int nCopiesToHave = i_pFile->getRequiredCopiesNum();
+    i_pFile->m_nCommand = CFileToArc::fcAddCopy;
 
-    int nFileCopies = m_Copies.GetCopiesCount( i_pFile );
-    if( nFileCopies >= nCopiesToHave )	// LATER: "while" instead of "if"
-          // for a situation when user decreases number of file copies
+    // There were enough copies or even more (for example, when the user decreases number of file copies).
+    // We are deleting the oldest copies, then search where should we place new copies.
+    //.........................................................................................................
+    // This way copies will be re-spread among the Rooms, especially if the Rooms list changes.
+    for( int i=nFileCopies; i >= nCopiesToHave; // >= means that we always need to replace at least one copy
+         i-- )
     {
-    // There is enough number of copies.
-    // We are deleting the oldest copy, then search where should we place 
-    //   a new copy.
-    //.....................................................................
-    // This way copies will be re-spread among the Rooms, 
-    //   especially if Rooms list changes.
       deleteOldestCopyOfFile( i_pFile );
-      i_pFile->m_nCommand = fcAddCopy;
     }
     
-  // Add a new copy
-  //................
-    OpResult nCurResult = addCopyOfFile( i_pFile );
-    nSuccess = max( nSuccess, nCurResult );
+    // Add new copies
+    //.............................................
+    for( int i = nFileCopies; i < nCopiesToHave; i++ )
+    {
+      OpResult nCurResult = addCopyOfFile( i_pFile );
+      nSuccess = max( nSuccess, nCurResult );
+    }
 
   }	// endIf new or changed
 
@@ -755,7 +779,7 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
   OpResult nSuccess = OPR_SUCCESSFUL;
 
 // Select a Room - only from accessible Rooms, which has enough space 
-//	 for the file and which has least number of this File's Copies
+//	 for the file and which has the least number of this File's Copies
   CRoom *pRoomTo = NULL;
   int leastCopies = 999999;
   POSITION pos;
@@ -765,7 +789,7 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
     if( pCurRoom->m_nDiskSpaceFree != -1 )	// Is the Room accessible?
     { 
 		// To compress or not to compress (for this very Room)?
-		//		Refer to project documentation.
+		//		Refer to the project documentation.
 			if( isCompressorDefined() )									// (13)
 			{
 				if(	   ( pCurRoom->m_nCompressionMode == rcmAlways )	// (13)
@@ -795,8 +819,8 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 				// (13) Was: if( pCurRoom->m_nPrognosisFree > pFile->m_nSize + 5000 )
 			// Is there enough space? -------------------------------------
 			{
-				int curCopiesCount = m_Copies.GetCopiesCount( i_pFile, 
-														                          pCurRoom->m_nRoomID );
+				int curCopiesCount = m_Copies.GetCopiesCount( i_pFile, pCurRoom->m_nRoomID );
+        curCopiesCount += i_pFile->CountCopies( pCurRoom );
 				if( curCopiesCount < leastCopies )
 				// Yes, this Room has least number of Copies
 				{
@@ -813,12 +837,12 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 			m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName,
 		             "Could not find an appropriate Room for a Copy of this File" );
       nSuccess = max( nSuccess, OPR_NONFATAL_ERRORS );  // (16)
-			i_pFile->m_nCommand = fcNothing;
+			i_pFile->m_nCommand = CFileToArc::fcNothing;
 		}
 		else
 		{
-			i_pFile->m_nCommand = fcAddCopy;
-			i_pFile->m_pRoom = pRoomTo;
+			i_pFile->m_nCommand = CFileToArc::fcAddCopy;
+			i_pFile->m_CopyToRooms.push_back( pRoomTo );
 			pRoomTo->m_nPrognosisFree -= i_pFile->m_nPredictedCompressedSize;
 		}
 
