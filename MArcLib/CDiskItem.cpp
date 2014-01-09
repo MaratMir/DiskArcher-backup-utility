@@ -13,7 +13,7 @@
 #include "CDiskItem.h"
 #include "CFolder.h"
 
-#include "MArc2.h" // M
+//zz#include "MArc2.h" // M
 
 
 // (3) Totally changed
@@ -157,8 +157,7 @@ bool CDiskItem::getInfo()
 		if( ! roottt.m_strName.IsEmpty() )
 		{
 			roottt.getInfo();	// Recursively
-			this->m_strDir = AddWithSlash( roottt.m_strDir, 
-										roottt.m_strName ) + "\\";
+			this->m_strDir = AddWithSlash( roottt.m_strDir, roottt.m_strName ) + L"\\";
 		}
 		this->m_strName = tmpDiskItem.m_strName;
 	// End of (2)

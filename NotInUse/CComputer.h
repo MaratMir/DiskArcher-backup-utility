@@ -4,7 +4,7 @@
 #if !defined(CComputer_h)
 #define CComputer_h
 
-#include "resource.h"
+//zzz#include "resource.h"
 
 #include <afxtempl.h> // M
 

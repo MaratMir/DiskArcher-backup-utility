@@ -8,8 +8,8 @@
 //==========================================================================
 
 #include "stdafx.h"
+#include /*<afx.h>zzzz */ <ATLComTime.h>
 #include "CFolder.h"
-#include <afx.h>
 
 #include "CFileOnDisk.h" // M
 
@@ -77,8 +77,7 @@ int CFolder::GetItems()
 			else
 			{
 			// Unable to get directory information - display message
-				AfxMessageBox( "Unable to get directory information:\n"
-							         + getFullName() );
+				AfxMessageBox( L"Unable to get directory information:\n" + getFullName() );
 				break;
 			}
 		else	// File found

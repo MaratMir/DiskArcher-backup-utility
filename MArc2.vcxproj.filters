@@ -27,9 +27,6 @@
     <ClCompile Include="CBundles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CComputer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CCopiesDoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,19 +36,10 @@
     <ClCompile Include="CCopiesView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CDiskItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CDrive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CFileCompressor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CFileCopy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFileOnDisk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CFilesCopies.cpp">
@@ -76,9 +64,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CFileToArcPropertiesDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFolder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CFoldersToArc.cpp">
@@ -142,9 +127,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CProgressDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CRegisterDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CRoom.cpp">
@@ -211,9 +193,6 @@
     <ClInclude Include="CBundles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CComputer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CCopiesDoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -223,19 +202,10 @@
     <ClInclude Include="CCopiesView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CDiskItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CDrive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CFileCompressor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CFileCopy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFileOnDisk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CFilesCopies.h">
@@ -260,9 +230,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CFileToArcPropertiesDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFolder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CFoldersToArc.h">
@@ -326,9 +293,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CProgressDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CRegisterDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CRoom.h">

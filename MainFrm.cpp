@@ -29,7 +29,6 @@
 #include "CFileCompressor.h"
 #include "COptionsDialog.h"	// (9)
 #include "CNewFilesLocator.h" // (10)
-#include "CRegisterDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -58,8 +57,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_START_LOCATOR, OnUpdateStartLocator)
 	ON_COMMAND(ID_START_LOCATOR, OnStartLocator)
 	ON_COMMAND(ID_FILE_OPTIONS, OnFileOptions)
-	ON_UPDATE_COMMAND_UI(ID_REGISTER, OnUpdateRegister)
-	ON_COMMAND(ID_REGISTER, OnRegister)
 	//}}AFX_MSG_MAP
 	ON_UPDATE_COMMAND_UI(ID_INDICATOR_FILES, OnUpdateFileCount)	// M
 	// Global help commands
@@ -365,21 +362,4 @@ void CMainFrame::OnFileOptions()
 
 		g_TheArchive.saveOptions();
 	}
-}
-
-
-// (11)
-//==============================================================================
-void CMainFrame::OnUpdateRegister(CCmdUI* pCmdUI) 
-{
-  pCmdUI->Enable(); 
-}
-
-
-// (11)
-//==============================================================================
-void CMainFrame::OnRegister() 
-{
-	CRegisterDlg dlg;
-	dlg.DoModal();
 }

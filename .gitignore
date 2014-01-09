@@ -25,6 +25,7 @@ MArc2.aps
 *.pdb
 *.tlh
 *.tli
+*.log
 
 # MMR: My files
 MArc.MDB
@@ -38,3 +39,5 @@ hlp/MArc2.hm
 # MMR: Debug and Release files
 Debug/*.*
 Release/*.*
+DiskArcherLib/Debug/*.*
+DiskArcherLib/Release/*.*

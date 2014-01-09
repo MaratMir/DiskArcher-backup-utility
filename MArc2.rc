@@ -31,7 +31,6 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 IDB_TICK                BITMAP                  "res\\tick.bmp"
 IDB_LIGHTBULB           BITMAP                  "res\\litebulb.bmp"
-IDB_BITMAP1             BITMAP                  "res\\bitmap1.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -133,17 +132,6 @@ IDR_LOCATOR_EXCL        BITMAP                  "res\\locatorExcl.bmp"
 // Dialog
 //
 
-IDD_NAG DIALOG 0, 0, 197, 181
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Please Register"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "&Register...",ID_REGISTER,135,140,55,14
-    PUSHBUTTON      "Register &Later",IDCANCEL,135,158,55,14
-    LTEXT           "Static",IDC_REGISTER_TEXT,10,5,120,170
-    CTEXT           "You have used\nDiskArcher\nfor 31 days",IDC_DAYS_COUNTER,135,80,55,55
-END
-
 IDD_FILETOARC_PROPERTIES_DIALOG DIALOG 0, 0, 186, 118
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "File's Properties"
@@ -157,21 +145,6 @@ BEGIN
     GROUPBOX        "",IDC_STATIC,4,0,177,90
     LTEXT           "Up to copies:",IDC_STATIC,10,56,43,8
     EDITTEXT        IDC_EDIT_UPTOCOPIES,55,54,40,14,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
-END
-
-IDD_REGISTER_DIALOG DIALOG 0, 0, 186, 141
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Registering DiskArcher"
-FONT 8, "MS Sans Serif"
-BEGIN
-    EDITTEXT        IDC_NAME_EDIT,20,60,145,14,ES_AUTOHSCROLL
-    EDITTEXT        IDC_CODE_EDIT,20,95,145,14,ES_AUTOHSCROLL
-    DEFPUSHBUTTON   "OK",IDOK,37,119,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,97,119,50,14
-    CTEXT           "PLEASE ENTER:",IDC_STATIC,10,10,160,8
-    LTEXT           "Your registration name:",IDC_STATIC,10,45,160,8
-    LTEXT           "Registration code:",IDC_STATIC,10,79,58,8
-    CTEXT           "(or just copy these data from received registration message and paste here)",IDC_STATIC,5,20,170,20
 END
 
 IDD_LOCATOR_DIALOG DIALOGEX 0, 0, 260, 159
@@ -300,27 +273,11 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_NAG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 190
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 174
-    END
-
     IDD_FILETOARC_PROPERTIES_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 181
         BOTTOMMARGIN, 113
-    END
-
-    IDD_REGISTER_DIALOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 179
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 134
     END
 
     IDD_LOCATOR_DIALOG, DIALOG
@@ -535,8 +492,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Options...",                 ID_FILE_OPTIONS
         MENUITEM SEPARATOR
-        MENUITEM "&Register...",                ID_REGISTER
-        MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
     POPUP "&View"
@@ -589,8 +544,6 @@ BEGIN
         MENUITEM "&Go!",                        ID_ARCHIVE_UPDATE
         MENUITEM SEPARATOR
         MENUITEM "&Options...",                 ID_FILE_OPTIONS
-        MENUITEM SEPARATOR
-        MENUITEM "&Register...",                ID_REGISTER
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
@@ -912,11 +865,6 @@ STRINGTABLE
 BEGIN
     ID_LOCATOR_ADD_EXCL_FOLDER 
                             "Exclude selected folders from further search\nExclude folders"
-END
-
-STRINGTABLE
-BEGIN
-    ID_REGISTER             "Enter the registration code\nRegister the program"
 END
 
 #endif    // English (United States) resources

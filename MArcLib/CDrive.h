@@ -8,7 +8,7 @@
  * Are network drives included?
  */
 
-#include "resource.h"
+//zzzzzz#include "resource.h"
 #include <afx.h>
 
 

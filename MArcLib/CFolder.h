@@ -8,7 +8,7 @@
 #if !defined(CFolder_h)
 #define CFolder_h
 
-#include "resource.h"
+//zzzz#include "resource.h"
 #include "CDiskItem.h"
 
 #include <afxtempl.h> // M

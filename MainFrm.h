@@ -84,8 +84,6 @@ protected:
 	afx_msg void OnUpdateStartLocator(CCmdUI* pCmdUI);
 	afx_msg void OnStartLocator();
 	afx_msg void OnFileOptions();
-	afx_msg void OnUpdateRegister(CCmdUI* pCmdUI);
-	afx_msg void OnRegister();
 	//}}AFX_MSG
 	afx_msg void OnUpdateFileCount(CCmdUI *pCmdUI);	// M
 	DECLARE_MESSAGE_MAP()

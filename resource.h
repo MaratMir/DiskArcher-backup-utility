@@ -29,12 +29,10 @@
 #define IDB_LOGO                        151
 #define IDR_LOG                         152
 #define IDR_LOG_POPUP                   153
-#define IDD_NAG                         154
 #define IDR_FILESTOARC_POPUP            155
 #define IDR_ROOM_POPUP                  156
 #define IDR_COPY_POPUP                  157
 #define IDR_MARC2TYPE                   158
-#define IDD_REGISTER_DIALOG             159
 #define IDR_LOCATOR                     160
 #define IDD_LOCATOR_DIALOG              161
 #define IDR_LOCATOR_POPUP               162
@@ -42,7 +40,6 @@
 #define IDD_INPUT_STRING_DIALOG         165
 #define IDD_OPTIONS_DIALOG              166
 #define IDD_FILETOARC_PROPERTIES_DIALOG 169
-#define IDB_BITMAP1                     170
 #define IDC_ROOMPROP_LIMIT              1000
 #define IDC_BULB                        1000
 #define IDC_STARTUP                     1001
@@ -56,11 +53,6 @@
 #define IDC_INS_DISK_LBL                1007
 #define IDC_CURRENT_FILENAME            1008
 #define IDC_LICENSED_TO                 1009
-#define ID_REGISTER                     1010
-#define IDC_REGISTER_TEXT               1011
-#define IDC_NAME_EDIT                   1012
-#define IDC_CODE_EDIT                   1013
-#define IDC_DAYS_COUNTER                1014
 #define IDC_LOCATOR_START_PATH          1017
 #define IDC_LOCATOR_CURRENT_FOLDE       1018
 #define IDC_CHECKED_FILES               1019

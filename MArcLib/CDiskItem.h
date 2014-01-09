@@ -13,6 +13,8 @@
 #if !defined(CDiskItem_h)
 #define CDiskItem_h
 
+#include <ATLComTime.h>
+
 CString AddWithSlash( const CString& str1, const CString& str2 );	// (2)
 
 class CFolder;
@@ -38,7 +40,7 @@ public:
 	bool getInfo();
 
 
-	DWORD m_nSize;
+	ULONGLONG /*zzzDWORD*/ m_nSize;
   CString	m_strComputer;	// M
   CString	m_strDrive;
   CString	m_strDir;
