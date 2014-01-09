@@ -34,9 +34,9 @@ public:
   CRoom(const CString& strName);
   OpResult/*(7)*/ doCopying();
   bool CheckLabel();
-  enum countType { countAll, countForCopying };	// (4)
-	int CountFiles( enum countType nType );
-		// (4) Was: int CountFilesForCopying();
+// zzz  enum countType { countAll, countForCopying };	// (4)
+	unsigned int CountAllFiles() const;
+	unsigned int CountFilesBeingCopied() const;
   bool DeleteMarkedCopies();
 	bool IsAvailable();		// (6)
 	bool DeleteLabel();		// (6)

@@ -15,6 +15,8 @@
 //==================================================================
 
 #include "stdafx.h"
+#include <algorithm>
+
 #include "CFileToArc.h"
 #include "CRoom.h"
 #include "CBundle.h"
@@ -42,16 +44,11 @@ CFileToArc::CFileToArc(CString fullName)
 
 void CFileToArc::Init()
 {
-// (9) Some assignments moved into ResetRuntimeData()
-// (9)	m_pBundle = NULL; 
-// (9)	m_pRoom = NULL;
-// (9)	m_pCopyToReplace = NULL;
-	m_bSystem = false;	// (1)
-	m_bPaused = false;	// (5)
-	m_bCompressIt = false;			 // (8)
-// (9)	m_nPredictedCompressedSize = -1; // (8) Not calculated yet
+  m_bSystem = false;
+  m_bPaused = false;
+  m_bCompressIt = false; // (8)
 
-	ResetRuntimeData();	// (9)
+  ResetRuntimeData();
 }
 
 
@@ -60,19 +57,17 @@ void CFileToArc::Init()
 //===================================================================
 void CFileToArc::ResetRuntimeData()
 {
-	this->m_nCommand = fcNothing;
-	this->m_nPredictedCompressedSize = -1/*Not calculated*/;
-	this->m_pBundle = NULL;
-	this->m_pCopyToReplace = NULL;
-	this->m_pRoom = NULL;
+  m_nCommand = fcNothing;
+  m_nPredictedCompressedSize = -1/*Not calculated*/;
+  m_pBundle = NULL;
+// zzz	this->m_pCopyToReplace = NULL;
+  m_CopyToRooms.clear();
 
 // Delete precompressed file if any
-	if( this->IsPreCompressed() )	
-		if( 0 == DeleteFile( this->GetCompressedFileName() ) )
-			g_TheArchive.m_LogFile.AddRecord( "Temp dir",
-										                    "Compressed " + this->m_strName,
-										                    GetErrDescription( true ) );
-	this->m_sCompressedFilename = "";
+  if( this->IsPreCompressed() )	
+    if( 0 == DeleteFile( this->GetCompressedFileName() ) )
+      g_TheArchive.m_LogFile.AddRecord( "Temp dir", "Compressed " + this->m_strName, GetErrDescription( true ) );
+  m_sCompressedFilename = "";
 }
 
 
@@ -318,4 +313,11 @@ unsigned int CFileToArc::getRequiredCopiesNum() const
 		nCopiesToHave = g_TheArchive.m_nDefaultCopies;
 
   return nCopiesToHave;
+}
+
+
+//==============================================================================
+unsigned int CFileToArc::CountCopies( const CRoom* const i_pRoom ) const
+{
+  return std::count( m_CopyToRooms.begin(), m_CopyToRooms.end(), i_pRoom );
 }
