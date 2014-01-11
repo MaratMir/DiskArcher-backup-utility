@@ -19,13 +19,16 @@
 
 #include "stdafx.h"
 #include "MArc2.h"
+#include "resource.h"
+
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CFileToArc.h"
+#include "MArcCore/CRoom.h"
+#include "MArcCore/Miscelaneous.h"
+#include "MArcCore/CFileCopy.h"
 
 #include "CCopiesView.h"
 #include "CCopiesDoc.h"
-#include "CMyArchive.h"
-#include "CFileToArc.h"
-#include "CRoom.h"
-#include "Miscelaneous.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

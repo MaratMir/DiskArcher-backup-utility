@@ -6,10 +6,11 @@
 //============================================================================
 
 #include "stdafx.h"
+#include "MArcCore\CMyArchive.h"
+#include "MArcCore\CArchiveDB.h"
+#include "resource.h"
 #include "CLogDoc.h"
 #include "CLogView.h"
-#include "CMyArchive.h"
-#include "CArchiveDB.h"
 
 #import "C:\Program Files\Common Files\system\ado\msado15.dll" no_namespace rename( "EOF", "adoEOF" )
 
@@ -18,9 +19,6 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CLogView
 
 IMPLEMENT_DYNCREATE(CLogView, CListView)
 
@@ -33,9 +31,6 @@ BEGIN_MESSAGE_MAP(CLogView, CListView)
 	//}}AFX_MSG_MAP
 	ON_NOTIFY_REFLECT(NM_RCLICK, OnRightClick)
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CLogView construction/destruction
 
 
 CLogView::CLogView()
@@ -62,18 +57,12 @@ BOOL CLogView::PreCreateWindow(CREATESTRUCT& cs)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////
-// CLogView drawing
-
 void CLogView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
 	ShowLog();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CLogView diagnostics
 
 #ifdef _DEBUG
 void CLogView::AssertValid() const
@@ -92,10 +81,6 @@ CLogDoc* CLogView::GetDocument() // non-debug version is inline
 	return (CLogDoc*)m_pDocument;
 }
 #endif //_DEBUG
-
-
-/////////////////////////////////////////////////////////////////////////////
-// CLogView message handlers
 
 
 void CLogView::OnRightClick(NMHDR *pNotifyStruct, LRESULT *result)
@@ -152,11 +137,9 @@ void CLogView::ShowLog()
 	HRESULT hr;
 	try
 	{
-	// Select all Copies
-		wchar_t* select = _T("SELECT * FROM ArcLog ORDER BY MessDateTime DESC");
-		hr = recSet->Open( select, 
-							         g_pTheDB->m_pConnection, adOpenStatic, 
-							         adLockReadOnly, adCmdText );
+    // Select all Copies
+    wchar_t* select = _T("SELECT * FROM ArcLog ORDER BY MessDateTime DESC");
+    hr = recSet->Open( select, g_TheArchive.m_pDB->m_pConnection, adOpenStatic, adLockReadOnly, adCmdText );
     TESTHR( hr );
 
 		while( ! recSet->adoEOF )
@@ -165,7 +148,7 @@ void CLogView::ShowLog()
 			_variant_t vtTmp;
 
 		// Date, Time
-            vtTmp = recSet->Fields->Item["MessDateTime"]->Value;
+      vtTmp = recSet->Fields->Item["MessDateTime"]->Value;
 			LV_ITEM lvItem;
 			lvItem.mask = LVIF_TEXT; // | LVIF_IMAGE;
 			lvItem.iItem = ctlList.GetItemCount();	// Insert at the end
@@ -220,8 +203,8 @@ void CLogView::ShowLog()
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, g_pTheDB->m_pConnection );
+    // Notify the user of errors if any
+    ShowADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
 	}
 	catch(...)
 	{
@@ -262,22 +245,21 @@ void CLogView::OnUpdateLogClear(CCmdUI* pCmdUI)
 
 void CLogView::OnLogClear() 
 {
-	try
-	{
-	// Clear the table in the Database
-		((_ConnectionPtr)g_pTheDB->m_pConnection)->Execute( 
-										"DELETE FROM ArcLog", NULL, NULL );
-	
-	// Update the window
-		ShowLog();
-	}
-	catch(_com_error &e)
-	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, g_pTheDB->m_pConnection );
-	}
-	catch(...)
-	{
-		AfxMessageBox( _T("Some error occured in CLogView::OnLogClear().") );
-	}
+  try
+  {
+    // Clear the table in the Database
+    ((_ConnectionPtr)g_TheArchive.m_pDB->m_pConnection)->Execute( L"DELETE FROM ArcLog", NULL, NULL );
+
+    // Update the window
+    ShowLog();
+  }
+  catch(_com_error &e)
+  {
+    // Notify the user of errors if any
+    ShowADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
+  }
+  catch(...)
+  {
+    AfxMessageBox( L"Some error occured in CLogView::OnLogClear()." );
+  }
 }

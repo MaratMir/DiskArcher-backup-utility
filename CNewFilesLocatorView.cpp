@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "MArc2.h"
-#include "CMyArchive.h"
+#include "MArcCore/CMyArchive.h"
 #include "CNewFilesLocator.h"
 #include "CNewFilesLocatorDoc.h"
 #include "CNewFilesLocatorView.h"

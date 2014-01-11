@@ -14,11 +14,11 @@
 //==============================================================================
 
 #include "stdafx.h"
-#include "enums.h"  // (5)
-#include "CArchiveDB.h"	// It also includes ADO headers
-#include "CMyArchive.h"
+#include "MArcCore\enums.h"
+#include "MArcCore\CArchiveDB.h"	// It also includes ADO headers
+#include "MArcCore\CMyArchive.h"
 #include "CNewFilesLocator.h"
-#include "CLocatorFolder.h"
+#include "MArcCore\CLocatorFolder.h"
 #include "CNewFilesLocatorFrame.h"
 #include "CNewFilesLocatorView.h"
 #include "MArc2.h"
@@ -119,11 +119,10 @@ bool CNewFilesLocator::LoadOptions()
 	HRESULT hr;
 	try
 	{
-	// Select all Options
-		wchar_t* select = L"SELECT * FROM ProgramOptions"
-				  		        L" WHERE SectionName=\"Locator\"";
-		hr = rsOptions->Open( select, g_pTheDB->m_pConnection,
-							  adOpenStatic, adLockReadOnly, adCmdText );
+    // Select all Options
+    wchar_t* select = L"SELECT * FROM ProgramOptions"
+                      L" WHERE SectionName=\"Locator\"";
+    hr = rsOptions->Open( select, g_TheArchive.m_pDB->m_pConnection, adOpenStatic, adLockReadOnly, adCmdText );
     TESTHR( hr );
 		while( ! rsOptions->adoEOF )
 		{
@@ -151,8 +150,8 @@ bool CNewFilesLocator::LoadOptions()
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, g_pTheDB->m_pConnection );
+    // Notify the user of errors if any
+    ShowADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
 	}
 	catch(...)
 	{
@@ -165,10 +164,10 @@ bool CNewFilesLocator::LoadOptions()
 
 
 //------------------------------------------------------------------------------
-void CNewFilesLocator::AddToList( CFileOnDisk* pFile )
-{	
-  m_foundFiles.AddTail( pFile );  // (5)
-	m_pView->AddFileToListCtrl( pFile );
+void CNewFilesLocator::addToList( CFileOnDisk* pFile )
+{
+  m_foundFiles.AddTail( pFile );
+  m_pView->AddFileToListCtrl( pFile );
 }
 
 
@@ -235,17 +234,17 @@ int CNewFilesLocator::RemoveFilesOfType( const CString& sExtension )
 
 
 //------------------------------------------------------------------------------
-bool CNewFilesLocator::IsAborted() const
+bool CNewFilesLocator::isAborted() const
 { 
-	return ( m_pDlg->IsAborted() || g_TheArchive.m_bStopWorking );
+  return ( m_pDlg->IsAborted() || g_TheArchive.m_bStopWorking );
 }
 
 
 //------------------------------------------------------------------------------
-void CNewFilesLocator::ShowFolderInDlg( const CString& strFolder ) const
+void CNewFilesLocator::showFolderInDlg( const CString& strFolder ) const
 {
-	m_pDlg->m_strCurrentFolder = strFolder;
-	m_pDlg->UpdateData( FALSE );
+  m_pDlg->m_strCurrentFolder = strFolder;
+  m_pDlg->UpdateData( FALSE );
 }
 
 
@@ -325,12 +324,12 @@ bool CNewFilesLocator::AddExcludedToDB( LocatorWhatToExclude nType,
 			sOptionName = "exclFolder";
 			break;
 	}
-	CString cmd;
-	cmd.Format( _T("INSERT INTO ProgramOptions")
-				_T(" (SectionName, OptionName, OptionValue, OptionValue2)")
-				_T(" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )"),
-				sOptionName, sName );
-	bSuccess = g_pTheDB->ExecSQL( cmd );
+  CString cmd;
+  cmd.Format( L"INSERT INTO ProgramOptions"
+              L" (SectionName, OptionName, OptionValue, OptionValue2)"
+              L" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )",
+              sOptionName, sName );
+  bSuccess = g_TheArchive.m_pDB->ExecSQL( cmd );
   return bSuccess ;
 }
 
@@ -338,14 +337,14 @@ bool CNewFilesLocator::AddExcludedToDB( LocatorWhatToExclude nType,
 //-(5)--------------------------------------------------------------------------
 bool CNewFilesLocator::AddExcludedTypeToDB( const CString& sExtension )
 {
-    bool bResult = AddExcludedToDB( LocExclFileTypes, sExtension );
-    return bResult;
+  bool bResult = AddExcludedToDB( LocExclFileTypes, sExtension );
+  return bResult;
 }
 
 
 //-(5)--------------------------------------------------------------------------
 bool CNewFilesLocator::AddExcludedFolderToDB( const CString& sFolderName )
 {
-    bool bResult = AddExcludedToDB( LocExclFolders, sFolderName );
-    return bResult;
+  bool bResult = AddExcludedToDB( LocExclFolders, sFolderName );
+  return bResult;
 }

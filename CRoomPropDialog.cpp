@@ -10,9 +10,9 @@
 #include "MArc2.h"
 #include "CRoomPropDialog.h"
 
-#include "CArchiveDB.h"
-#include "CMyArchive.h"
-#include "CRoom.h"
+#include "MArcCore/CArchiveDB.h"
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CRoom.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -59,19 +59,19 @@ const int firstRadio = IDC_ROOM_COMPRESSION_ALLOWED,	// (1)
 //==============================================================================
 int CRoomPropDialog::Edit(CRoom *pRoom)
 {
-	CRoomPropDialog dlg;
-	dlg.pTheRoom = pRoom;
+  CRoomPropDialog dlg;
+  dlg.pTheRoom = pRoom;
 
 //-------------------------------
-	int result = dlg.DoModal();
+  int result = dlg.DoModal();
 //-------------------------------
 
-	if (result==IDOK)
-	{
-		if( ! g_pTheDB->RoomUpdate( pRoom ) )
-			result = IDCANCEL;
-	}
-	return result;
+  if (result==IDOK)
+  {
+    if( ! g_TheArchive.m_pDB->RoomUpdate( pRoom ) )
+      result = IDCANCEL;
+  }
+  return result;
 }
 
 

@@ -24,11 +24,11 @@
 #include "MainFrm.h"
 #include "CFilesToArcFrame.h"
 #include "CFilesToArcDoc.h"
-#include "CFileToArc.h"		// (1)
+#include "MArcCore/CFileToArc.h"
 #include "LeftView.h"
 
-#include "CMyArchive.h"		// M
-#include "CArchiveDB.h"
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CArchiveDB.h"
 #include "CRoomsDoc.h"		// M
 #include "CRoomsFrame.h"	// M
 #include "CRoomsView.h"		// M
@@ -62,7 +62,6 @@ static char THIS_FILE[] = __FILE__;
 /*const Не получается*/ wchar_t* strMyComp = _T("My Computer");
                                                 // LATER: Или в ресурс ее?
 CMArc2App theApp; // The one and only CMArc2App object
-CMyArchive g_TheArchive; // (9) Was theArchive
 
 
 //==============================================================================
@@ -240,7 +239,8 @@ bool CMArc2App::AddFiles()
 //==============================================================================
 void CMArc2App::FilesGetStatus()
 {
-	g_TheArchive.m_FilesToArc.FilesGetStatus();
+  int dummy;
+	g_TheArchive.m_FilesToArc.FilesGetStatus(dummy);
 	UpdateTreeAndList();
 }
 

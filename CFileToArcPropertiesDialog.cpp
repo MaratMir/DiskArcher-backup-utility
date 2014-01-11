@@ -6,16 +6,13 @@
 #include "stdafx.h"
 #include "marc2.h"
 #include "CFileToArcPropertiesDialog.h"
-#include "CMyArchive.h"
+#include "MArcCore/CMyArchive.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CFileToArcPropertiesDialog dialog
 
 
 CFileToArcPropertiesDialog::CFileToArcPropertiesDialog(CWnd* pParent /*=NULL*/)
@@ -47,15 +44,12 @@ BEGIN_MESSAGE_MAP(CFileToArcPropertiesDialog, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CFileToArcPropertiesDialog message handlers
-
 
 void CFileToArcPropertiesDialog::On_CompressIt_Changed() 
 {
-	UpdateData();
-	if( m_bCompressIt )
-		if( ! g_TheArchive.isCompressorDefined() )
-			AfxMessageBox( _T("You have not defined the compression utility yet.\n")
-						         _T("Go to \"File\" - \"Options\" menu item") );
+  UpdateData();
+  if( m_bCompressIt )
+    if( ! g_TheArchive.isCompressorDefined() )
+      AfxMessageBox( L"You have not defined the compression utility yet.\n"
+                     L"Go to \"File\" - \"Options\" menu item" );
 }

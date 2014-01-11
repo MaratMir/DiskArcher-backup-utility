@@ -19,8 +19,8 @@
 #include "CNewFilesLocatorDlg.h"
 #include "CNewFilesLocatorView.h"
 #include "MainFrm.h"
-#include "CMyArchive.h"
-#include "Miscelaneous.h"
+#include "MArcCore\CMyArchive.h"
+#include "MArcCore\Miscelaneous.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

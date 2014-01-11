@@ -8,13 +8,14 @@
 #include "stdafx.h"
 #include "MArc2.h"
 
-#include "CRoomsFrame.h"
+#include "MArcCore/Miscelaneous.h"
+#include "MArcCore/CMyArchive.h"
 
+#include "resource.h"
+#include "CRoomsFrame.h"
 #include "CRoomsView.h"
 #include "MainFrm.h"		// M
 #include "CFileOnDisk.h"	// M
-#include "Miscelaneous.h"	// M
-#include "CMyArchive.h"		// M
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -22,9 +23,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CRoomsFrame
 
 IMPLEMENT_DYNCREATE(CRoomsFrame, CMDIChildWnd)
 
@@ -37,8 +35,6 @@ BEGIN_MESSAGE_MAP(CRoomsFrame, CMDIChildWnd)
 	ON_COMMAND_RANGE(AFX_ID_VIEW_MINIMUM, AFX_ID_VIEW_MAXIMUM, OnViewStyle)
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CRoomsFrame construction/destruction
 
 CRoomsFrame::CRoomsFrame()
 {
@@ -60,9 +56,7 @@ BOOL CRoomsFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 
 
-/////////////////////////////////////////////////////////////////////////////
 // CRoomsFrame diagnostics
-
 #ifdef _DEBUG
 void CRoomsFrame::AssertValid() const
 {
@@ -76,9 +70,6 @@ void CRoomsFrame::Dump(CDumpContext& dc) const
 
 #endif //_DEBUG
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CRoomsFrame message handlers
 
 /*
 CRoomsView* CRoomsFrame::GetRightPane()

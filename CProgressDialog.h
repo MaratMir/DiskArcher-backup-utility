@@ -5,19 +5,12 @@
 //	(3) 13.02.2002. Some functions added.
 //==================================================================
 
-#if !defined(AFX_CPROGRESSDIALOG_H__B735BBB3_AB8A_11D5_A44A_000000000000__INCLUDED_)
-#define AFX_CPROGRESSDIALOG_H__B735BBB3_AB8A_11D5_A44A_000000000000__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-// CProgressDialog.h : header file
-//
 
-/////////////////////////////////////////////////////////////////////////////
-// CProgressDialog dialog
+#include "resource.h"
+#include "MArcCore/IProgressCtrl.h"
 
-class CProgressDialog : public CDialog
+class CProgressDialog : public CDialog, public IProgressCtrl
 {
 // Construction
 public:
@@ -48,13 +41,17 @@ public:
 
 // Implementation
 public:
-	void SetPos( int newPos );
-	void SetMessage( CString strMessage );
-	void Advance( int nAmount );
-	void SetMaxRange( int nMax );
-	void ResetAndShow();
-	bool m_bIsAborted;	// Flag, is "Stop" button pressed
-	bool IsAborted();	// Check "Stop"
+  bool m_bIsAborted; // Flag, is "Stop" button pressed
+
+  virtual void setPos( int newPos );
+  virtual void setMessage( CString strMessage );
+  virtual void advance( int nAmount );
+  virtual void setMaxRange( int nMax );
+  virtual void resetAndShow();
+  virtual bool isAborted(); // Check "Stop"
+  virtual void analysisDone();
+  virtual void finished( bool i_stopWorking, OpResult i_result );
+
 
 protected:
 	virtual void OnCancel();
@@ -74,5 +71,3 @@ public:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_CPROGRESSDIALOG_H__B735BBB3_AB8A_11D5_A44A_000000000000__INCLUDED_)

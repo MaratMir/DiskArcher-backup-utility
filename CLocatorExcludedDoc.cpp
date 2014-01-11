@@ -8,8 +8,8 @@
 #include "stdafx.h"
 // #include "MArc2.h"
 
-#include "CMyArchive.h"
-#include "CArchiveDB.h"	// It also includes ADO headers
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CArchiveDB.h" // It also includes ADO headers
 #include "CNewFilesLocator.h"
 #include "CLocatorExcludedDoc.h"
 
@@ -71,17 +71,17 @@ void CLocatorExcludedDoc::Dump(CDumpContext& dc) const
 
 CStringList* CLocatorExcludedDoc::GetSourceList()
 {
-	CStringList* pSrcList = NULL;
-	switch( m_nShowType )
-	{
-		case LocExclFileTypes:
-			pSrcList = &( m_pLocator->m_excludedFileTypes );
-			break;
-		case LocExclFolders:
-			pSrcList = &( m_pLocator->m_excludedFolders );
-			break;
-	}
-	return pSrcList;
+  CStringList* pSrcList = NULL;
+  switch( m_nShowType )
+  {
+    case LocExclFileTypes:
+      pSrcList = &( m_pLocator->getExcludedFileTypes() );
+      break;
+    case LocExclFolders:
+      pSrcList = &( m_pLocator->getExcludedFolders() );
+      break;
+  }
+  return pSrcList;
 }
 
 
@@ -127,7 +127,7 @@ bool CLocatorExcludedDoc::Save()
 	CString sCmd = "DELETE FROM ProgramOptions"
 				   " WHERE SectionName=\"Locator\"";
 	sCmd += " AND OptionName=\"" + sOptionName + "\"";
-  bSuccess = g_pTheDB->ExecSQL( sCmd );
+  bSuccess = g_TheArchive.m_pDB->ExecSQL( sCmd );
 
 // Write all items from the list to DB
 	if( bSuccess )
@@ -140,7 +140,7 @@ bool CLocatorExcludedDoc::Save()
 				        _T(" (SectionName, OptionName, OptionValue, OptionValue2)")
 						_T(" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )"),
 						sOptionName, pSrcList->GetNext( pos ) );
-			if( ! g_pTheDB->ExecSQL( cmd ) )
+			if( ! g_TheArchive.m_pDB->ExecSQL( cmd ) )
 			{
 				bSuccess = false;
 				break;

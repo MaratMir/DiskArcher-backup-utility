@@ -9,12 +9,12 @@
 #include "MArc2.h"
 
 #include "CCopiesFrame.h"
-
+#include "resource.h"
 #include "CCopiesView.h"
-#include "MainFrm.h"		// M
-#include "CFileOnDisk.h"	// M
-#include "CMyArchive.h"		// M
-#include "Miscelaneous.h"	// M
+#include "MainFrm.h"
+#include "CFileOnDisk.h"
+//zz#include "CMyArchive.h"		// M
+#include "MArcCore/Miscelaneous.h"	// M
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -22,9 +22,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CCopiesFrame
 
 IMPLEMENT_DYNCREATE(CCopiesFrame, CMDIChildWnd)
 
@@ -39,8 +36,6 @@ BEGIN_MESSAGE_MAP(CCopiesFrame, CMDIChildWnd)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CCopiesFrame construction/destruction
 
 CCopiesFrame::CCopiesFrame()
 {
@@ -61,10 +56,6 @@ BOOL CCopiesFrame::PreCreateWindow(CREATESTRUCT& cs)
 }
 
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CCopiesFrame diagnostics
-
 #ifdef _DEBUG
 void CCopiesFrame::AssertValid() const
 {
@@ -77,10 +68,6 @@ void CCopiesFrame::Dump(CDumpContext& dc) const
 }
 
 #endif //_DEBUG
-
-
-/////////////////////////////////////////////////////////////////////////////
-// CCopiesFrame message handlers
 
 
 int CCopiesFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) // M

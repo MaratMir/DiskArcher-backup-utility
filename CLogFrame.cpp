@@ -8,9 +8,9 @@
 #include "stdafx.h"
 
 #include "CLogFrame.h"
-#include "MainFrm.h"		// M
-#include "CLogView.h"		// M
-#include "Miscelaneous.h"	// M
+#include "MainFrm.h"
+#include "CLogView.h"
+#include "MArcCore\Miscelaneous.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

@@ -18,15 +18,6 @@
     <ClCompile Include="CAboutDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CArchiveDB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CBundle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CBundles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CCopiesDoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,21 +25,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CCopiesView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFileCompressor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFileCopy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFilesCopies.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFilesOnDisk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFilesToArc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CFilesToArcDoc.cpp">
@@ -60,16 +36,7 @@
     <ClCompile Include="CFilesToArcView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CFileToArc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CFileToArcPropertiesDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFoldersToArc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CFolderToArc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CInputStringDialog.cpp">
@@ -87,22 +54,13 @@
     <ClCompile Include="CLocatorExcludedView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLocatorFolder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CLogDoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CLogFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CLogFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CLogView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CMyArchive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CMyListView.cpp">
@@ -129,16 +87,7 @@
     <ClCompile Include="CProgressDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CRoom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CRoomLabel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CRoomPropDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CRooms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CRoomsDoc.cpp">
@@ -153,9 +102,6 @@
     <ClCompile Include="CTipDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CZipBundle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LeftView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,10 +111,10 @@
     <ClCompile Include="MArc2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Miscelaneous.cpp">
+    <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="CProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -178,19 +124,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bundleType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CAboutDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CArchiveDB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CBundle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CBundles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CCopiesDoc.h">
@@ -202,21 +136,6 @@
     <ClInclude Include="CCopiesView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CFileCompressor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFileCopy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFilesCopies.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFilesOnDisk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFilesToArc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CFilesToArcDoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -226,16 +145,7 @@
     <ClInclude Include="CFilesToArcView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CFileToArc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CFileToArcPropertiesDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFoldersToArc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CFolderToArc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CInputStringDialog.h">
@@ -253,22 +163,13 @@
     <ClInclude Include="CLocatorExcludedView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CLocatorFolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CLogDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLogFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CLogFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CLogView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CMyArchive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMyListView.h">
@@ -295,16 +196,7 @@
     <ClInclude Include="CProgressDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CRoom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CRoomLabel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CRoomPropDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CRooms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CRoomsDoc.h">
@@ -319,15 +211,6 @@
     <ClInclude Include="CTipDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CZipBundle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="enums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="fileStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LeftView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -337,16 +220,10 @@
     <ClInclude Include="MArc2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Miscelaneous.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="roomCompressionMode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CProgressBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -442,7 +319,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ReadMe.txt" />
-    <None Include="CMyArchive.cd" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resource.h">

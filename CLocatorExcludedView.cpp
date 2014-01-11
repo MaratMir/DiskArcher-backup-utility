@@ -7,12 +7,12 @@
 //=================================================================
 
 #include "stdafx.h"
-#include "CArchiveDB.h"	// It also includes ADO headers
+#include "MArcCore/CArchiveDB.h" // It also includes ADO headers
 #include "CInputStringDialog.h"
 #include "CNewFilesLocator.h"
 #include "CLocatorExcludedDoc.h"
 #include "CLocatorExcludedView.h"
-#include "CMyArchive.h"
+#include "MArcCore/CMyArchive.h"
 
 #include "resource.h"
 
@@ -68,19 +68,19 @@ CNewFilesLocator* CLocatorExcludedView::GetLocator()
 // Returns one of two lists that is the source for current mode
 CStringList* CLocatorExcludedView::GetSourceList()
 {
-	CStringList* pSrcList = NULL;
-	CNewFilesLocator* pLocator = GetLocator();
-	DBG_UNREFERENCED_LOCAL_VARIABLE( pLocator );
-	switch( GetDocument()->m_nShowType )
-	{
-		case LocExclFileTypes:
-			pSrcList = &( pLocator->m_excludedFileTypes );
-			break;
-		case LocExclFolders:
-			pSrcList = &( pLocator->m_excludedFolders );
-			break;
-	}
-	return pSrcList;
+  CStringList* pSrcList = NULL;
+  CNewFilesLocator* pLocator = GetLocator();
+  DBG_UNREFERENCED_LOCAL_VARIABLE( pLocator );
+  switch( GetDocument()->m_nShowType )
+  {
+    case LocExclFileTypes:
+      pSrcList = &( pLocator->getExcludedFileTypes() );
+    break;
+    case LocExclFolders:
+      pSrcList = &( pLocator->getExcludedFolders() );
+      break;
+  }
+  return pSrcList;
 }
 
 
@@ -283,14 +283,14 @@ void CLocatorExcludedView::OnUpdateLocatorExclRestoreDefaults( CCmdUI* pCmdUI )
 
 void CLocatorExcludedView::OnLocatorExclRestoreDefaults() 
 {
-	if( AfxMessageBox( _T("Clear current settings\n")
-					      _T("(both excluded files and folders)\n")
-					       _T("and restore defaults?"), 
-					   MB_YESNO ) == IDYES )	// (1)
-	{
-		g_pTheDB->LocatorRestoreDefaultOptions( 44 );
-		GetLocator()->LoadOptions();
-		ShowList( GetDocument()->m_nShowType );
-	}
+  if( AfxMessageBox( L"Clear current settings\n"
+                     L"(both excluded files and folders)\n"
+                     L"and restore defaults?",
+                     MB_YESNO ) == IDYES )// (1)
+  {
+    g_TheArchive.m_pDB->LocatorRestoreDefaultOptions( 44 );
+    GetLocator()->LoadOptions();
+    ShowList( GetDocument()->m_nShowType );
+  }
 }
 

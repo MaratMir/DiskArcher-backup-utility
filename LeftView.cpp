@@ -9,9 +9,10 @@
 // LATER: Rename It into xxxFilesToArcXxx
 
 #include "stdafx.h"
+#include "resource.h"
 #include "MArc2.h"
-#include "CMyArchive.h" // (1)
-#include "CFileToArc.h" // (1)
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CFileToArc.h"
 #include "CDiskItem.h"	// (2)
 
 #include "CFilesToArcDoc.h"

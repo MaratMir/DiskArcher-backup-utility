@@ -1,20 +1,27 @@
 // DiskArcher.
 // "Insert Disk" dialog.
-// (C) Marat Mirgaleev, 2001-2006.
+// (C) Marat Mirgaleev, 2001-2014.
 //==========================================================================
 
-#if !defined(AFX_CINSERTDISKDLG_H__34532293_39CB_4A6B_B0A6_C40E7B84F22B__INCLUDED_)
-#define AFX_CINSERTDISKDLG_H__34532293_39CB_4A6B_B0A6_C40E7B84F22B__INCLUDED_
+#pragma once
 
 #include "resource.h"
+#include "MArcCore/IInsertDisk.h"
+
+class CRoom;
 
 
-class CInsertDiskDlg : public CDialog
+class CInsertDiskDlg : public CDialog, public IInsertDisk
 {
 // Construction
 public:
 	bool m_bEnableSkip; // M
 	CInsertDiskDlg(CWnd* pParent = NULL);   // standard constructor
+
+// IInsertDisk overrides:
+  virtual int askInsertDiskForCopy( const CRoom* const i_pRoom );
+  virtual int askInsertDiskForExtract( const CRoom* const i_pRoom );
+
 
 // Dialog Data
 	//{{AFX_DATA(CInsertDiskDlg)
@@ -45,5 +52,3 @@ protected:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_CINSERTDISKDLG_H__34532293_39CB_4A6B_B0A6_C40E7B84F22B__INCLUDED_)

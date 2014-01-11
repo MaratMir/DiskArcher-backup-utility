@@ -18,17 +18,22 @@
 #include "stdafx.h"
 #include "MArc2.h"
 #include "MainFrm.h"
+
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CFileCompressor.h"
+#include "MArcCore/CRoom.h"
+
 #include "CFilesToArcView.h"
 #include "CFilesToArcFrame.h"
 #include "CRoomsFrame.h"
 #include "CCopiesFrame.h"
 #include "CLogFrame.h"	    // (1)
 #include "CCopiesView.h"
-#include "CMyArchive.h"
 #include "LeftView.h"
-#include "CFileCompressor.h"
 #include "COptionsDialog.h"	// (9)
 #include "CNewFilesLocator.h" // (10)
+#include "CNewFilesLocatorFrame.h"
+#include "CProgressDialog.h"	// (9)
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,19 +73,19 @@ END_MESSAGE_MAP()
 
 static UINT indicators[] =
 {
-	ID_SEPARATOR,           // status line indicator
-	ID_INDICATOR_FILES
+  ID_SEPARATOR,           // status line indicator
+  ID_INDICATOR_FILES
 };
 
 
 //==============================================================================
 CMainFrame::CMainFrame()
 {
-	m_pFilesToArcFrame = NULL;
-	m_pRoomsFrame      = NULL;
-	m_pCopiesFrame     = NULL;
-	m_pLogFrame        = NULL;	// (1)
-// (10)	m_pLocatorFrame    = NULL;	// (6)
+  m_pFilesToArcFrame = NULL;
+  m_pRoomsFrame      = NULL;
+  m_pCopiesFrame     = NULL;
+  m_pLogFrame        = NULL;
+  m_pLocator         = NULL;
 }
 
 
@@ -182,11 +187,106 @@ void CMainFrame::OnUpdateArchiveUpdate(CCmdUI* pCmdUI)
 }
 
 
+// TODO: Refactor it
+//==============================================================================
+OpResult CMainFrame::checksBeforeUpdate()
+{
+  OpResult nResult = OPR_SUCCESSFUL;
+
+  // Some prepations and preliminary checks...
+  //---------------------------------------------
+
+  // Check is there any file for archive
+  if( g_TheArchive.m_FilesToArc.GetCount() <= 1 )
+  {
+    AfxMessageBox( L"Please select files to archive first.\n"
+                   L"To do this just drag files from Windows Explorer\n"
+                   L"and drop them into the program window." );
+    nResult = OPR_USER_STOP;
+  }
+
+  // Check is there any room
+  if( nResult == OPR_SUCCESSFUL )
+    if( g_TheArchive.m_Rooms.GetCount() == 0 )
+    {
+      AfxMessageBox( L"Please create Archive Rooms first.\n"
+                     L"To do this press \"Show Rooms\" button on the toolbar,\n"
+                     L"then press \"Create Room\" button." );
+      nResult = OPR_USER_STOP;
+    }
+
+  // Check is there any unavailable room and calculate free space
+  if( nResult == OPR_SUCCESSFUL )
+  {
+    g_TheArchive.m_Rooms.RoomsUpdate();
+    POSITION pos;
+    for( pos = g_TheArchive.m_Rooms.GetHeadPosition(); pos != NULL; )
+    {
+      CRoom *pCurRoom = g_TheArchive.m_Rooms.GetNext( pos );
+      if( pCurRoom->m_nDiskSpaceFree == -1 )  // -1 - the Room is unavailable
+      {
+        ShowRooms();
+        //zzzCRoomsFrame* pRoomsFrame = pMainFrame->m_pRoomsFrame;
+        m_pRoomsFrame->UpdateList();
+        int nYesNo = AfxMessageBox( L"Not all Archive Rooms are available now.\n"
+                                    L"Continue?", MB_YESNO );
+        nResult = ( nYesNo == IDYES ) ? OPR_WARNINGS : OPR_USER_STOP;
+        if( nResult == OPR_WARNINGS )
+        {
+          CString mess;
+          mess.Format( _T("Archive Room #%d is unavailable"), pCurRoom->m_nRoomID );
+          g_TheArchive.m_LogFile.AddRecord( "", "", mess );
+        }
+        break;
+      }
+    }
+  }
+
+  return nResult;
+}
+
+
+// TODO: CMainFrame is not the best place for this method
+// Progress Dialog Init
+//--------------------------------------------------------------------------------------
+OpResult CMainFrame::initProgressDialog()
+{
+  OpResult nResult = OPR_SUCCESSFUL;
+  CProgressDialog* pProgressDlg = NULL;
+  try
+  {
+    pProgressDlg = new CProgressDialog();
+      // It will be deleted in its DestroyWindow().
+
+    if ( ! pProgressDlg->Create( IDD_PROGRESS_DIALOG ) )
+      nResult = OPR_FATAL_STOP;
+  }
+  catch(...)
+  {
+    nResult = OPR_FATAL_STOP;
+  }
+  if( nResult == OPR_FATAL_STOP )
+    AfxMessageBox( L"Error creating copying process dialog." );
+
+  if( nResult <= OPR_WARNINGS )
+    pProgressDlg->resetAndShow();
+
+  //...........................................
+  g_TheArchive.setProgressDlg( pProgressDlg );
+  //...........................................
+
+  return nResult;
+}
+
+
 //==============================================================================
 void CMainFrame::OnArchiveUpdate() 
 {
-	EnableControls( false );
-	g_TheArchive.update();  /*	(11) Was:
+  EnableControls( false );
+
+  if( checksBeforeUpdate() <= OPR_WARNINGS )
+    if( initProgressDialog() <= OPR_WARNINGS )
+      g_TheArchive.update();  /*	(11) Was:
 	if( ! g_TheArchive.update() )
 	// For example, there isn't any file to archive
 		EnableControls( true );	// if success, they will be enabled 
@@ -256,7 +356,7 @@ void CMainFrame::WindowCopies()
 void CMainFrame::EnableControls( bool bOnOff )
 {
 	CMenu *pMainMenu = GetMenu();										// (7)
-	for( UINT i=0; i < pMainMenu->GetMenuItemCount(); i++ )				// (7)
+	for( int i=0; i < pMainMenu->GetMenuItemCount(); i++ )				// (7)
 		if( bOnOff )													// (7)
 			pMainMenu->EnableMenuItem( i, MF_ENABLED | MF_BYPOSITION );	// (7)
 		else															// (7)
@@ -331,12 +431,22 @@ void CMainFrame::OnUpdateStartLocator(CCmdUI* pCmdUI)
 }
 
 
-// (6)
 //==============================================================================
 void CMainFrame::OnStartLocator() 
 {
-  g_TheArchive.onLocatorStart();
+//zzz  g_TheArchive.onLocatorStart();
         // Here is also a check is the locator already started
+
+// zzzMoved here
+  if( m_pLocator == NULL )
+  {
+    m_pLocator = new CNewFilesLocator();
+    m_pLocator->Init();
+    ((CMainFrame*)AfxGetMainWnd())->EnableControls( false );
+  }
+  else
+    if( m_pLocator->m_pFrame != NULL )
+      m_pLocator->m_pFrame->ActivateFrame();
 }
 
 

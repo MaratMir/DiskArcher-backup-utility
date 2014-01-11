@@ -40,8 +40,8 @@ public:
 	bool getInfo();
 
 
-	ULONGLONG /*zzzDWORD*/ m_nSize;
-  CString	m_strComputer;	// M
+  DWORD m_nSize;
+  CString	m_strComputer;
   CString	m_strDrive;
   CString	m_strDir;
   CString	m_strName;

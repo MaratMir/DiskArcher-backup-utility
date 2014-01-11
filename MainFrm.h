@@ -1,6 +1,6 @@
 // DiskArcher.
-// MainFrm.h - Interface of the CMainFrame class.
-// (C) Marat Mirgaleev, 2001-2002.
+// MainFrm class - the main window of the application.
+// (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
 //	(1) 15.01.2002. Log added.
 //	(2) 12.02.2002. CopiesWindowUpdate() added.
@@ -10,19 +10,15 @@
 //  (9) 25.07.2004. Locator reconstructed.
 //==================================================================
 
-#if !defined(AFX_MAINFRM_H__0A4F0330_7771_4695_99BE_A8425A274CF0__INCLUDED_)
-#define AFX_MAINFRM_H__0A4F0330_7771_4695_99BE_A8425A274CF0__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
+#include "MArcCore/enums.h"
 
 class CFilesToArcFrame;
 class CRoomsFrame;
 class CCopiesFrame;
 class CLogFrame;	// (1)
-class CNewFilesLocatorFrame; // (6)
+class CNewFilesLocator;
 
 class CMainFrame : public CMDIFrameWnd
 {
@@ -36,6 +32,7 @@ public:
 	CRoomsFrame		 *m_pRoomsFrame;		// M
 	CCopiesFrame	 *m_pCopiesFrame;		// M
 	CLogFrame		 *m_pLogFrame;			// M
+  CNewFilesLocator *m_pLocator;
 // (9) CNewFilesLocatorFrame *m_pLocatorFrame;		// (6)
 //	CExcludedFoldersFrame *m_pExclFoldersFrame;	// (8)
 
@@ -56,15 +53,17 @@ public:
 	void ShowRooms();
 	void WindowCopies();
 	void CopiesWindowUpdate();	// (2)
+
+  OpResult checksBeforeUpdate();
+  OpResult initProgressDialog(); // TODO: Refactor
+
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
-protected:  // control bar embedded members
-// (5) CStatusBar  m_wndStatusBar;
-	CToolBar    m_wndToolBar;
-//	CToolBar    m_wndToolBar2; //M
+protected: 
+  CToolBar m_wndToolBar;
 
 // Generated message map functions
 protected:
@@ -93,5 +92,3 @@ protected:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_MAINFRM_H__0A4F0330_7771_4695_99BE_A8425A274CF0__INCLUDED_)

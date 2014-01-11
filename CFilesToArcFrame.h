@@ -1,20 +1,17 @@
 // DiskArcher.
 // Interface of the CFilesToArcFrame class.
-// (C) Marat Mirgaleev, 2001-2002.
+// (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
 //	(2) 05.03.2002. DoDropFiles() added.
 //	(3) 06.03.2002. "Go" and "Pause" buttons added.
 //======================================================================
 
-#if !defined(AFX_FilesToArcFrame_H__D9C31E2B_F16B_4568_8045_BCE591223ACF__INCLUDED_)
-#define AFX_FilesToArcFrame_H__D9C31E2B_F16B_4568_8045_BCE591223ACF__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
+
+#include "CProgressBar.h"
 
 class CFilesToArcView;
-class CLeftView; // M
+class CLeftView;
 
 class CFilesToArcFrame : public CMDIChildWnd
 {
@@ -28,6 +25,7 @@ protected:
 	CToolBar    m_wndToolBar; // M
 //	CToolBar    m_wndToolBar2; // M
 //	bool bShowTree; // M
+
 public:
 
 // Operations
@@ -78,5 +76,3 @@ protected:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_FilesToArcFrame_H__D9C31E2B_F16B_4568_8045_BCE591223ACF__INCLUDED_)

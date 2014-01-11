@@ -16,10 +16,10 @@
 #include "CRoomsDoc.h"
 #include "CRoomsView.h"
 
-#include "CRoom.h"
-#include "CMyArchive.h" // M
-#include "CArchiveDB.h" // M
-#include "CFileToArc.h" // M
+#include "MArcCore/CRoom.h"
+#include "MArcCore/CMyArchive.h" // M
+#include "MArcCore/CArchiveDB.h" // M
+#include "MArcCore/CFileToArc.h" // M
 #include "CRoomPropDialog.h" // M
 #include "MainFrm.h"
 

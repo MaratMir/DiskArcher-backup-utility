@@ -19,17 +19,17 @@
 #include "stdafx.h"
 #include "MArc2.h"
 
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CArchiveDB.h"
+#include "MArcCore/CFileToArc.h"
+
 #include "CFilesToArcDoc.h"
 #include "CFilesToArcView.h"
-
-#include "CMyArchive.h"   // M
 #include "LeftView.h"	  // M
-#include "CFileToArc.h"   // M
 #include "MainFrm.h"	  // M
 #include "CCopiesFrame.h" // M
 #include "CCopiesView.h"  // M
 #include "CFilesToArcFrame.h"
-#include "CArchiveDB.h"
 #include "CFileToArcPropertiesDialog.h"
 
 #ifdef _DEBUG
@@ -419,7 +419,7 @@ void CFilesToArcView::OnFileToArcGo()
 	CFileToArc* pSelFile = GetSelectedFile();
 	pSelFile->m_bPaused = false;
 	pSelFile->GetStatus();
-	g_pTheDB->FileUpdate( pSelFile );
+  g_TheArchive.m_pDB->FileUpdate( pSelFile );
 	SetSubItems( GetSelectedItem(), pSelFile );
 }
 
@@ -444,7 +444,7 @@ void CFilesToArcView::OnFileToArcPause()
 	{
 		pSelFile->m_bPaused = true;
 		pSelFile->m_nStatus = fsPaused;
-		g_pTheDB->FileUpdate( pSelFile );
+    g_TheArchive.m_pDB->FileUpdate( pSelFile );
 		SetSubItems( GetSelectedItem(), pSelFile );
 	}
 }
@@ -527,22 +527,22 @@ void CFilesToArcView::OnUpdateFileToArcProperties(CCmdUI* pCmdUI)
 //==============================================================================
 void CFilesToArcView::OnFileToArcProperties() 
 {
-	CFileToArc* pSelFile = GetSelectedFile();
-	CFileToArcPropertiesDialog dlg;	
+  CFileToArc* pSelFile = GetSelectedFile();
+  CFileToArcPropertiesDialog dlg;	
 
-	dlg.m_bCompressIt = pSelFile->m_bCompressIt;
-	dlg.m_sFilename   = pSelFile->getFullName();
-	dlg.m_nUpToCopies = pSelFile->m_nUpToCopies;
+  dlg.m_bCompressIt = pSelFile->m_bCompressIt;
+  dlg.m_sFilename   = pSelFile->getFullName();
+  dlg.m_nUpToCopies = pSelFile->m_nUpToCopies;
 
-	int result = dlg.DoModal();
-	if (result==IDOK)
-		if(    pSelFile->m_bCompressIt != ( dlg.m_bCompressIt != 0 )
-			|| dlg.m_nUpToCopies != (UINT)pSelFile->m_nUpToCopies )
-				// Compare whether properties have been chanded
-		{
-			pSelFile->m_bCompressIt = ( dlg.m_bCompressIt != 0 );
-			pSelFile->m_nUpToCopies = dlg.m_nUpToCopies;
-			g_pTheDB->FileUpdate( pSelFile );
-			SetSubItems( GetSelectedItem(), pSelFile );
-		}
+  int result = dlg.DoModal();
+  if (result==IDOK)
+    if(    pSelFile->m_bCompressIt != ( dlg.m_bCompressIt != 0 )
+        || dlg.m_nUpToCopies != (UINT)pSelFile->m_nUpToCopies )
+        // Compare whether properties have been chanded
+    {
+      pSelFile->m_bCompressIt = ( dlg.m_bCompressIt != 0 );
+      pSelFile->m_nUpToCopies = dlg.m_nUpToCopies;
+      g_TheArchive.m_pDB->FileUpdate( pSelFile );
+      SetSubItems( GetSelectedItem(), pSelFile );
+    }
 }

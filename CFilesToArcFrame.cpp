@@ -15,14 +15,15 @@
 #include "stdafx.h"
 #include "MArc2.h"
 
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CFileToArc.h"
+#include "MArcCore/Miscelaneous.h"
+
+#include "resource.h"
 #include "CFilesToArcFrame.h"
 #include "LeftView.h"
 #include "CFilesToArcView.h"
-
-#include "MainFrm.h"		// M
-#include "CMyArchive.h"		// M
-#include "CFileToArc.h"		// M
-#include "Miscelaneous.h"	// M
+#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,9 +31,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CFilesToArcFrame
 
 IMPLEMENT_DYNCREATE(CFilesToArcFrame, CMDIChildWnd)
 
@@ -50,9 +48,6 @@ BEGIN_MESSAGE_MAP(CFilesToArcFrame, CMDIChildWnd)
 	ON_UPDATE_COMMAND_UI(ID_INDICATOR_FILES, OnUpdateFileCount)	// M
 END_MESSAGE_MAP()
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CFilesToArcFrame construction/destruction
 
 CFilesToArcFrame::CFilesToArcFrame()
 {
@@ -266,7 +261,9 @@ int CFilesToArcFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) // M
 // M. Enable drag/drop open
 	DragAcceptFiles();
 
-	g_TheArchive.open();
+  CProgressBar PrBar;
+  g_TheArchive.open( &PrBar );
+
 	UpdateTree();
 	UpdateList();
 

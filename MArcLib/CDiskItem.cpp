@@ -167,9 +167,8 @@ bool CDiskItem::getInfo()
 		/*if(!  ??? */ finder.GetLastWriteTime( &ft );
 		m_LastWriteTime = ft;
 
-		m_nSize = finder.GetLength();
-			// TO DO: File must be smaller than 4 Gb!
-		if( finder.IsDirectory() )	// (1)
+    m_nSize = (DWORD)finder.GetLength(); // TODO! Get over the limitation of 4GB file size!
+		if( finder.IsDirectory() )
 			m_nType = DI_FOLDER;
 		else
 			m_nType = DI_FILE;

@@ -1,7 +1,7 @@
 // DiskArcher.
 // MArc2.h : main header file for the MARC2 application.
 // See MArc2.cpp for the implementation of this class
-// (C) Marat Mirgaleev, 2001-2002.
+// (C) Marat Mirgaleev, 2001-2014 .
 // Modifications:
 //	(1) 15.01.2002. m_pLogTemplate variable for Log window.
 //	(2) 20.01.2002. Definition of BrowseForFolder() and GetErrDescription() 
@@ -15,12 +15,7 @@
 //                  Copy protection changed.
 //================================================================================
 
-#if !defined(AFX_MARC2_H__008A0CD9_A5BD_4DC3_B419_12505B062B3B__INCLUDED_)
-#define AFX_MARC2_H__008A0CD9_A5BD_4DC3_B419_12505B062B3B__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
 	#error include 'stdafx.h' before including this file for PCH
@@ -30,11 +25,7 @@ class CMArc2App;
 class CMyArchive;
 
 extern CMArc2App theApp;
-extern CMyArchive g_TheArchive;	// (9) Was theArchive
 extern wchar_t* strMyComp;
-
-
-#define MyArcUserLen 10
 
 
 class CMArc2App : public CWinApp
@@ -80,5 +71,3 @@ private:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_MARC2_H__008A0CD9_A5BD_4DC3_B419_12505B062B3B__INCLUDED_)
