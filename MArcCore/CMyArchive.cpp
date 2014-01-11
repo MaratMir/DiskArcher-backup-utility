@@ -34,15 +34,11 @@
 #include "CRoom.h"
 #include "CBundle.h"
 #include "CArchiveDB.h"
-#include "CFileCopy.h" // M
-#include "IInsertDisk.h" // zzz "CInsertDiskDlg.h"
-//#include "MArc2.h"
-//zzz#include "CRoomsFrame.h"
+#include "CFileCopy.h"
+#include "IInsertDisk.h"
 #include "CFolderToArc.h"
 #include "CZipBundle.h"
 #include "CFileCompressor.h"
-//zzz#include "CNewFilesLocator.h"       // (14)
-//zzz#include "CNewFilesLocatorFrame.h"  // (14)
 #include "IProgressIndicator.h"
 #include "IProgressCtrl.h"
 #include "Miscelaneous.h"
@@ -50,8 +46,6 @@
 CMyArchive g_TheArchive; // zzz 2014 Moved from MArc2.cpp
 // ZZZZ 2014: I DON'T LIKE THE FACT THAT THERE IS A GLOBAL VARIABLE
 
-// CArchiveDB* g_pTheDB;	// M	The Database to store and get info
-// ZZZZ 2014: I DON'T LIKE THE FACT THAT THERE IS A GLOBAL VARIABLE
 
 
 // Constructor
@@ -357,8 +351,7 @@ OpResult CMyArchive::update()
 
 // Progress Dialog Status Update
 //------------------------------------------------------------------------------
-//zzz  if( nResult <= OPR_NONFATAL_ERRORS )
-  m_pProgressDlg->finished( m_bIsWorking, nResult );
+  m_pProgressDlg->finished( m_bStopWorking, nResult );
 
   m_bIsWorking = false;
 
@@ -589,14 +582,14 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
   }
 
 
-  int nCopiesToHave = i_pFile->getRequiredCopiesNum();
-  int nFileCopies = m_Copies.GetCopiesCount( i_pFile );
+  int copiesToHave = i_pFile->getRequiredCopiesNum();
+  int copiesExist  = m_Copies.GetCopiesCount( i_pFile );
 
 
   if ( i_pFile->m_nStatus == fsUpToDate ) // The file has not changed
   //----------------------------------------------------------------------
   {
-    if( nFileCopies == nCopiesToHave ) // Just enough copies
+    if( copiesExist == copiesToHave ) // Just enough copies
     {
       i_pFile->m_nCommand = CFileToArc::fcNothing; 
     }
@@ -606,7 +599,7 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
 
       // Add as many copies as needed
       //.................................................
-      for( int i = nFileCopies; i < nCopiesToHave; i++ )
+      for( int i = copiesExist; i < copiesToHave; i++ )
       {
         // Add new copies
         OpResult nCurResult = addCopyOfFile( i_pFile );
@@ -614,7 +607,7 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
       }
 
       // Remove all excessive copies (mutually exclusive with the previous 'for')
-      for( int i=nFileCopies; i > nCopiesToHave; i-- )
+      for( int i=copiesExist; i > copiesToHave; i-- )
       {
         deleteOldestCopyOfFile( i_pFile );
       }
@@ -629,17 +622,20 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
 
     // There were enough copies or even more (for example, when the user decreases number of file copies).
     // We are deleting the oldest copies, then search where should we place new copies.
+    // So, if there is 5 copies, we'll leave 4 and add 1 new later.
     //.........................................................................................................
     // This way copies will be re-spread among the Rooms, especially if the Rooms list changes.
-    for( int i=nFileCopies; i >= nCopiesToHave; // >= means that we always need to replace at least one copy
+    int copiesLeft = copiesExist;
+    for( int i=copiesExist; i >= copiesToHave; // >= means that we always need to replace at least one copy
          i-- )
     {
       deleteOldestCopyOfFile( i_pFile );
+      copiesLeft--;
     }
     
     // Add new copies
     //.............................................
-    for( int i = nFileCopies; i < nCopiesToHave; i++ )
+    for( int i = copiesLeft; i < copiesToHave; i++ )
     {
       OpResult nCurResult = addCopyOfFile( i_pFile );
       nSuccess = max( nSuccess, nCurResult );

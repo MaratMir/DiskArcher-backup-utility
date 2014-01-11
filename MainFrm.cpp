@@ -135,9 +135,6 @@ void CMainFrame::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// CMainFrame message handlers
-/////////////////////////////////////////////////////////////////////////////
-
 //==============================================================================
 void CMainFrame::OnUpdateFileCount(CCmdUI *pCmdUI)
 {

@@ -131,13 +131,13 @@ bool CArchiveDB::Create()
                   L"Data source = " + m_strDBFilename );
 	try
 	{
-		step = "10";	  // (15)
+		step = L"10";	  // (15)
 		hr = pCatalog.CreateInstance(__uuidof (ADOX::Catalog));
-		step = "15";      // (16)
+		step = L"15";      // (16)
 		TESTHR( hr );
-		step = "20";      // (15)
+		step = L"20";      // (15)
 		pCatalog->Create( strcnn );
-		step = "25";      // (16)
+		step = L"25";      // (16)
 		m_pConnection = pCatalog->GetActiveConnection();	// (16)
 		bSuccess = true;  // (15)
 	}   
@@ -160,16 +160,16 @@ bool CArchiveDB::Create()
 	if( ( hr == S_OK ) && bSuccess/*(15)*/ )
 	{
 		bSuccess = false; // (15) Just clear the flag
-		step = "30";	  // (15)
+		step = L"30";	  // (15)
 		ADOX::_TablePtr pTable = NULL;
     try
     {
 		// Table "Files To Archive"
 		//=================================
-			step = "40";	  // (15)
+			step = L"40";	  // (15)
       hr = pTable.CreateInstance(__uuidof(ADOX::Table));
       TESTHR( hr );
-			step = "50";	  // (15)
+			step = L"50";	  // (15)
       pTable->PutName( "FilesToArchive" );
       pTable->Columns->Append( "Computer", ADOX::adWChar,   MAX_COMPUTERNAME_LENGTH );
       pTable->Columns->Append( "Drive",	 ADOX::adWChar,   15/*_MAX_DRIVE=3 - it's not enough*/);
@@ -181,15 +181,15 @@ bool CArchiveDB::Create()
 			pTable->Columns->Append( "IsSystem",   ADOX::adBoolean, 0 );	// (2)
 			pTable->Columns->Append( "FolderID",   ADOX::adInteger, 0 );	// (8)
 			pTable->Columns->Append( "Paused",	   ADOX::adBoolean, 0 );	// (8)
-			step = "70";	  // (15)
+			step = L"70";	  // (15)
 			pCatalog->Tables->Append( _variant_t((IDispatch *)pTable) );
 
 		// Table "Archive Rooms"
 		//=================================
-			step = "80";	  // (15)
+			step = L"80";	  // (15)
       hr = pTable.CreateInstance(__uuidof(ADOX::Table));
       TESTHR( hr );
-			step = "90";	  // (15)
+			step = L"90";	  // (15)
       pTable->PutName( "Rooms" );
       pTable->Columns->Append( "RoomID",		ADOX::adInteger, 0 );
       pTable->Columns->Append( "Filename",	ADOX::adWChar,   255/*_MAX_DIR=256 - it's too long*/ );
@@ -230,7 +230,7 @@ bool CArchiveDB::Create()
 
 		// (1) Table "ArcLog"
 		//=================================
-			step = "200";	  // (15)
+      step = L"200";  // (15)
 			CreateArcLogTable( pCatalog );
 	
 			bSuccess = true;  // (15)

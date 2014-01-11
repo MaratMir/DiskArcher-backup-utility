@@ -19,7 +19,7 @@ CString GetErrDescription( bool bWithoutLF/*(1)*/ )
 			
 	DWORD err = GetLastError();
 	CString mess;
-	mess.Format( _T("Code: %d.%sDescription: %s"), err, bWithoutLF ? " " : "\n", (LPCSTR)lpMsgBuf );
+	mess.Format( L"Code: %d.%sDescription: %s", err, bWithoutLF ? L" " : L"\n", (LPCSTR)lpMsgBuf );
 	
 	return mess;
 }

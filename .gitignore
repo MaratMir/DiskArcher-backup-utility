@@ -39,5 +39,7 @@ hlp/MArc2.hm
 # MMR: Debug and Release files
 Debug/*.*
 Release/*.*
-DiskArcherLib/Debug/*.*
-DiskArcherLib/Release/*.*
+MArcLib/Debug/*.*
+MArcLib/Release/*.*
+MArcCore/Debug/*.*
+MArcLibUnitTest/Debug/*.*

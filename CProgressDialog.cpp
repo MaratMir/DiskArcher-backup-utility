@@ -205,17 +205,20 @@ void CProgressDialog::analysisDone()
 
 void CProgressDialog::finished( bool i_stopWorking, OpResult i_result )
 {
-  m_CopyingBmp.ShowWindow(SW_NORMAL);
-  m_StopButton.EnableWindow( FALSE );
-  m_OkButton.EnableWindow();
-  m_OkButton.SetFocus();
-  if( i_stopWorking || m_bIsAborted )
-    m_SuccessLabel.SetWindowText( L"User break" );
-  if( i_result == OPR_WARNINGS )
-    m_SuccessLabel.SetWindowText( L"There were some warnings" );
-  if( i_result == OPR_NONFATAL_ERRORS )
-    m_SuccessLabel.SetWindowText( L"There were errors. Check the Log" );
-  m_SuccessLabel.ShowWindow(SW_NORMAL);
+  if( i_result <= OPR_NONFATAL_ERRORS )
+  {
+    m_CopyingBmp.ShowWindow(SW_NORMAL);
+    m_StopButton.EnableWindow( FALSE );
+    m_OkButton.EnableWindow();
+    m_OkButton.SetFocus();
+    if( i_stopWorking || m_bIsAborted )
+      m_SuccessLabel.SetWindowText( L"User break" );
+    if( i_result == OPR_WARNINGS )
+      m_SuccessLabel.SetWindowText( L"There were some warnings" );
+    if( i_result == OPR_NONFATAL_ERRORS )
+      m_SuccessLabel.SetWindowText( L"There were errors. Check the Log" );
+    m_SuccessLabel.ShowWindow(SW_NORMAL);
+  }
 
   CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
