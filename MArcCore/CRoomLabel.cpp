@@ -8,7 +8,6 @@
 //==============================================================================
 
 #include "stdafx.h"
-// zzz#include "marc2.h"
 #include "CRoomLabel.h"
 #include "CRoom.h"
 

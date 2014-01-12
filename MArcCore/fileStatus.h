@@ -15,19 +15,16 @@
  * BUT WHY MODELER DOES THE MESS IN THEIR ORDER???
  */
 
-//zzz#include "resource.h"
-
 
 enum fileStatus
 {
-    fsOlder = 4,
-    fsChanged = 3,
-    fsNew = 2,
-    fsUpToDate = 1,
-    fsNotFound = 0,
-
-	fsSystem = 5,	// (1)
-	fsPaused = 6	// (2)
+  fsNotFound = 0,
+  fsUpToDate = 1,
+  fsNew      = 2,
+  fsChanged  = 3,
+  fsOlder    = 4,
+  fsSystem   = 5,
+  fsPaused   = 6
 };
 
 #endif /* fileStatus_h */

@@ -8,9 +8,6 @@
 //=================================================================
 
 #pragma once
-//zzz#include <afxtempl.h>
-
-//#include "MyCommon.h"
 
 class CFileToArc;
 

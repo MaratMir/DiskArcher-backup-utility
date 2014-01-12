@@ -25,7 +25,6 @@
 
 #include "CRoom.h"
 #include "CMyArchive.h"
-//zzz#include "MArc2.h"
 #include "CFileToArc.h"
 #include "CBundle.h"
 #include "CArchiveDB.h"
@@ -93,15 +92,16 @@ OpResult CRoom::doCopying()
     std::list<CRoom*>::iterator copyRoomIter = std::find( pCurFile->m_CopyToRooms.begin(), 
                                                           pCurFile->m_CopyToRooms.end(), this );
     for( ; copyRoomIter != pCurFile->m_CopyToRooms.end(); copyRoomIter++ )
-     // zzz Was if( pCurFile->m_pRoom != NULL && pCurFile->m_pRoom->m_nRoomID == m_nRoomID )
+     // 2014. Was: if( pCurFile->m_pRoom != NULL && pCurFile->m_pRoom->m_nRoomID == m_nRoomID )
     {
-      if( pCurFile->m_nCommand != CFileToArc::fcNothing )
+      if( pCurFile->m_addCopy )
+        // 2014. Was: if( pCurFile->m_nCommand != CFileToArc::fcNothing )
       {
         m_pArchive->getProgressDlg()->setMessage( pCurFile->getFullName() );
 
         // Add all Copies of this file, assigned to this Room
         //====================================================
-        CFileCopy *pNewCopy	= new CFileCopy();
+        CFileCopy *pNewCopy = new CFileCopy();
         m_pArchive->m_Copies.AddTail( pNewCopy );// And there it will be deleted
         pNewCopy->m_strPath = pCurFile->getFullPath();
         pNewCopy->m_strFilename = pCurFile->m_strName;
@@ -112,16 +112,16 @@ OpResult CRoom::doCopying()
       // Send the Copy to a Bundle where isn't any copy of this file
       // LATER: But now every file is placed in a separated bundle
       // Check the File and the Rooms settings and choose type of the bundle
-        bundleType theBundleType = btSingleFile;
+        CBundle::bundleType theBundleType = CBundle::btSingleFile;
         if( m_pArchive->isCompressorDefined() )	// (13)
           if( ! pCurFile->m_bCompressIt )
           {
             if( m_nCompressionMode == rcmAlways )
-              theBundleType = btZipFile;
+              theBundleType = CBundle::btZipFile;
           }
           else
             if( m_nCompressionMode == rcmAllowed || m_nCompressionMode == rcmAlways )
-              theBundleType = btZipFile;
+              theBundleType = CBundle::btZipFile;
 
         CBundle* pNewBundle = m_pArchive->m_Bundles.BundleCreate( *copyRoomIter, theBundleType );
         pCurFile->m_pBundle = pNewBundle;
@@ -136,12 +136,8 @@ OpResult CRoom::doCopying()
           ;
         else
         {
-          if( pCurFile->m_nCommand == CFileToArc::fcAddCopy ) // xxx zzz Excessive
-          {
-            pNewCopy->m_FileDateTime = pCurFile->m_LastWriteTime;
-
-            bFileSuccess = g_TheArchive.m_pDB->CopyAdd( pNewCopy );
-          }
+          pNewCopy->m_FileDateTime = pCurFile->m_LastWriteTime;
+          bFileSuccess = g_TheArchive.m_pDB->CopyAdd( pNewCopy );
         }
 
         if( bFileSuccess )
@@ -152,8 +148,8 @@ OpResult CRoom::doCopying()
 
       m_pArchive->getProgressDlg()->setMessage( L"" );
       m_pArchive->getProgressDlg()->advance( 1 );
-#ifdef _DEBUG
-//zzz  /*int poz =*/ m_pArchive->m_pProgressDlg->m_Progress.GetPos();
+#ifdef _DEBUGGGG // Progress indicator debugging
+      /*int poz =*/ m_pArchive->m_pProgressDlg->m_Progress.GetPos();
 #endif
     } // End of This file is assigned to this Room
   } // End of Thru all Files To Arc
@@ -211,9 +207,9 @@ unsigned CRoom::CountFilesBeingCopied() const
     std::list<CRoom*>::iterator copyRoomIter = std::find( pCurFile->m_CopyToRooms.begin(), 
                                                           pCurFile->m_CopyToRooms.end(), this );
     for( ; copyRoomIter != pCurFile->m_CopyToRooms.end(); copyRoomIter++ )
-    // zzz Was		if( pCurFile->m_pRoom != NULL && pCurFile->m_pRoom->m_nRoomID == m_nRoomID )
+      // 2014. Was: if( pCurFile->m_pRoom != NULL && pCurFile->m_pRoom->m_nRoomID == m_nRoomID )
     {
-      if( pCurFile->m_nCommand == CFileToArc::fcAddCopy )
+      if( pCurFile->m_addCopy ) // 2014 Was: if( pCurFile->m_nCommand == CFileToArc::fcAddCopy )
         nCount++;
     }
   }

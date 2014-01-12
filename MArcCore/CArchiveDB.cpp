@@ -39,7 +39,6 @@
 #include "CMyArchive.h"
 #include "CRoom.h"
 
-//zzz#include "MArc2.h"		// M
 #include "CFileCopy.h"	// M
 #include "CBundle.h"	// M
 #include "Miscelaneous.h"	// (2)
@@ -51,7 +50,7 @@
 //======================================
 const CString TrueFalse( bool value )
 {
-  return /*CString zzzz*/( value ? L"TRUE" : L"FALSE" );
+  return ( value ? L"TRUE" : L"FALSE" );
 }
 
 
@@ -613,11 +612,10 @@ bool CArchiveDB::RoomsLoad()
 			pCurRoom->m_nDiskSpaceFree = pCurRoom->m_nDiskSpaceFree << 10;	// LATER ???
 
       vtTmp = rsRooms->Fields->Item["CompressionMode"]->Value;
-			if( vtTmp.vt == VT_NULL )	// The value not assigned
-				pCurRoom->m_nCompressionMode = rcmAllowed;
-			else
-				pCurRoom->m_nCompressionMode = 
-									(enum roomCompressionMode)((long)vtTmp);
+      if( vtTmp.vt == VT_NULL )	// The value not assigned
+        pCurRoom->m_nCompressionMode = CRoom::rcmAllowed;
+      else
+        pCurRoom->m_nCompressionMode = (enum CRoom::roomCompressionMode)((long)vtTmp);
 
 			m_pArchive->m_Rooms.AddTail( pCurRoom );
 			rsRooms->MoveNext();
@@ -753,10 +751,7 @@ bool CArchiveDB::CopyAdd( CFileCopy *pCopy )
     try
     {
       // Append the record
-      //============================================
-      // 2014. Strange things with formatting - wrong result. Let's make it in simple steps. Overflow of %d? Let's do it %I64u 
-//zzzzzzzzzz
-
+      //==================================================
       CString cmd, dt = pCopy->m_FileDateTime.Format();
       cmd.Format( L"INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, SourceSize, PackedSize, BundleID)"
                   L" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d)",
@@ -982,12 +977,12 @@ bool CArchiveDB::BundlesLoad()
 			CBundle *pCurBundle = NULL;
 			switch( iTmp )	// (17)
 			{
-			case btSingleFile:
+      case CBundle::btSingleFile:
 				pCurBundle = new CBundle( fname );
 					// It will be deleted in CMyArchive destructor
 				pCurBundle->m_strExtension = "MAB";
 				break;
-			case btZipFile:
+      case CBundle::btZipFile:
 				pCurBundle = new CZipBundle( fname );
 					// It will be deleted in CMyArchive destructor
 				pCurBundle->m_strExtension = "ZIP";
@@ -996,7 +991,7 @@ bool CArchiveDB::BundlesLoad()
         g_TheArchive.m_LogFile.AddRecord( L"Bundle", L"Loading", L"Unknown type of the Bundle" );
 				continue;	// Impossible to go on with this record, go to next
 			}
-      pCurBundle->m_nType = (bundleType)iTmp;
+      pCurBundle->m_nType = (CBundle::bundleType)iTmp;
 			// End of (17). Was just: CBundle *pCurBundle = new CBundle( fname );
 
       vtTmp = recSet->Fields->Item["BundleID"]->Value;

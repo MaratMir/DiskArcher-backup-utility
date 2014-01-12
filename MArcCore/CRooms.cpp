@@ -13,7 +13,6 @@
 
 #include "stdafx.h"
 #include <afx.h>
-//zzz#include "MArc2.h"
 #include "CMyArchive.h"
 #include "CArchiveDB.h"
 #include "CFileCopy.h"
@@ -45,8 +44,8 @@ bool CRooms::RoomCreate()
 	if( bSuccess )
 	{
     pNewRoom = new CRoom( strFolder + L"MArcRoom" );
-		pNewRoom->m_nSizeLimit = 0;
-		pNewRoom->m_nCompressionMode = rcmAllowed;	// (6)
+    pNewRoom->m_nSizeLimit = 0;
+    pNewRoom->m_nCompressionMode = CRoom::rcmAllowed;	// (6)
 
 	// Get a new Room ID: it will be maxID+1
 	//==========================================

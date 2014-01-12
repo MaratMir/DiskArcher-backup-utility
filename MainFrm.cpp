@@ -223,8 +223,8 @@ OpResult CMainFrame::checksBeforeUpdate()
       if( pCurRoom->m_nDiskSpaceFree == -1 )  // -1 - the Room is unavailable
       {
         ShowRooms();
-        //zzzCRoomsFrame* pRoomsFrame = pMainFrame->m_pRoomsFrame;
         m_pRoomsFrame->UpdateList();
+
         int nYesNo = AfxMessageBox( L"Not all Archive Rooms are available now.\n"
                                     L"Continue?", MB_YESNO );
         nResult = ( nYesNo == IDYES ) ? OPR_WARNINGS : OPR_USER_STOP;
@@ -428,13 +428,10 @@ void CMainFrame::OnUpdateStartLocator(CCmdUI* pCmdUI)
 }
 
 
+// 2014 Moved here
 //==============================================================================
 void CMainFrame::OnStartLocator() 
 {
-//zzz  g_TheArchive.onLocatorStart();
-        // Here is also a check is the locator already started
-
-// zzzMoved here
   if( m_pLocator == NULL )
   {
     m_pLocator = new CNewFilesLocator();

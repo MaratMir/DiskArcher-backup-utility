@@ -14,9 +14,7 @@
  * There can be many copies of a file in Archive
  */
 
-//zzz#include "resource.h"
 #include <afx.h>
-// ? #include <afxdisp.h>
 #include <ATLComTime.h>
 
 #include "MyCommon.h"

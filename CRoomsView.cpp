@@ -310,25 +310,25 @@ bool CRoomsView::SetSubItems( int nItem, CRoom* pRoom )
 		bOk = false;
 
 // (6) "Compression mode" column
-	lvItem.mask = LVIF_TEXT;
-	lvItem.iItem = nItem;
-	lvItem.iSubItem = 5;
-	switch( pRoom->m_nCompressionMode )
-	{
-	case rcmAllowed:
-		sTmp = "Allowed";	break;
-	case rcmNever:
-		sTmp = "Never";		break;
-	case rcmAlways:
-		sTmp = "Always";	break;
-	}
-	strItem = sTmp;
-	lvItem.pszText = (LPTSTR)(strItem);
-	if( ! ctlList.SetItem(&lvItem) )
-		bOk = false;
+  lvItem.mask = LVIF_TEXT;
+  lvItem.iItem = nItem;
+  lvItem.iSubItem = 5;
+  switch( pRoom->m_nCompressionMode )
+  {
+  case CRoom::rcmAllowed:
+    sTmp = "Allowed"; break;
+  case CRoom::rcmNever:
+    sTmp = "Never";   break;
+  case CRoom::rcmAlways:
+    sTmp = "Always";  break;
+  }
+  strItem = sTmp;
+  lvItem.pszText = (LPTSTR)(strItem);
+  if( ! ctlList.SetItem(&lvItem) )
+    bOk = false;
 // End of (6)
 
-	return bOk;
+  return bOk;
 }
 
 

@@ -21,9 +21,4 @@ public:
   virtual void analysisDone() = 0;
   virtual void finished( bool i_stopWorking, OpResult i_result ) = 0;
 
-/*zzz
-bool m_bIsAborted;	// Flag, is "Stop" button pressed
-	
-*/
-
 };

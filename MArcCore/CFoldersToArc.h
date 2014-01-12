@@ -9,20 +9,17 @@
 #define CFoldersToArc_h
 
 #include <afxtempl.h>
-//zzz#include "resource.h"
-
 
 class CFolderToArc;
 
-class CFoldersToArc
-	: public CList < CFolderToArc*, CFolderToArc* >	// M
+class CFoldersToArc : public CList < CFolderToArc*, CFolderToArc* >
 {
 public:
 
-    bool AddFolder( CString name );
-    bool Load();
-    bool DeleteFolder(CFolderToArc* pFolder);
-	CFolderToArc* FindFolder( CString strFolderName ) const;
+  bool AddFolder( CString name );
+  bool Load();
+  bool DeleteFolder(CFolderToArc* pFolder);
+  CFolderToArc* FindFolder( CString strFolderName ) const;
 
 protected:
 

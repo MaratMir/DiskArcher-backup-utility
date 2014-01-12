@@ -15,7 +15,6 @@
 #if !defined(CRoom_h)
 #define CRoom_h
 
-#include "roomCompressionMode.h"
 #include "CFolder.h"
 
 #include "MyCommon.h"
@@ -29,12 +28,18 @@ class CRoom : public CFolder
 {
 public:
 
+  enum roomCompressionMode
+  {
+    rcmAllowed = 0, // Compress a file if it is defined for the file. Otherwise don't compress
+    rcmNever   = 1, // Never compress files on the Room because this Room is big and fast
+    rcmAlways = 2   // Compress all files on this Room, except non-compressable files (jpg, zip, ...)
+  };
+
   bool GetDiskSpaceFree();
   CRoom() {};
   CRoom(const CString& strName);
   OpResult/*(7)*/ doCopying();
   bool CheckLabel();
-// zzz  enum countType { countAll, countForCopying };	// (4)
 	unsigned int CountAllFiles() const;
 	unsigned int CountFilesBeingCopied() const;
   bool DeleteMarkedCopies();

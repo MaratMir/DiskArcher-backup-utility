@@ -21,15 +21,6 @@
 #include "CArchiveDB.h"
 #include "CFileCompressor.h"
 #include "../MArcCore/Miscelaneous.h"
-/*
-#include <algorithm>
-
-#include "CRoom.h"
-#include "CBundle.h"
-#include "CFileCopy.h"
-#include "CFilesCopies.h"	// (2)
-//zzz#include "MArc2.h"			// (2)
-*/
 
 CFileToArc::CFileToArc()
 {
@@ -59,10 +50,9 @@ void CFileToArc::Init()
 //===================================================================
 void CFileToArc::ResetRuntimeData()
 {
-  m_nCommand = fcNothing;
+  m_addCopy = false; // 2014. Was: nCommand = fcNothing;
   m_nPredictedCompressedSize = -1/*Not calculated*/;
   m_pBundle = NULL;
-// zzz	this->m_pCopyToReplace = NULL;
   m_CopyToRooms.clear();
 
 // Delete precompressed file if any

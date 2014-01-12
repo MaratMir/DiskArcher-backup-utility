@@ -6,7 +6,6 @@
 class IProgressIndicator
 {
 public:
-// zzz  IProgressIndicator(void);
   virtual ~IProgressIndicator(void) {}
 
   virtual void init() = 0;

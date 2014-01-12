@@ -79,24 +79,24 @@ int CRoomPropDialog::Edit(CRoom *pRoom)
 //==============================================================================
 BOOL CRoomPropDialog::OnInitDialog() 
 {
-	CDialog::OnInitDialog();
-	
-	m_Limit = pTheRoom->m_nSizeLimit >> 10;	// From Bytes to KB
-	int checkedRadio=0;
-	switch( pTheRoom->m_nCompressionMode )
-	{
-	case rcmAllowed:	checkedRadio = IDC_ROOM_COMPRESSION_ALLOWED;
-						break;
-	case rcmNever:		checkedRadio = IDC_ROOM_COMPRESSION_NEVER;
-						break;
-	case rcmAlways:		checkedRadio = IDC_ROOM_COMPRESSION_ALWAYS;
-						break;
-	}
-	CheckRadioButton( firstRadio, lastRadio, checkedRadio );
-  UpdateData( FALSE ); // (2) Bug fixed
-	
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+  CDialog::OnInitDialog();
+  
+  m_Limit = pTheRoom->m_nSizeLimit >> 10; // From Bytes to KB
+  int checkedRadio=0;
+  switch( pTheRoom->m_nCompressionMode )
+  {
+  case CRoom::rcmAllowed: checkedRadio = IDC_ROOM_COMPRESSION_ALLOWED;
+                          break;
+  case CRoom::rcmNever:   checkedRadio = IDC_ROOM_COMPRESSION_NEVER;
+                          break;
+  case CRoom::rcmAlways:  checkedRadio = IDC_ROOM_COMPRESSION_ALWAYS;
+                          break;
+  }
+  CheckRadioButton( firstRadio, lastRadio, checkedRadio );
+  UpdateData( FALSE );
+  
+  return TRUE;  // return TRUE unless you set the focus to a control
+                // EXCEPTION: OCX Property Pages should return FALSE
 }
 
 
@@ -105,21 +105,21 @@ BOOL CRoomPropDialog::OnInitDialog()
 void CRoomPropDialog::OnOK() 
 {
 // Store changed data
-  UpdateData( TRUE ); // (2) Bug fixed
-	pTheRoom->m_nSizeLimit = m_Limit << 10;	// From KB to Bytes
-	int checkedRadio = GetCheckedRadioButton( firstRadio, lastRadio );
-	switch( checkedRadio )
-	{
-	case IDC_ROOM_COMPRESSION_ALLOWED:	
-		pTheRoom->m_nCompressionMode = rcmAllowed;
-		break;
-	case IDC_ROOM_COMPRESSION_NEVER:
-		pTheRoom->m_nCompressionMode = rcmNever;
-		break;
-	case IDC_ROOM_COMPRESSION_ALWAYS:
-		pTheRoom->m_nCompressionMode = rcmAlways;
-		break;
-	}		
-	
-	CDialog::OnOK();
+  UpdateData( TRUE );
+  pTheRoom->m_nSizeLimit = m_Limit << 10; // From KB to Bytes
+  int checkedRadio = GetCheckedRadioButton( firstRadio, lastRadio );
+  switch( checkedRadio )
+  {
+  case IDC_ROOM_COMPRESSION_ALLOWED:
+    pTheRoom->m_nCompressionMode = CRoom::rcmAllowed;
+    break;
+  case IDC_ROOM_COMPRESSION_NEVER:
+    pTheRoom->m_nCompressionMode = CRoom::rcmNever;
+    break;
+  case IDC_ROOM_COMPRESSION_ALWAYS:
+    pTheRoom->m_nCompressionMode = CRoom::rcmAlways;
+    break;
+  }
+  
+  CDialog::OnOK();
 }

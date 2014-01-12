@@ -1,16 +1,6 @@
-// CDrive.h
-//
+#pragma once
 
-#if !defined(CDrive_h)
-#define CDrive_h
-
-/*
- * Are network drives included?
- */
-
-//zzzzzz#include "resource.h"
 #include <afx.h>
-
 
 class CFolder;
 class CDiskItem;
@@ -39,5 +29,3 @@ private:
 
 
 };
-
-#endif /* CDrive_h */

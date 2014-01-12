@@ -1,5 +1,5 @@
 // DiskArcher.
-// Interface of CRooms class.
+// CRooms class - collection of Rooms.
 // (C) Marat Mirgaleev, 2001-2002.
 // Created 16.02.2002.
 //=================================================================
@@ -8,26 +8,22 @@
 #define CRooms_h
 
 #include <afxtempl.h>
-//zzz#include "resource.h"
 #include "MyCommon.h"
 
-
 class CRoom;
-//class CString;
 class CFileCopy;
 
-class CRooms
-	: public CList< CRoom*, CRoom* >	// M
+class CRooms : public CList< CRoom*, CRoom* >
 {
 public:
 
-    bool RoomCreate();
-    CRoom* RoomFind(ID roomID);
-    CRoom* RoomFind(CString filename);
-    CRoom* RoomFind(CFileCopy* pCopy);
-    bool RoomsLoad();
-	void RoomsUpdate();
-    bool Delete( CRoom* pRoom );
+  bool RoomCreate();
+  CRoom* RoomFind(ID roomID);
+  CRoom* RoomFind(CString filename);
+  CRoom* RoomFind(CFileCopy* pCopy);
+  bool RoomsLoad();
+  void RoomsUpdate();
+  bool Delete( CRoom* pRoom );
 
 protected:
 

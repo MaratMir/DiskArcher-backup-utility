@@ -768,14 +768,6 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_EDIT_FIND            "zzz  Find the specified text\nFind"
-    ID_EDIT_PASTE           "zzz  Insert Clipboard contents\nPaste"
-    ID_EDIT_UNDO            "zzz  Undo the last action\nUndo"
-    ID_EDIT_REDO            "zzz  Redo the previously undone action\nRedo"
-END
-
-STRINGTABLE
-BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END

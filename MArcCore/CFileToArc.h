@@ -27,13 +27,6 @@ class CFileToArc : public CFileOnDisk
 {
 
 public:
-
-  enum fileCommand
-  {
-    fcAddCopy,
-    fcNothing
-  };
-
   CFileToArc();
   CFileToArc(CString fullName);
   bool Delete();
@@ -56,8 +49,9 @@ public:
 // Only for temporary assignment during updating the Archive. Isn't stored in DB.
   CBundle* m_pBundle;
 
-// zzz  CFileCopy* m_pCopyToReplace; // It is only run-time information
-  fileCommand m_nCommand; // It is only run-time information
+  // 2014 Don't need it  CFileCopy* m_pCopyToReplace; // It is only run-time information
+
+  bool m_addCopy; // 2014: Was: fileCommand m_nCommand; // It is only run-time information
 
 // Is this file for the program use or a regular user's file
   bool m_bSystem;

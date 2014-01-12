@@ -36,8 +36,8 @@ class IProgressCtrl;
 class IInsertDisk;
 class CNewFilesLocator; // (14)
 
-extern CMyArchive g_TheArchive; // zzz 2014 moved from MArc2.h
-const CString MyDBFilename = L"MArc.MDB"; // M   TODO: Is it Ok? zzz Move to CArchiveDB??
+extern CMyArchive g_TheArchive; // 2014 moved from MArc2.h. TODO: Get rid of global variables
+const CString MyDBFilename = L"MArc.MDB"; // M   TODO: Is it Ok? Move to CArchiveDB??
 
 
 class CMyArchive

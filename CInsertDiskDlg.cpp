@@ -4,7 +4,6 @@
 //==========================================================================
 
 #include "stdafx.h"
-//zzz#include "marc2.h"
 #include "CInsertDiskDlg.h"
 #include "MArcCore/CRoom.h"
 

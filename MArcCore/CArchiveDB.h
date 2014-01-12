@@ -22,12 +22,11 @@
 
 #pragma once
 
-#pragma warning (disable:4146)  // (18)
+//#pragma warning (disable:4146)  // (18)
 #import "C:\Program Files\Common Files\system\ado\msadox.dll" // no_namespace
 #import "C:\Program Files\Common Files\system\ado\msado15.dll" no_namespace rename( "EOF", "adoEOF" )
-#pragma warning (default:4146)  // (18)
+//#pragma warning (default:4146)  // (18)
 
-// zzz#include "resource.h"
 #include <afx.h>
 
 #define MyArcUserLen 10

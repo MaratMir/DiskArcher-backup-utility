@@ -223,9 +223,9 @@ void CProgressDialog::finished( bool i_stopWorking, OpResult i_result )
   CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
   if( i_result >= OPR_FATAL_STOP )
-    if( this ) // zzz???
+    if( this ) // ???
       DestroyWindow();
-    else
+    else // TODO: Never reached, because if is always true
       pMainFrame->EnableControls( true );
         // Otherwise it wiil be called in m_pProgressDlg->DestroyWindow()
 

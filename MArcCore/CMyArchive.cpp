@@ -43,9 +43,8 @@
 #include "IProgressCtrl.h"
 #include "Miscelaneous.h"
 
-CMyArchive g_TheArchive; // zzz 2014 Moved from MArc2.cpp
-// ZZZZ 2014: I DON'T LIKE THE FACT THAT THERE IS A GLOBAL VARIABLE
-
+CMyArchive g_TheArchive; // 2014 Moved from MArc2.cpp
+// TODO: 2014: I DON'T LIKE THE FACT THAT THERE IS A GLOBAL VARIABLE
 
 
 // Constructor
@@ -339,10 +338,10 @@ OpResult CMyArchive::update()
 		}
 		m_Copies.RemoveAll();
 		/*bContinue = - Continue anyway */ m_pDB->CopiesLoad();
-//zzz RELOAD BUNDLES???
+    // TODO: RELOAD BUNDLES?
 //	}
 
-#ifdef _DEBUGzzz
+#ifdef _DEBUGGGG // Progress indicator debugging
 	if( m_pProgressDlg )	// (12)
 		if( m_pProgressDlg->m_hWnd )
 			/*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
@@ -390,71 +389,26 @@ OpResult CMyArchive::doCopying()
 repeat:
     if( pCurRoom->m_bRemovable )
       if( pCurRoom->CountFilesBeingCopied() > 0 )
-      // If there is any copy to add or replace in the Room,
-      //	then show the "Insert Disk" dialog
-      //======================================================
+      // If there is any copy to add or replace in the Room, then show the "Insert Disk" dialog
+      //=======================================================================================
       {
         ASSERT( m_pInsertDiskDlg );
         int nRet = m_pInsertDiskDlg->askInsertDiskForCopy( pCurRoom );
 
         m_pProgressDlg->isAborted(); // Just to process messages
-/*zzzz
-        CString mess;
-        mess.Format( _T("Please insert the disk labeled as\n\"Archive Room #%d\"")
-                     _T("\ninto drive %s, then press \"OK\""), 
-                     pCurRoom->m_nRoomID, pCurRoom->m_strDrive );
-        insDlg.m_InsDiskLabel = mess;
-        int nRet = insDlg.DoModal();
-        AfxGetMainWnd()->UpdateWindow();
-        m_pProgressDlg->IsAborted(); // Just to process messages
-        int nYesNo;
-        switch ( nRet )
+
+        const int ID_SKIP_DISK=4; // A hack! TODO
+        if( nRet == ID_SKIP_DISK )
         {
-        case -1: 
-          AfxMessageBox( _T("'Insert Disk' dialog box could not be created!") );
-          nResult = OPR_FATAL_STOP; // (16) Was: bContinue = false;
-          break;
-
-        case IDABORT:
-        case IDCANCEL:	// CANCEL - for pressing a cross in the window's
-                        //   right top corner
-          nYesNo = AfxMessageBox( _T("Abort the archiving process?"), MB_YESNO );
-          if( nYesNo == IDYES )
-             nResult = OPR_USER_STOP;
-            // (16) Was: bContinue = ! ( AfxMessageBox(
-            //            "Abort the archiving process?", MB_YESNO ) == IDYES );
-          break;
-
-        case IDOK:
-          // Ok, continue archiving
-          break;
-
-        case ID_SKIP_DISK: // Skip this Room, proceed with next Room
-          mess.Format( _T("Archive Room #%d skipped"), pCurRoom->m_nRoomID );
-          m_LogFile.AddRecord( "", "", mess );
-          m_pProgressDlg->Advance( pCurRoom->CountAllFiles() );
-          nResult = max( OPR_WARNINGS, nResult );
-          continue;
-          break;
-
-        default:
-          AfxMessageBox( _T("Sudden Error in 'DoCopying'") );
-          nResult = OPR_FATAL_STOP; // (16) Added
-          break;
-        }
-*/
-const int ID_SKIP_DISK=4; // A hack!
-if( nRet == ID_SKIP_DISK ) // zzz
-{
-  CString mess;
-    mess.Format( L"Archive Room #%d skipped", pCurRoom->m_nRoomID );
+          CString mess;
+          mess.Format( L"Archive Room #%d skipped", pCurRoom->m_nRoomID );
           m_LogFile.AddRecord( L"", L"", mess );
           m_pProgressDlg->advance( pCurRoom->CountAllFiles() );
           nResult = max( OPR_WARNINGS, nResult );
           continue;
-}
+        }
 
-      // Check is it Room #N
+        // Check it is Room #N
         if( nResult <= OPR_NONFATAL_ERRORS )
         {
           bCheckedOk = pCurRoom->CheckLabel();
@@ -462,18 +416,17 @@ if( nRet == ID_SKIP_DISK ) // zzz
             goto repeat;	// Repeat with the same Room
         }
 
-        if( nResult <= OPR_NONFATAL_ERRORS )  // (16) Was: if( bContinue )
+        if( nResult <= OPR_NONFATAL_ERRORS )
         {
-        // Write copies to this Room
-        //=========================================================
+          // Write copies to this Room
+          //=========================================================
           OpResult nCurResult = pCurRoom->doCopying();
-                // (16) Was: bContinue = pCurRoom->DoCopying();
           nResult = max( nCurResult, nResult );
-        //=========================================================
+          //=========================================================
         }
         else
-          if( ( nRet == IDABORT ) || ( nRet == IDCANCEL ) )	// 29.12.2001
-            break;	// Stop Archiving
+          if( ( nRet == IDABORT ) || ( nRet == IDCANCEL ) )
+            break;  // Stop Archiving
 
 #ifdef _DEBUG
 //          /*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
@@ -488,8 +441,8 @@ if( nRet == ID_SKIP_DISK ) // zzz
   } // for Rooms
 
 
-// Then Non-Removable Rooms
-//--------------------------
+  // Then Non-Removable Rooms
+  //--------------------------
   if( nResult <= OPR_NONFATAL_ERRORS )  // (16) Was: if( bContinue )
 	{
 		for( roomPos = m_Rooms.GetHeadPosition(); roomPos != NULL; )
@@ -576,7 +529,7 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
   if ( i_pFile->m_nStatus == fsNotFound )
   //----------------------------------------------------------------
   {
-    i_pFile->m_nCommand = CFileToArc::fcNothing;
+    i_pFile->m_addCopy = false; // 2014 Was: i_pFile->m_nCommand = CFileToArc::fcNothing;
     m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName, L"Could not find the file" );
     nSuccess = OPR_WARNINGS;
   }
@@ -591,10 +544,10 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
   {
     if( copiesExist == copiesToHave ) // Just enough copies
     {
-      i_pFile->m_nCommand = CFileToArc::fcNothing; 
+      i_pFile->m_addCopy = false; // 2014. Was: i_pFile->m_nCommand = CFileToArc::fcNothing; 
     }
     else
-    { 
+    {
       // Only one of the two following 'for's will actually work
 
       // Add as many copies as needed
@@ -618,7 +571,7 @@ OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
   if( i_pFile->m_nStatus == fsNew || i_pFile->m_nStatus == fsChanged )
   //------------------------------------------------------------------
   {
-    i_pFile->m_nCommand = CFileToArc::fcAddCopy;
+    i_pFile->m_addCopy = true; // 2014 Was: i_pFile->m_nCommand = CFileToArc::fcAddCopy;
 
     // There were enough copies or even more (for example, when the user decreases number of file copies).
     // We are deleting the oldest copies, then search where should we place new copies.
@@ -677,9 +630,9 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 		//		Refer to the project documentation.
 			if( isCompressorDefined() )									// (13)
 			{
-				if(	   ( pCurRoom->m_nCompressionMode == rcmAlways )	// (13)
-		  			|| ( pCurRoom->m_nCompressionMode == rcmAllowed &&  // (13)
-			  			   i_pFile->m_bCompressIt ))						// (13)
+        if(   ( pCurRoom->m_nCompressionMode == CRoom::rcmAlways )	// (13)
+           || ( pCurRoom->m_nCompressionMode == CRoom::rcmAllowed &&  // (13)
+                i_pFile->m_bCompressIt ))
 				{
 					if( ! i_pFile->IsPreCompressed() )		// (13)
 					// The file could be compressed during negotiation 
@@ -700,7 +653,7 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 
 			if( pCurRoom->m_nPrognosisFree > 
 				i_pFile->m_nPredictedCompressedSize + 65536/*(15)Was:10240* /
-                            /*zzzReserve space for Room's contents and so on*/ )
+                            /*Reserve space for Room's contents and so on*/ )
 				// (13) Was: if( pCurRoom->m_nPrognosisFree > pFile->m_nSize + 5000 )
 			// Is there enough space? -------------------------------------
 			{
@@ -716,22 +669,22 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 		}
 	} // End of for - Selecting Room
 
-	if( nSuccess <= OPR_NONFATAL_ERRORS ) // (16) Was: if( bSuccess )
-		if( pRoomTo == NULL )
-		{
+  if( nSuccess <= OPR_NONFATAL_ERRORS )
+    if( pRoomTo == NULL )
+    {
       m_LogFile.AddRecord( i_pFile->getFullPath(), i_pFile->m_strName,
                            L"Could not find an appropriate Room for a Copy of this File" );
       nSuccess = max( nSuccess, OPR_NONFATAL_ERRORS );  // (16)
-			i_pFile->m_nCommand = CFileToArc::fcNothing;
-		}
-		else
-		{
-			i_pFile->m_nCommand = CFileToArc::fcAddCopy;
-			i_pFile->m_CopyToRooms.push_back( pRoomTo );
-			pRoomTo->m_nPrognosisFree -= i_pFile->m_nPredictedCompressedSize;
-		}
+      i_pFile->m_addCopy = false; // 2014 Was: i_pFile->m_nCommand = CFileToArc::fcNothing;
+    }
+    else
+    {
+      i_pFile->m_addCopy = true; // 2014. Was: i_pFile->m_nCommand = CFileToArc::fcAddCopy;
+      i_pFile->m_CopyToRooms.push_back( pRoomTo );
+      pRoomTo->m_nPrognosisFree -= i_pFile->m_nPredictedCompressedSize;
+    }
 
-  return nSuccess;  // (16) Was: bSuccess;
+  return nSuccess;
 
 } // End of addCopyOfFile()
 
@@ -827,19 +780,7 @@ bool CMyArchive::isCompressorDefined()
 // Events
 //==============================================================================
 
-/* zzz Moved to void CMainFrame::OnStartLocator() 
+/* 2014 Moved to void CMainFrame::OnStartLocator() 
 void CMyArchive::onLocatorStart( void )
-{
-
-  if( m_pLocator == NULL )
-  {
-    m_pLocator = new CNewFilesLocator();
-    m_pLocator->Init();
-    ((CMainFrame*)AfxGetMainWnd())->EnableControls( false );
-  }
-  else
-    if( m_pLocator->m_pFrame != NULL )
-
-  m_pLocator->m_pFrame->ActivateFrame();
-}
+...
 */

@@ -24,9 +24,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bundleType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CBundle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="roomCompressionMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMyArchive.h">

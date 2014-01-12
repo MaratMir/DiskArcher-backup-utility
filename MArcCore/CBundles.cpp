@@ -12,7 +12,6 @@
 #include "CBundles.h"
 #include "CBundle.h"
 #include "CRoom.h"
-//zzz#include "MArc2.h"
 #include "CMyArchive.h"
 #include "CArchiveDB.h"
 #include "CZipBundle.h"
@@ -24,18 +23,18 @@
 //	- type of the Bundle (zipped or not).
 // Returns NULL if fails.
 //=========================================
-CBundle* CBundles::BundleCreate( CRoom *pRoom, bundleType nBundleType/*(3)*/ )
+CBundle* CBundles::BundleCreate( CRoom *pRoom, CBundle::bundleType nBundleType/*(3)*/ )
 {
 	bool bSuccess = false;
 	CBundle* pNewBundle = NULL;
 
 	switch( nBundleType )	// (3)
 	{
-	case btSingleFile:
+  case CBundle::btSingleFile:
 		pNewBundle = new CBundle;// It will be deleted in CMyArchive destructor
 		pNewBundle->m_strExtension = "MAB";
 		break;
-	case btZipFile:
+  case CBundle::btZipFile:
 		pNewBundle = new CZipBundle;
 			// It will be deleted in CMyArchive destructor
 		pNewBundle->m_strExtension = "ZIP";

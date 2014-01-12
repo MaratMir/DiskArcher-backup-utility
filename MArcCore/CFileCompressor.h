@@ -7,7 +7,6 @@
 #if !defined(CFileCompressor_h)
 #define CFileCompressor_h
 
-//zzz#include "resource.h"
 #include <afx.h>
 
 

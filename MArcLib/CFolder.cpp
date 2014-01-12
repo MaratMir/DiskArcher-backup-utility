@@ -8,10 +8,10 @@
 //==========================================================================
 
 #include "stdafx.h"
-#include /*<afx.h>zzzz */ <ATLComTime.h>
+#include <ATLComTime.h>
 #include "CFolder.h"
 
-#include "CFileOnDisk.h" // M
+#include "CFileOnDisk.h"
 
 
 //inline // M - почему-то не собирается в Release

@@ -10,9 +10,7 @@
 #define CFilesCopies_h
 
 #include <afxtempl.h>
-//zzz#include "resource.h"
 #include "CFileCopy.h"
-
 
 class CFileCopy;
 class CFileToArc;

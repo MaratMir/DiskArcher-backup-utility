@@ -80,7 +80,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bundleType.h" />
     <ClInclude Include="CArchiveDB.h" />
     <ClInclude Include="CBundle.h" />
     <ClInclude Include="CBundles.h" />
@@ -107,7 +106,6 @@
     <ClInclude Include="IProgressIndicator.h" />
     <ClInclude Include="Miscelaneous.h" />
     <ClInclude Include="MyCommon.h" />
-    <ClInclude Include="roomCompressionMode.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

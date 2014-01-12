@@ -8,10 +8,9 @@
 #if !defined(CFolder_h)
 #define CFolder_h
 
-//zzzz#include "resource.h"
 #include "CDiskItem.h"
 
-#include <afxtempl.h> // M
+#include <afxtempl.h>
 
 
 class CFolder : public CDiskItem
