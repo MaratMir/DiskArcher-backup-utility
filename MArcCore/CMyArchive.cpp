@@ -270,7 +270,8 @@ OpResult CMyArchive::update()
   }
 
   if( nResult <= OPR_WARNINGS )
-    if( m_nFilesToUpdate == 1 && updatedSysFiles == 1 ) // Only the Database has changed
+    if(    ( m_nFilesToUpdate == 0 )                         // Nothing changed or
+        || (m_nFilesToUpdate == 1 && updatedSysFiles == 1 )) // Only the Database has changed
     {
       AfxMessageBox( _T("Nothing to do:\nThe Archive is up-to-date") );
       nResult = OPR_USER_STOP; // (16) Was: bContinue = false;

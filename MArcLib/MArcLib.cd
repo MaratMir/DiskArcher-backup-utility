@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="It doesn't want to add the CFileOnDisk class here. Why?">
+    <Position X="4.969" Y="0.5" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="CFolder">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAQAAAAAAAAAAAAAAAAAAAAgEAAAAACABAAAA=</HashCode>
+      <FileName>CFolder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDrive">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAQAAAAAAAAAAAAAAAAAAAEIAABAAAAAAAQAA=</HashCode>
+      <FileName>cdrive.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_RootFolder" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CDiskItem">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="m_nType" Hidden="true" />
+      <Method Name="setType" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="CDiskItem::ItemType">
+        <TypeIdentifier>
+          <NewMemberFileName>cdiskitem.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAABgAAgBAAAAQRgAEAAgQAIAAQABQAA=</HashCode>
+      <FileName>cdiskitem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

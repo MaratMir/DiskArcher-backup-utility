@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CMyArchive">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="addCopyOfFile" Hidden="true" />
+      <Method Name="decideAboutFile" Hidden="true" />
+      <Method Name="deleteOldestCopyOfFile" Hidden="true" />
+      <Method Name="doCopying" Hidden="true" />
+      <Method Name="loadOptions" Hidden="true" />
+      <Field Name="m_nFilesToUpdate" Hidden="true" />
+      <Field Name="m_pProgressDlg" Hidden="true" />
+      <Field Name="m_pProgressIndicator" Hidden="true" />
+      <Field Name="m_sTempPath" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAgQEBgAJAAEAAAAACCAIAgCAGASKAQAAYIBQCIEAAw=</HashCode>
+      <FileName>CMyArchive.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_pDB" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_Bundles" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="CBundle" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAQAAAAABAAYAIAAAAAAAAAABAAIAAAAAAABABA=</HashCode>
+      <FileName>CBundle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CArchiveDB" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YBABAAAQIiABJANgAAQUGAYiCCgSAUEEmwggJACAIAA=</HashCode>
+      <FileName>CArchiveDB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
