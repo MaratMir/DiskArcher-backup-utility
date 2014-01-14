@@ -41,5 +41,5 @@ Debug/*.*
 Release/*.*
 MArcLib/Debug/*.*
 MArcLib/Release/*.*
-MArcCore/Debug/*.*
+MArcCore/MArcCoreUnitTest/Debug/*.*
 MArcLibUnitTest/Debug/*.*
