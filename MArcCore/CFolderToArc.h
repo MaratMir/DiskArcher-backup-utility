@@ -9,7 +9,7 @@
 #define CFolderToArc_h
 
 #include <afx.h>
-#include "CFolder.h"
+#include "../MArcLib/CFolder.h"
 #include "MyCommon.h"
 
 const int nFolderMasksLen = 50;

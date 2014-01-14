@@ -17,7 +17,7 @@
 #if !defined(CBundle_h)
 #define CBundle_h
 
-#include "CFileOnDisk.h"
+#include "../MArcLib/CFileOnDisk.h"
 #include "MyCommon.h"
 
 class CFileToArc;

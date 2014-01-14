@@ -16,8 +16,8 @@
 #define CFileToArc_h
 
 #include <list>
+#include "../MArcLib/CFileOnDisk.h"
 #include "fileStatus.h"
-#include "CFileOnDisk.h"
 #include "MyCommon.h"
 
 class CRoom;

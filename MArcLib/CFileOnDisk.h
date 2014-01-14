@@ -6,13 +6,9 @@
 //	(2) 21.08.2002. GetType() added :-) 
 //=======================================================
 
-#if !defined(CFileOnDisk_h)
-#define CFileOnDisk_h
+#pragma once
 
 #include "CDiskItem.h"
-
-//class CString;
-
 
 class CFileOnDisk : public CDiskItem
 {
@@ -21,11 +17,9 @@ public:
   CFileOnDisk() {};
   CFileOnDisk( const CString& strFullName );
 
-  virtual int getType() const // (2)
-		{ return DI_FILE; };	// (2)
+  virtual int getType() const
+		{ return CDiskItem::DI_FILE; };
       // TODO: There is getType() in CDiskItem, but it is non-virtual! And has
       //       different ret.type!
 
 };
-
-#endif /* CFileOnDisk_h */

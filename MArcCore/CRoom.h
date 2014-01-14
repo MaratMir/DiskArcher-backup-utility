@@ -15,8 +15,7 @@
 #if !defined(CRoom_h)
 #define CRoom_h
 
-#include "CFolder.h"
-
+#include "../MArcLib/CFolder.h"
 #include "MyCommon.h"
 #include "enums.h"  // (7)
 
