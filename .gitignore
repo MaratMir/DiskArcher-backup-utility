@@ -43,3 +43,4 @@ MArcLib/Debug/*.*
 MArcLib/Release/*.*
 MArcCore/MArcCoreUnitTest/Debug/*.*
 MArcLibUnitTest/Debug/*.*
+TestResults/*.*
