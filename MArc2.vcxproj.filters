@@ -319,7 +319,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ReadMe.txt" />
-    <None Include="ClassDiagram.cd" />
+    <None Include="MArc.cd" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resource.h">

@@ -86,7 +86,6 @@
     <ClInclude Include="CFileCompressor.h" />
     <ClInclude Include="CFileCopy.h" />
     <ClInclude Include="CFilesCopies.h" />
-    <ClInclude Include="CFilesOnDisk.h" />
     <ClInclude Include="CFilesToArc.h" />
     <ClInclude Include="CFileToArc.h" />
     <ClInclude Include="CFoldersToArc.h" />
@@ -116,7 +115,6 @@
     <ClCompile Include="CFileCompressor.cpp" />
     <ClCompile Include="CFileCopy.cpp" />
     <ClCompile Include="CFilesCopies.cpp" />
-    <ClCompile Include="CFilesOnDisk.cpp" />
     <ClCompile Include="CFilesToArc.cpp" />
     <ClCompile Include="CFileToArc.cpp" />
     <ClCompile Include="CFoldersToArc.cpp" />
@@ -135,7 +133,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CMyArchive.cd" />
+    <None Include="MArcCore.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -17,8 +17,8 @@
 #include "resource.h"
 #include "afxtempl.h"
 #include "MArcLib\CFileOnDisk.h"
+#include "MArcLib\CFilesOnDisk.h"
 #include "MArcCore\IFilesLocator.h"
-#include "MArcCore\CFilesOnDisk.h"
 #include "CNewFilesLocatorDlg.h"
 
 class CLocatorFolder;

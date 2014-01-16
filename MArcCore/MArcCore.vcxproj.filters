@@ -39,9 +39,6 @@
     <ClInclude Include="CFilesCopies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CFilesOnDisk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CFilesToArc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -122,9 +119,6 @@
     <ClCompile Include="CFilesCopies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CFilesOnDisk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CFilesToArc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -166,6 +160,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CMyArchive.cd" />
+    <None Include="MArcCore.cd" />
   </ItemGroup>
 </Project>
