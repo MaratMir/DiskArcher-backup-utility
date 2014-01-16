@@ -31,8 +31,8 @@
 #include "CCopiesView.h"
 #include "LeftView.h"
 #include "COptionsDialog.h"	// (9)
-#include "CNewFilesLocator.h" // (10)
-#include "CNewFilesLocatorFrame.h"
+#include "FileLocator/CNewFilesLocator.h"
+#include "FileLocator/CNewFilesLocatorFrame.h"
 #include "CProgressDialog.h"	// (9)
 
 #ifdef _DEBUG

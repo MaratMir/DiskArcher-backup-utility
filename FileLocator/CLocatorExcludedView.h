@@ -5,14 +5,9 @@
 // Modifications:
 //=================================================================
 
-#if !defined(AFX_LocatorExcludedView_H__B23BE5F0_C975_423F_A345_9E50125FE4DC__INCLUDED_)
-#define AFX_LocatorExcludedView_H__B23BE5F0_C975_423F_A345_9E50125FE4DC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "CMyListView.h"
+#include "..\CMyListView.h"
 
 class CLocatorExcludedDoc;
 class CNewFilesLocator;
@@ -73,5 +68,3 @@ protected:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_LocatorExcludedView_H__B23BE5F0_C975_423F_A345_9E50125FE4DC__INCLUDED_)

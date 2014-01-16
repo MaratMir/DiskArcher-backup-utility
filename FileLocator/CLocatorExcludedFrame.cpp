@@ -6,7 +6,7 @@
 //==================================================================
 
 #include "stdafx.h"
-#include "resource.h"
+#include "../resource.h"
 #include "CNewFilesLocator.h"
 #include "CLocatorExcludedDoc.h"
 #include "CLocatorExcludedFrame.h"

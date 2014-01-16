@@ -14,11 +14,11 @@
 #if !defined(CNewFilesLocator_h)
 #define CNewFilesLocator_h
 
-#include "resource.h"
+#include "../resource.h"
 #include "afxtempl.h"
-#include "MArcLib\CFileOnDisk.h"
-#include "MArcLib\CFilesOnDisk.h"
-#include "MArcCore\IFilesLocator.h"
+#include "..\MArcLib\CFileOnDisk.h"
+#include "..\MArcLib\CFilesOnDisk.h"
+#include "..\MArcCore\IFilesLocator.h"
 #include "CNewFilesLocatorDlg.h"
 
 class CLocatorFolder;

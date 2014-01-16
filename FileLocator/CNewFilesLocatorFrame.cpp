@@ -6,7 +6,7 @@
 //==================================================================
 
 #include "stdafx.h"
-#include "MArc2.h"
+#include "../MArc2.h"
 
 #include "CNewFilesLocator.h"
 #include "CNewFilesLocatorFrame.h"

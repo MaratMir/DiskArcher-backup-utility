@@ -7,14 +7,13 @@
 //=================================================================
 
 #include "stdafx.h"
-#include "MArcCore/CArchiveDB.h" // It also includes ADO headers
-#include "CInputStringDialog.h"
+#include "../MArcCore/CMyArchive.h"
+#include "../MArcCore/CArchiveDB.h" // It also includes ADO headers
+#include "../CInputStringDialog.h"
+#include "../resource.h"
 #include "CNewFilesLocator.h"
 #include "CLocatorExcludedDoc.h"
 #include "CLocatorExcludedView.h"
-#include "MArcCore/CMyArchive.h"
-
-#include "resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

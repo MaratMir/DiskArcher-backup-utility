@@ -6,7 +6,7 @@
 //==========================================================================
 
 #include "stdafx.h"
-#include "MArc2.h"
+#include "../MArc2.h"
 
 #include "CNewFilesLocatorDoc.h"
 
@@ -25,16 +25,6 @@ BEGIN_MESSAGE_MAP(CNewFilesLocatorDoc, CDocument)
 		//    DO NOT EDIT what you see in these blocks of generated code!
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-
-//DEL CNewFilesLocatorDoc::CNewFilesLocatorDoc()
-//DEL {
-//DEL }
-
-
-//DEL CNewFilesLocatorDoc::~CNewFilesLocatorDoc()
-//DEL {
-//DEL }
 
 
 BOOL CNewFilesLocatorDoc::OnNewDocument()

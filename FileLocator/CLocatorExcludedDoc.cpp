@@ -1,15 +1,13 @@
 // DiskArcher.
 // CLocatorExcludedDoc class implementation file.
-// (C) Marat Mirgaleev, 2003.
+// (C) Marat Mirgaleev, 2003-2014.
 // Created 12.01.2003.
 // Modifications:
 //==========================================================================
 
 #include "stdafx.h"
-// #include "MArc2.h"
-
-#include "MArcCore/CMyArchive.h"
-#include "MArcCore/CArchiveDB.h" // It also includes ADO headers
+#include "../MArcCore/CMyArchive.h"
+#include "../MArcCore/CArchiveDB.h" // It also includes ADO headers
 #include "CNewFilesLocator.h"
 #include "CLocatorExcludedDoc.h"
 

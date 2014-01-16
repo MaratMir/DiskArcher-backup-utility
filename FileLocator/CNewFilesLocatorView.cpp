@@ -11,8 +11,8 @@
 //============================================================================
 
 #include "stdafx.h"
-#include "MArc2.h"
-#include "MArcCore/CMyArchive.h"
+#include "../MArc2.h"
+#include "../MArcCore/CMyArchive.h"
 #include "CNewFilesLocator.h"
 #include "CNewFilesLocatorDoc.h"
 #include "CNewFilesLocatorView.h"
@@ -150,7 +150,8 @@ int CNewFilesLocatorView::RemoveFilesOfType( const CString sExtension )
 
 void CNewFilesLocatorView::RemoveFilesOfFolder( const CFileOnDisk* pFile )
 {
-// And subfolders?
+  UNREFERENCED_PARAMETER( pFile );
+  // And subfolders?
 }
 
 

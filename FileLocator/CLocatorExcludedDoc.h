@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "MArcCore/enums.h"
+#include "../MArcCore/enums.h"
 
 class CNewFilesLocator;
 

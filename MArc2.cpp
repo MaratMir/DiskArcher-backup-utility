@@ -2,18 +2,18 @@
 // MArc2.cpp : Defines the class behaviors for the application.
 // (C) Marat Mirgaleev, 2001-2002.
 // Modifications:
-//	(1) 05.03.2002. AddFiles() - Check is it directory.
-//					Enable drag'n'drop.
-//	(2) 01.05.2002. Changes in About box.
-//	                CoInitialize() and CoUnitialize() moved here.
-//	(3) 10.05.2002. CAboutDlg moved into a separate file.
-//					CheckRegDataConformity() and CheckRegistration() added.
-//					Tip of the Day added.
-//	(4) 02.09.2002. Locator added.
-//	(5) 02.10.2002. try block.
-//	(6) 12.01.2003. "Excluded files" template.
-//	(7) 02.12.2003. Processing of a return code of CFilesToArc::Add().
-//	(8) 03.03.2004. GetPassedDays() added.
+//  (1) 05.03.2002. AddFiles() - Check is it directory.
+//                  Enable drag'n'drop.
+//  (2) 01.05.2002. Changes in About box.
+//                  CoInitialize() and CoUnitialize() moved here.
+//  (3) 10.05.2002. CAboutDlg moved into a separate file.
+//                  CheckRegDataConformity() and CheckRegistration() added.
+//                  Tip of the Day added.
+//  (4) 02.09.2002. Locator added.
+//  (5) 02.10.2002. try block.
+//  (6) 12.01.2003. "Excluded files" template.
+//  (7) 02.12.2003. Processing of a return code of CFilesToArc::Add().
+//  (8) 03.03.2004. GetPassedDays() added.
 //  (9) 24.05.2006. theArchive renamed into g_TheArchive.
 //                  Copy protection changed.
 //==============================================================================
@@ -41,13 +41,13 @@
 #include "CLogFrame.h"		// M
 #include "CLogView.h"		// M
 
-#include "CNewFilesLocatorDoc.h"	// (4)
-#include "CNewFilesLocatorFrame.h"
-#include "CNewFilesLocatorView.h"
+#include "FileLocator/CNewFilesLocatorDoc.h"
+#include "FileLocator/CNewFilesLocatorFrame.h"
+#include "FileLocator/CNewFilesLocatorView.h"
 
-#include "CLocatorExcludedFrame.h"	// (6)
-#include "CLocatorExcludedDoc.h"
-#include "CLocatorExcludedView.h"
+#include "FileLocator/CLocatorExcludedFrame.h"
+#include "FileLocator/CLocatorExcludedDoc.h"
+#include "FileLocator/CLocatorExcludedView.h"
 
 #include "CAboutDlg.h"	// (3)
 
@@ -59,8 +59,8 @@ static char THIS_FILE[] = __FILE__;
 
 
 //= GLOBALS ====================================================================
-/*const Не получается*/ wchar_t* strMyComp = _T("My Computer");
-                                                // LATER: Или в ресурс ее?
+wchar_t* strMyComp = L"My Computer";
+    // Tried to make it const, but didn't succeed. LATER: Move it to Resources?
 CMArc2App theApp; // The one and only CMArc2App object
 
 

@@ -7,14 +7,9 @@
 //  (3) 06.06-25.07.2004. Reconstruction of Locator.
 //============================================================================
 
-#if !defined(_NewFilesLocatorView_H__INCLUDED_)
-#define _NewFilesLocatorView_H__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "CMyListView.h"
+#include "../CMyListView.h"
 
 class CNewFilesLocator;
 class CFileOnDisk;
@@ -83,5 +78,3 @@ protected:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(_NewFilesLocatorView_H__INCLUDED_)

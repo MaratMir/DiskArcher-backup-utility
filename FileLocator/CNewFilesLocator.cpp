@@ -3,25 +3,24 @@
 // (C) Marat Mirgaleev, 2002.
 // Created 25.07.2002.
 // Modifications:
-//	(1) 02.11.2002. CLocatorFolder class extracted from this class.
-//	(2) 01.11.2002. theDB changed to *pTheDB.
-//	(3) 15.01.2003. One copy of excludedFolders and one copy 
-//					  of excludedFileTypes for all instances of the class.
-//				    Ignore case.
+//  (1) 02.11.2002. CLocatorFolder class extracted from this class.
+//  (2) 01.11.2002. theDB changed to *pTheDB.
+//  (3) 15.01.2003. One copy of excludedFolders and one copy of excludedFileTypes for all instances of the class.
+//                  Ignore case.
 //  (4) 14.06.2004. ShowCurrentFolder() renamed into ShowFolderInDlg().
 //                  LocatorLoadOptions() renamed into LoadOptions().
 //  (5) 24.07.2004. Total reconstruction.
 //==============================================================================
 
 #include "stdafx.h"
-#include "MArcCore\enums.h"
-#include "MArcCore\CArchiveDB.h"	// It also includes ADO headers
-#include "MArcCore\CMyArchive.h"
+#include "..\MArcCore\enums.h"
+#include "..\MArcCore\CArchiveDB.h"	// It also includes ADO headers
+#include "..\MArcCore\CMyArchive.h"
+#include "..\MArcCore\CLocatorFolder.h"
+#include "..\MArc2.h"
 #include "CNewFilesLocator.h"
-#include "MArcCore\CLocatorFolder.h"
 #include "CNewFilesLocatorFrame.h"
 #include "CNewFilesLocatorView.h"
-#include "MArc2.h"
 
 
 // Static members of the class.

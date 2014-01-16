@@ -26,6 +26,7 @@ MArc2.aps
 *.tlh
 *.tli
 *.log
+/TestResults
 
 # MMR: My files
 MArc.MDB
@@ -43,4 +44,3 @@ MArcLib/Debug/*.*
 MArcLib/Release/*.*
 MArcCore/MArcCoreUnitTest/Debug/*.*
 MArcLibUnitTest/Debug/*.*
-TestResults/*.*

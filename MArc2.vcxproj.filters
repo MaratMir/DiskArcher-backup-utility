@@ -13,6 +13,9 @@
       <UniqueIdentifier>{e4321c2f-fa92-4e76-84d1-502cbe986b19}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="FileLocator">
+      <UniqueIdentifier>{b8099bb0-2df0-48de-af01-2bc44e5e8384}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp">
@@ -45,15 +48,6 @@
     <ClCompile Include="CInsertDiskDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLocatorExcludedDoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CLocatorExcludedFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CLocatorExcludedView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CLogDoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,21 +58,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CMyListView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorDoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="COptionsDialog.cpp">
@@ -117,6 +96,30 @@
     <ClCompile Include="CProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileLocator\CNewFilesLocator.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLocator\CNewFilesLocatorDlg.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLocator\CNewFilesLocatorDoc.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLocator\CNewFilesLocatorFrame.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLocator\CNewFilesLocatorView.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLocator\CLocatorExcludedDoc.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLocator\CLocatorExcludedFrame.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLocator\CLocatorExcludedView.cpp">
+      <Filter>FileLocator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MArc2.rc">
@@ -154,15 +157,6 @@
     <ClInclude Include="CInsertDiskDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CLocatorExcludedDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLocatorExcludedFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLocatorExcludedView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CLogDoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -173,21 +167,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMyListView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNewFilesLocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNewFilesLocatorDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNewFilesLocatorDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNewFilesLocatorFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CNewFilesLocatorView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="COptionsDialog.h">
@@ -225,6 +204,30 @@
     </ClInclude>
     <ClInclude Include="CProgressBar.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CNewFilesLocator.h">
+      <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CNewFilesLocatorDlg.h">
+      <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CNewFilesLocatorDoc.h">
+      <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CNewFilesLocatorFrame.h">
+      <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CNewFilesLocatorView.h">
+      <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CLocatorExcludedDoc.h">
+      <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CLocatorExcludedFrame.h">
+      <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLocator\CLocatorExcludedView.h">
+      <Filter>FileLocator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,15 +12,15 @@
 //=============================================================================
 
 #include "stdafx.h"
-#include "MArc2.h"
+#include "..\MArcCore\CMyArchive.h"
+#include "..\MArcCore\Miscelaneous.h"
+#include "..\MArc2.h"
+#include "..\MainFrm.h"
 #include "CLocatorExcludedDoc.h"
 #include "CLocatorExcludedView.h"
 #include "CNewFilesLocator.h"
 #include "CNewFilesLocatorDlg.h"
 #include "CNewFilesLocatorView.h"
-#include "MainFrm.h"
-#include "MArcCore\CMyArchive.h"
-#include "MArcCore\Miscelaneous.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

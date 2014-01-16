@@ -204,18 +204,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="CLocatorExcludedDoc.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="CLocatorExcludedFrame.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="CLocatorExcludedView.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
     <ClCompile Include="CLogDoc.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -231,30 +219,6 @@
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatWarningAsError>
     </ClCompile>
     <ClCompile Include="CMyListView.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatWarningAsError>
-      <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</TreatWarningAsError>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocator.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatWarningAsError>
-      <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatWarningAsError>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorDlg.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorDoc.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorFrame.cpp">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="CNewFilesLocatorView.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatWarningAsError>
@@ -293,6 +257,14 @@
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatWarningAsError>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</TreatWarningAsError>
     </ClCompile>
+    <ClCompile Include="FileLocator\CLocatorExcludedDoc.cpp" />
+    <ClCompile Include="FileLocator\CLocatorExcludedFrame.cpp" />
+    <ClCompile Include="FileLocator\CLocatorExcludedView.cpp" />
+    <ClCompile Include="FileLocator\CNewFilesLocator.cpp" />
+    <ClCompile Include="FileLocator\CNewFilesLocatorDlg.cpp" />
+    <ClCompile Include="FileLocator\CNewFilesLocatorDoc.cpp" />
+    <ClCompile Include="FileLocator\CNewFilesLocatorFrame.cpp" />
+    <ClCompile Include="FileLocator\CNewFilesLocatorView.cpp" />
     <ClCompile Include="LeftView.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -331,18 +303,10 @@
     <ClInclude Include="CFileToArcPropertiesDialog.h" />
     <ClInclude Include="CInputStringDialog.h" />
     <ClInclude Include="CInsertDiskDlg.h" />
-    <ClInclude Include="CLocatorExcludedDoc.h" />
-    <ClInclude Include="CLocatorExcludedFrame.h" />
-    <ClInclude Include="CLocatorExcludedView.h" />
     <ClInclude Include="CLogDoc.h" />
     <ClInclude Include="CLogFrame.h" />
     <ClInclude Include="CLogView.h" />
     <ClInclude Include="CMyListView.h" />
-    <ClInclude Include="CNewFilesLocator.h" />
-    <ClInclude Include="CNewFilesLocatorDlg.h" />
-    <ClInclude Include="CNewFilesLocatorDoc.h" />
-    <ClInclude Include="CNewFilesLocatorFrame.h" />
-    <ClInclude Include="CNewFilesLocatorView.h" />
     <ClInclude Include="COptionsDialog.h" />
     <ClInclude Include="CProgressBar.h" />
     <ClInclude Include="CProgressDialog.h" />
@@ -351,6 +315,14 @@
     <ClInclude Include="CRoomsFrame.h" />
     <ClInclude Include="CRoomsView.h" />
     <ClInclude Include="CTipDlg.h" />
+    <ClInclude Include="FileLocator\CLocatorExcludedDoc.h" />
+    <ClInclude Include="FileLocator\CLocatorExcludedFrame.h" />
+    <ClInclude Include="FileLocator\CLocatorExcludedView.h" />
+    <ClInclude Include="FileLocator\CNewFilesLocator.h" />
+    <ClInclude Include="FileLocator\CNewFilesLocatorDlg.h" />
+    <ClInclude Include="FileLocator\CNewFilesLocatorDoc.h" />
+    <ClInclude Include="FileLocator\CNewFilesLocatorFrame.h" />
+    <ClInclude Include="FileLocator\CNewFilesLocatorView.h" />
     <ClInclude Include="LeftView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MArc2.h" />
