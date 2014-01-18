@@ -24,6 +24,7 @@
 class CLocatorFolder;
 class CNewFilesLocatorFrame;
 class CNewFilesLocatorView;
+class CNewFilesLocatorDoc;
 
 class CNewFilesLocator : public IFilesLocator
 {
@@ -33,20 +34,17 @@ public:
   CNewFilesLocatorDlg*   m_pDlg;
   CNewFilesLocatorView*  m_pView;
   CNewFilesLocatorFrame* m_pFrame;
+  CNewFilesLocatorDoc*   m_doc; // 2014
 
-  CNewFilesLocator();
-  ~CNewFilesLocator();
-  bool Init();
+  CNewFilesLocator( CMultiDocTemplate* i_locatorTemplate );
+  virtual ~CNewFilesLocator();
   void Analyze( const CString& startPath );
   bool LoadOptions();
   bool CheckAndAddToExclFolders( const CFileOnDisk* const pFile );
   bool CheckAndAddToExclTypes( const CFileOnDisk* const pFile );
 
-// UI features
-//------------------------------------------------------------------------------
-  void EnableControls( bool bOnOff );
-
   // Overrides
+  virtual bool init();
   virtual bool isAborted() const;
   virtual bool isSkippingSomeFiles() const    { return ( m_pDlg->m_bSkipSomeFiles != 0 ); };
   virtual CStringList& getExcludedFolders() const     { return m_excludedFolders; }
@@ -55,6 +53,7 @@ public:
   virtual void showProgress( const CString& strFName ) const  { m_pDlg->ShowProgress( strFName ); };
   virtual int getDays() const { return m_pDlg->m_nDays; };
   virtual void addToList( CFileOnDisk* pFile );
+  virtual void enableControls( bool bOnOff );
 
 
 protected:
@@ -70,6 +69,10 @@ protected:
   bool AddExcludedToDB( LocatorWhatToExclude nType, const CString& sName );
   bool AddExcludedTypeToDB( const CString& sExtension );
   bool AddExcludedFolderToDB( const CString& sFolderName );
+
+private:
+  CMultiDocTemplate* m_locatorTemplate; // 2014
+
 };
 
 #endif /* CNewFilesLocator_h */

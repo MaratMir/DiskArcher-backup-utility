@@ -1,19 +1,13 @@
 // DiskArcher.
 // CNewFilesLocatorDoc class interface file.
-// (C) Marat Mirgaleev, 2002.
+// (C) Marat Mirgaleev, 2002-2014.
 // Created 25.07.2002.
 // Modifications:
 //==========================================================================
 
-#if !defined(AFX_NewFilesLocatorDoc_H__78730A13_C692_4E5E_B663_AB73797F46C9__INCLUDED_)
-#define AFX_NewFilesLocatorDoc_H__78730A13_C692_4E5E_B663_AB73797F46C9__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-
-class CNewFilesLocatorView;	// M
+class CNewFilesLocatorView;
 
 
 class CNewFilesLocatorDoc : public CDocument
@@ -23,7 +17,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
-//	CNewFilesLocatorView* m_pListView;	// M
+  CNewFilesLocatorView* getView(); // 2014. Theoretically, it's one-to-many relationship, but here we limit it to 1-1
 
 // Operations
 public:
@@ -58,5 +52,3 @@ protected:
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_NewFilesLocatorDoc_H__78730A13_C692_4E5E_B663_AB73797F46C9__INCLUDED_)

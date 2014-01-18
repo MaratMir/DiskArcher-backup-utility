@@ -50,20 +50,16 @@ CNewFilesLocatorDlg::CNewFilesLocatorDlg( CNewFilesLocator* pLocator,
 }
 
 
-CNewFilesLocatorDlg::~CNewFilesLocatorDlg()	// (2)
+// When the Dialog is closed, the View is still open
+CNewFilesLocatorDlg::~CNewFilesLocatorDlg()
 {
-	if( m_pLocator )
-        if( m_pLocator->m_pView )  // (4)
-        {
-        // delete m_pLocator; - No, Locator will be deleted on the View close
-        // m_pLocator = NULL;     // (4)
-        }
+  // delete m_pLocator; - No, Locator will be deleted on the View close
 }
 
 
 void CNewFilesLocatorDlg::Finalize()	// (2)
 {
-	m_pLocator/*(4)Was: m_pView*/->m_pDlg = NULL;
+	m_pLocator->m_pDlg = NULL;
 	delete this;
 }
 

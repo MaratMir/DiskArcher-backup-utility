@@ -34,7 +34,7 @@ class CFileCompressor;
 class IProgressIndicator;
 class IProgressCtrl;
 class IInsertDisk;
-class CNewFilesLocator; // (14)
+class IFilesLocator; // (14)
 
 extern CMyArchive g_TheArchive; // 2014 moved from MArc2.h. TODO: Get rid of global variables
 const CString MyDBFilename = L"MArc.MDB"; // M   TODO: Is it Ok? Move to CArchiveDB??
@@ -57,7 +57,7 @@ public:
   CRooms m_Rooms;
   CFilesToArc m_FilesToArc;
   CFoldersToArc m_FoldersToArc;
-  CNewFilesLocator* m_pLocator;
+  IFilesLocator* m_pLocator;
   CFilesCopies m_Copies;
   CBundles m_Bundles;
 

@@ -67,3 +67,13 @@ void CNewFilesLocatorDoc::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
+
+CNewFilesLocatorView* CNewFilesLocatorDoc::getView()
+{
+  CNewFilesLocatorView* theView = NULL;
+  POSITION pos = this->GetFirstViewPosition();
+  if( pos != NULL )
+    theView = (CNewFilesLocatorView*)this->GetNextView(pos);
+
+  return theView;
+}

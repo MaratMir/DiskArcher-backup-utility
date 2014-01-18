@@ -1,22 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="There are implicit references:&#xD;&#xA;m_pLocatorTemplate = new CMultiDocTemplate(&#xD;&#xA;  IDR_LOCATOR,&#xD;&#xA;  RUNTIME_CLASS( CNewFilesLocatorDoc ),&#xD;&#xA;  RUNTIME_CLASS( CNewFilesLocatorFrame ),&#xD;&#xA;  RUNTIME_CLASS( CNewFilesLocatorView ) );">
+    <Position X="7.25" Y="0.5" Height="1.26" Width="3.127" />
+  </Comment>
   <Class Name="CNewFilesLocatorFrame">
-    <Position X="0.5" Y="3.25" Width="1.75" />
+    <Position X="10.5" Y="0.5" Width="2" />
     <Members>
+      <Method Name="AssertValid" Hidden="true" />
+      <Method Name="Dump" Hidden="true" />
       <Field Name="m_wndToolBar" Hidden="true" />
-      <Method Name="OnClose" Hidden="true" />
-      <Method Name="OnCreate" Hidden="true" />
     </Members>
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAACAAAgAAAgCAQAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>CNewFilesLocatorFrame.h</FileName>
+      <FileName>FileLocator\CNewFilesLocatorFrame.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="m_pLocator" />
     </ShowAsAssociation>
   </Class>
   <Class Name="CNewFilesLocator">
-    <Position X="3.75" Y="0.5" Width="2.25" />
+    <Position X="13.75" Y="0.5" Width="2.25" />
     <Members>
       <Method Name="AddExcludedFolderToDB" Hidden="true" />
       <Method Name="AddExcludedToDB" Hidden="true" />
@@ -27,17 +30,19 @@
       <Method Name="RemoveFilesOfType" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>QAIEAIAAAAIAAAAFCgBABAAACMAAICAEMACCABhBAEA=</HashCode>
-      <FileName>CNewFilesLocator.h</FileName>
+      <HashCode>QAIECIAAAAIAAAAFCgBABAAACMAAICAEMACCABhBAEA=</HashCode>
+      <FileName>FileLocator\CNewFilesLocator.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="m_pDlg" />
-      <Field Name="m_pFrame" />
       <Field Name="m_pView" />
+      <Field Name="m_pFrame" />
+      <Field Name="m_doc" />
+      <Field Name="m_locatorTemplate" />
     </ShowAsAssociation>
   </Class>
   <Class Name="CNewFilesLocatorDlg">
-    <Position X="7.25" Y="0.5" Width="2" />
+    <Position X="17.25" Y="0.5" Width="2" />
     <Members>
       <Method Name="DoDataExchange" Hidden="true" />
       <Method Name="EnableControls" Hidden="true" />
@@ -57,31 +62,31 @@
       <Method Name="ShowExcluded" Hidden="true" />
     </Members>
     <NestedTypes>
-      <Enum Name="CNewFilesLocatorDlg::__unnamed_enum_004f_1" Collapsed="true">
+      <Enum Name="CNewFilesLocatorDlg::__unnamed_enum_0235_1" Collapsed="true">
         <TypeIdentifier>
-          <NewMemberFileName>CNewFilesLocatorDlg.h</NewMemberFileName>
+          <NewMemberFileName>FileLocator\CNewFilesLocatorDlg.h</NewMemberFileName>
         </TypeIdentifier>
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
       <HashCode>IAgIECEBAAEAAQiUQBCAAAABACBQwgAgWAIgAAABMwE=</HashCode>
-      <FileName>CNewFilesLocatorDlg.h</FileName>
+      <FileName>FileLocator\CNewFilesLocatorDlg.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="m_pLocator" />
     </ShowAsAssociation>
   </Class>
   <Class Name="CNewFilesLocatorView">
-    <Position X="0.5" Y="0.5" Width="2" />
+    <Position X="10.5" Y="2.5" Width="2" />
     <Members>
+      <Method Name="AssertValid" Hidden="true" />
       <Method Name="CNewFilesLocatorView" Hidden="true" />
+      <Method Name="Dump" Hidden="true" />
       <Method Name="GetFileFromRow" Hidden="true" />
       <Field Name="m_nNameColumn" Hidden="true" />
       <Field Name="m_nPathColumn" Hidden="true" />
       <Field Name="m_nSizeColumn" Hidden="true" />
       <Field Name="m_nTimeColumn" Hidden="true" />
-      <Method Name="OnCreate" Hidden="true" />
-      <Method Name="OnDestroy" Hidden="true" />
       <Method Name="OnInitialUpdate" Hidden="true" />
       <Method Name="OnKeyDown" Hidden="true" />
       <Method Name="OnLocatorAdd" Hidden="true" />
@@ -96,11 +101,73 @@
     </Members>
     <TypeIdentifier>
       <HashCode>AgAJCAAAAQAEAIAIWAgAwAAQAGIQAAAAEIQAAAAAAhA=</HashCode>
-      <FileName>CNewFilesLocatorView.h</FileName>
+      <FileName>FileLocator\CNewFilesLocatorView.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="m_pLocator" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="CNewFilesLocatorDoc">
+    <Position X="10.5" Y="5" Width="2" />
+    <Members>
+      <Method Name="AssertValid" Hidden="true" />
+      <Method Name="Dump" Hidden="true" />
+      <Method Name="Serialize" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAgAAAACAgAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>FileLocator\CNewFilesLocatorDoc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMArc2App">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <AssociationLine Name="m_pFilesToArcTemplate" Type="CMultiDocTemplate" FixedToPoint="true">
+      <Path>
+        <Point X="2.75" Y="1.062" />
+        <Point X="4.75" Y="1.062" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_pLocatorExclTemplate" Type="CMultiDocTemplate" FixedToPoint="true">
+      <Path>
+        <Point X="2.75" Y="3.312" />
+        <Point X="4.75" Y="3.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgADACCAAAAAAAQBAAAAAgRAEDABAAABBAA=</HashCode>
+      <FileName>MArc2.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_pFilesToArcTemplate" />
+      <Field Name="m_pRoomsTemplate" />
+      <Field Name="m_pCopiesTemplate" />
+      <Field Name="m_pLogTemplate" />
+      <Field Name="m_pLocatorTemplate" />
+      <Field Name="m_pLocatorExclTemplate" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CMultiDocTemplate">
+    <Position X="4.75" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="AssertValid" Hidden="true" />
+      <Method Name="Dump" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAjQAhqCAAAAACAAAAAgAAAAEABAA=</HashCode>
+      <FileName>c:\program files\microsoft visual studio 11.0\vc\atlmfc\include\afxwin.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMainFrame">
+    <Position X="0.5" Y="4.25" Width="2.5" />
+    <Members>
+      <Method Name="AssertValid" Hidden="true" />
+      <Method Name="Dump" Hidden="true" />
+      <Field Name="m_wndToolBar" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQACCAAAEgKAAIAEiFEAiSJEACEAAAAgAMKAACAAABw=</HashCode>
+      <FileName>MainFrm.h</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -1,6 +1,6 @@
 // DiskArcher.
 // CNewFilesLocator class implementation file.
-// (C) Marat Mirgaleev, 2002.
+// (C) Marat Mirgaleev, 2002-2014.
 // Created 25.07.2002.
 // Modifications:
 //  (1) 02.11.2002. CLocatorFolder class extracted from this class.
@@ -14,13 +14,14 @@
 
 #include "stdafx.h"
 #include "..\MArcCore\enums.h"
-#include "..\MArcCore\CArchiveDB.h"	// It also includes ADO headers
+#include "..\MArcCore\CArchiveDB.h" // It also includes ADO headers
 #include "..\MArcCore\CMyArchive.h"
 #include "..\MArcCore\CLocatorFolder.h"
 #include "..\MArc2.h"
 #include "CNewFilesLocator.h"
 #include "CNewFilesLocatorFrame.h"
 #include "CNewFilesLocatorView.h"
+#include "CNewFilesLocatorDoc.h"
 
 
 // Static members of the class.
@@ -30,18 +31,18 @@ CStringList CNewFilesLocator::m_excludedFileTypes;	// (3)
 
 
 //------------------------------------------------------------------------------
-CNewFilesLocator::CNewFilesLocator()
-/* (5) Was:
-CNewFilesLocator::CNewFilesLocator( const CString& strFolderName,
-	CNewFilesLocatorView* pView, CNewFilesLocatorDlg* pLocatorDlg )*/
+CNewFilesLocator::CNewFilesLocator( CMultiDocTemplate* i_locatorTemplate )
 {
-    m_pFrame = NULL;
-// (5)	m_pView = pView;
-// (5)	m_pDlg = pLocatorDlg;
-    m_pStartFolder = NULL;
+  m_locatorTemplate = i_locatorTemplate; // 2014
+  m_doc = NULL; // 2014
+  m_pFrame = NULL;
+  m_pView = NULL;
+  m_pDlg = NULL;
+  m_pStartFolder = NULL;
 }
 
 
+// The destructor shall be called only when the View is closed
 //------------------------------------------------------------------------------
 CNewFilesLocator::~CNewFilesLocator()
 {
@@ -49,55 +50,51 @@ CNewFilesLocator::~CNewFilesLocator()
 }
 
 
-// (5) Totally reconstructed.
+// Let's initialize the doc, view, frame etc.
 //------------------------------------------------------------------------------
-bool CNewFilesLocator::Init()
+bool CNewFilesLocator::init()
 {
-    bool bResult = false;
-    CDocument* pDoc = theApp.m_pLocatorTemplate->OpenDocumentFile(NULL);
-    if( ! pDoc )
-        AfxMessageBox( _T("Internal Error in Locator: OpenDoc") );
+  bool bResult = false;
+  m_doc = (CNewFilesLocatorDoc*)m_locatorTemplate->OpenDocumentFile(NULL);
+  if( ! m_doc )
+    throw L"Internal Error in Locator: OpenDoc";
+
+  m_pView = m_doc->getView();
+  if( m_pView ) 
+  {
+    m_pView->m_pLocator = this;
+    m_pFrame = (CNewFilesLocatorFrame*)m_pView->GetParentFrame();
+    if( m_pFrame != NULL )
+    {
+      m_pFrame->m_pLocator = this;
+      bResult = true;
+    }
+  }
+
+  if( bResult )
+  {
+    m_pDlg = new CNewFilesLocatorDlg( this );
+    if( m_pDlg )
+
+     // Load options from DB
+     bResult = LoadOptions();
+  }
+  if( bResult )
+  {
+    if ( ! m_pDlg->Create( IDD_LOCATOR_DIALOG ) )
+      throw L"CNewFilesLocator::Init() - Cannot create Locator Dialog.";
     else
     {
-        POSITION pos = pDoc->GetFirstViewPosition();
-        if( pos != NULL )
-        {
-            m_pView = (CNewFilesLocatorView*)pDoc->GetNextView(pos);
-            if( m_pView != NULL )
-            {
-                m_pView->m_pLocator = this;
-                m_pFrame = (CNewFilesLocatorFrame*)m_pView->GetParentFrame();
-                if( m_pFrame != NULL )
-                {
-                    m_pFrame->m_pLocator = this;
-                    bResult = true;
-                }
-            }
-        }
+      m_pDlg->ShowWindow( SW_NORMAL );
+      m_pDlg->CenterWindow();
     }
-    if( bResult )
-    {
-        m_pDlg = new CNewFilesLocatorDlg( this );
-        if( m_pDlg )
-        // Load options from DB
-	        bResult = LoadOptions();
-    }
-    if( bResult )
-    {
-    	if ( ! m_pDlg->Create( IDD_LOCATOR_DIALOG ) )
-	    	AfxMessageBox( _T("Cannot create Locator Dialog.") );
-	    else
-	    {
-		    m_pDlg->ShowWindow( SW_NORMAL );
-		    m_pDlg->CenterWindow();
-	    }
-    }
-    return bResult;
+  }
+  return bResult;
 }
 
 
 // (5)
-void CNewFilesLocator::EnableControls( bool bOnOff )
+void CNewFilesLocator::enableControls( bool bOnOff )
 {
   if( m_pFrame != NULL )
     m_pFrame->EnableWindow( bOnOff );

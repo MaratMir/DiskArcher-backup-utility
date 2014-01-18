@@ -26,11 +26,11 @@ namespace MArcLibUnitTest
       CFilesOnDisk files;
       Logger::WriteMessage( "CFilesOnDisk_TestMethod" );
 
-      // !!! CFileOnDisk aFile( "X:\\ZZZZ\\YYY.UUU" );
+      // !!! CFileOnDisk aFile( "X:\\WWW\\YYY.UUU" );
       //   Creating an object on stack leads to an exception in the collection destruction
-      CFileOnDisk* aFile = new CFileOnDisk( "X:\\ZZZZ\\YYY.UUU" );
+      CFileOnDisk* aFile = new CFileOnDisk( "X:\\WWW\\YYY.UUU" );
       files.AddTail( aFile );
-      CFileOnDisk* found = files.Find( "X:\\ZZZZ\\", "YYY.UUU" );
+      CFileOnDisk* found = files.Find( "X:\\WWW\\", "YYY.UUU" );
 
       // VS test somehow can't compare two CFileOnDisk*, let's cast to void* then
       void* ptr1 = aFile;

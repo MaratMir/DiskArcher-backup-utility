@@ -32,9 +32,6 @@ public:
 	CRoomsFrame		 *m_pRoomsFrame;		// M
 	CCopiesFrame	 *m_pCopiesFrame;		// M
 	CLogFrame		 *m_pLogFrame;			// M
-  CNewFilesLocator *m_pLocator;
-// (9) CNewFilesLocatorFrame *m_pLocatorFrame;		// (6)
-//	CExcludedFoldersFrame *m_pExclFoldersFrame;	// (8)
 
 	CStatusBar  m_wndStatusBar;	// (5)
 

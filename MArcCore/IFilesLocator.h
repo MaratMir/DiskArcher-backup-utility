@@ -12,6 +12,7 @@ class IFilesLocator
 public:
   virtual ~IFilesLocator() {}
 
+  virtual bool init() = 0;
   virtual bool isAborted() const = 0;
   virtual bool isSkippingSomeFiles() const = 0;
   virtual CStringList& getExcludedFolders() const = 0;
@@ -20,4 +21,5 @@ public:
   virtual void showProgress( const CString& strFName ) const = 0;
   virtual int getDays() const = 0;
   virtual void addToList( CFileOnDisk* pFile ) = 0;
+  virtual void enableControls( bool bOnOff ) = 0;
 };

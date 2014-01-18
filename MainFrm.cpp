@@ -85,7 +85,6 @@ CMainFrame::CMainFrame()
   m_pRoomsFrame      = NULL;
   m_pCopiesFrame     = NULL;
   m_pLogFrame        = NULL;
-  m_pLocator         = NULL;
 }
 
 
@@ -367,7 +366,7 @@ void CMainFrame::EnableControls( bool bOnOff )
 	if( m_pLogFrame != NULL )	// (1)
 		m_pLogFrame->EnableWindow( bOnOff );
 	if( g_TheArchive.m_pLocator != NULL )                 // (10) Revised
-    g_TheArchive.m_pLocator->EnableControls( bOnOff );
+    g_TheArchive.m_pLocator->enableControls( bOnOff );
 	m_wndToolBar.EnableWindow( bOnOff );
 	if( bOnOff )		// (9)
 		DrawMenuBar();	// (9)
@@ -432,15 +431,15 @@ void CMainFrame::OnUpdateStartLocator(CCmdUI* pCmdUI)
 //==============================================================================
 void CMainFrame::OnStartLocator() 
 {
-  if( m_pLocator == NULL )
+  if( g_TheArchive.m_pLocator == NULL )
   {
-    m_pLocator = new CNewFilesLocator();
-    m_pLocator->Init();
-    ((CMainFrame*)AfxGetMainWnd())->EnableControls( false );
+    g_TheArchive.m_pLocator = new CNewFilesLocator( theApp.m_pLocatorTemplate );
+    g_TheArchive.m_pLocator->init();
+    EnableControls( false );
   }
   else
-    if( m_pLocator->m_pFrame != NULL )
-      m_pLocator->m_pFrame->ActivateFrame();
+    if( ((CNewFilesLocator*)g_TheArchive.m_pLocator)->m_pFrame != NULL )
+      ((CNewFilesLocator*)g_TheArchive.m_pLocator)->m_pFrame->ActivateFrame();
 }
 
 

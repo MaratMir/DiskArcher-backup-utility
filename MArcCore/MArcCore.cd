@@ -19,6 +19,7 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="m_pDB" />
+      <Field Name="m_pLocator" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Field Name="m_Bundles" />
@@ -36,6 +37,13 @@
     <TypeIdentifier>
       <HashCode>YBABAAAQIiABJANgAAQUGAYiCCgSAUEEmwggJACAIAA=</HashCode>
       <FileName>CArchiveDB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFilesLocator">
+    <Position X="3.75" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAIAAAAAAAAAAAABAgBABAAAAAAAIAAAAAAAAAgAAAA=</HashCode>
+      <FileName>IFilesLocator.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
