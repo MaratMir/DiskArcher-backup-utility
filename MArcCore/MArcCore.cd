@@ -25,24 +25,52 @@
       <Field Name="m_Bundles" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="CBundle" Collapsed="true">
-    <Position X="4.5" Y="0.5" Width="1.5" />
+  <Class Name="CBundle">
+    <Position X="6" Y="2" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="CBundle::bundleType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CBundle.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAIAQAAAAABAAYAIAAAAAAAAAABAAIAAAAAAABABA=</HashCode>
       <FileName>CBundle.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CArchiveDB" Collapsed="true">
-    <Position X="7.5" Y="1.5" Width="1.5" />
+  <Class Name="CArchiveDB">
+    <Position X="8" Y="0.5" Width="2.75" />
+    <Members>
+      <Method Name="CheckDeleteItField" Hidden="true" />
+      <Method Name="CheckFieldsForCompress" Hidden="true" />
+      <Method Name="CheckFilesTableFolderAndPausedFields" Hidden="true" />
+      <Method Name="CheckFoldersTable" Hidden="true" />
+      <Method Name="CheckIsFileInArc" Hidden="true" />
+      <Method Name="CheckIsSystemField" Hidden="true" />
+      <Method Name="CheckIsTableInDB" Hidden="true" />
+      <Method Name="CheckLogTable" Hidden="true" />
+      <Method Name="CheckOptionsTable" Hidden="true" />
+      <Method Name="CheckRecordAboutDB" Hidden="true" />
+      <Method Name="CreateArcLogTable" Hidden="true" />
+      <Method Name="DBStructureModifications" Hidden="true" />
+      <Method Name="DBStructureModifications2" Hidden="true" />
+      <Method Name="doesFieldExist" Hidden="true" />
+      <Method Name="findField" Hidden="true" />
+      <Method Name="GetMaxID" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>YBABAAAQIiABJANgAAQUGAYiCCgSAUEEmwggJACAIAA=</HashCode>
       <FileName>CArchiveDB.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_pArchive" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="IFilesLocator">
-    <Position X="3.75" Y="2.75" Width="1.75" />
+    <Position X="3.75" Y="3" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>QAIAAAAAAAAAAAABAgBABAAAAAAAIAAAAAAAAAgAAAA=</HashCode>
+      <HashCode>QAIAAAAAAAQAAAABAgBABAAAAAAAIAIAAAAAAAgAAAA=</HashCode>
       <FileName>IFilesLocator.h</FileName>
     </TypeIdentifier>
   </Class>

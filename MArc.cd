@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Comment CommentText="There are implicit references:&#xD;&#xA;m_pLocatorTemplate = new CMultiDocTemplate(&#xD;&#xA;  IDR_LOCATOR,&#xD;&#xA;  RUNTIME_CLASS( CNewFilesLocatorDoc ),&#xD;&#xA;  RUNTIME_CLASS( CNewFilesLocatorFrame ),&#xD;&#xA;  RUNTIME_CLASS( CNewFilesLocatorView ) );">
-    <Position X="7.25" Y="0.5" Height="1.26" Width="3.127" />
+    <Position X="7.187" Y="2.591" Height="1.26" Width="3.127" />
   </Comment>
   <Class Name="CNewFilesLocatorFrame">
     <Position X="10.5" Y="0.5" Width="2" />
@@ -30,7 +30,7 @@
       <Method Name="RemoveFilesOfType" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>QAIECIAAAAIAAAAFCgBABAAACMAAICAEMACCABhBAEA=</HashCode>
+      <HashCode>QAIECIAAAAYAAAABCgBABAAACMAAICIEMACAABhBAEA=</HashCode>
       <FileName>FileLocator\CNewFilesLocator.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -163,6 +163,12 @@
       <Method Name="AssertValid" Hidden="true" />
       <Method Name="Dump" Hidden="true" />
       <Field Name="m_wndToolBar" Hidden="true" />
+      <Method Name="OnUpdateArchiveUpdate" Hidden="true" />
+      <Method Name="OnUpdateFileCount" Hidden="true" />
+      <Method Name="OnUpdateStartLocator" Hidden="true" />
+      <Method Name="OnUpdateWindowCopies" Hidden="true" />
+      <Method Name="OnUpdateWindowFilesToArchive" Hidden="true" />
+      <Method Name="OnUpdateWindowRooms" Hidden="true" />
     </Members>
     <TypeIdentifier>
       <HashCode>AQACCAAAEgKAAIAEiFEAiSJEACEAAAAgAMKAACAAABw=</HashCode>
