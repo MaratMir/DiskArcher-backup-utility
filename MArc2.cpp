@@ -77,14 +77,6 @@ BEGIN_MESSAGE_MAP(CMArc2App, CWinApp)
 END_MESSAGE_MAP()
 
 
-//==============================================================================
-CMArc2App::CMArc2App()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
-}
-
-
 // CMArc2App initialization
 //==============================================================================
 BOOL CMArc2App::InitInstance()
@@ -310,4 +302,17 @@ void CMArc2App::OnHelpTipOfTheDay()
 {
 	CTipDlg dlg;
 	dlg.DoModal();
+}
+
+
+//==============================================================================
+LRESULT CMArc2App::ProcessWndProcException( CException* e, const MSG* pMsg )
+{
+  UNREFERENCED_PARAMETER( pMsg );
+  g_TheArchive.m_bIsWorking = false; // Otherwise a question to stop will be shown by the OnClose handler
+  e->ReportError();
+  AfxGetMainWnd()->SendMessage(WM_CLOSE);
+//  CWinApp::ProcessWndProcException( e, pMsg );
+
+  return 0;
 }

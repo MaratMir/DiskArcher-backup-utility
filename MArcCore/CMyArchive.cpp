@@ -42,6 +42,7 @@
 #include "IProgressIndicator.h"
 #include "IProgressCtrl.h"
 #include "Miscelaneous.h"
+#include "MyException.h"
 
 CMyArchive g_TheArchive; // 2014 Moved from MArc2.cpp
 // TODO: 2014: I DON'T LIKE THE FACT THAT THERE IS A GLOBAL VARIABLE
@@ -393,7 +394,8 @@ repeat:
       // If there is any copy to add or replace in the Room, then show the "Insert Disk" dialog
       //=======================================================================================
       {
-        ASSERT( m_pInsertDiskDlg );
+        if( m_pInsertDiskDlg == NULL )
+          throw new CMyException( L"The 'Insert' Dialog is not found" ); // TODO: MFC-dependent :-S
         int nRet = m_pInsertDiskDlg->askInsertDiskForCopy( pCurRoom );
 
         m_pProgressDlg->isAborted(); // Just to process messages

@@ -120,6 +120,9 @@
     <ClCompile Include="FileLocator\CLocatorExcludedView.cpp">
       <Filter>FileLocator</Filter>
     </ClCompile>
+    <ClCompile Include="UIfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MArc2.rc">
@@ -228,6 +231,9 @@
     </ClInclude>
     <ClInclude Include="FileLocator\CLocatorExcludedView.h">
       <Filter>FileLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="UIfactory.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

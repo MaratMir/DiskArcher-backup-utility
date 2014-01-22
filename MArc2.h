@@ -31,8 +31,6 @@ extern wchar_t* strMyComp;
 class CMArc2App : public CWinApp
 {
 public:
-	CMArc2App();
-
 	void UpdateTreeAndList();
 	void FilesGetStatus();
 	bool AddFiles();
@@ -44,6 +42,7 @@ public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
+  virtual LRESULT ProcessWndProcException( CException* e, const MSG* pMsg );
 
 // Implementation
 	CMultiDocTemplate* m_pFilesToArcTemplate;	// M. FilesToArc window

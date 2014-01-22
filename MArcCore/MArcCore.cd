@@ -20,6 +20,7 @@
     <ShowAsAssociation>
       <Field Name="m_pDB" />
       <Field Name="m_pLocator" />
+      <Field Name="m_pInsertDiskDlg" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Field Name="m_Bundles" />
@@ -59,6 +60,12 @@
       <Method Name="findField" Hidden="true" />
       <Method Name="GetMaxID" Hidden="true" />
     </Members>
+    <AssociationLine Name="m_pArchive" Type="CMyArchive" FixedFromPoint="true">
+      <Path>
+        <Point X="8" Y="1.375" />
+        <Point X="2.5" Y="1.375" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>YBABAAAQIiABJANgAAQUGAYiCCgSAUEEmwggJACAIAA=</HashCode>
       <FileName>CArchiveDB.h</FileName>
@@ -72,6 +79,13 @@
     <TypeIdentifier>
       <HashCode>QAIAAAAAAAQAAAABAgBABAAAAAAAIAIAAAAAAAgAAAA=</HashCode>
       <FileName>IFilesLocator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IInsertDisk">
+    <Position X="0.5" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>IInsertDisk.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

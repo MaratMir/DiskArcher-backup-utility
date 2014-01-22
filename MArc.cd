@@ -134,7 +134,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgADACCAAAAAAAQBAAAAAgRAEDABAAABBAA=</HashCode>
+      <HashCode>AAAAAAAAAgADADCAAAAAAAQBAAAAAgRAADABAAABBAA=</HashCode>
       <FileName>MArc2.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -173,6 +173,23 @@
     <TypeIdentifier>
       <HashCode>AQACCAAAEgKAAIAEiFEAiSJEACEAAAAgAMKAACAAABw=</HashCode>
       <FileName>MainFrm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CInsertDiskDlg">
+    <Position X="4.75" Y="5.25" Width="2" />
+    <Members>
+      <Method Name="DoDataExchange" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="CInsertDiskDlg::__unnamed_enum_0014_1" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CInsertDiskDlg.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAIEAIAAAAAAAIBAAAAAAAAAIAAAAAAAAAAEAAUA=</HashCode>
+      <FileName>CInsertDiskDlg.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
