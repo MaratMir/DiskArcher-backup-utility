@@ -61,7 +61,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\$(Configuration);..\..\$(Configuration);$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>\_Marat\DiskArcher\src\Debug\StdAfx.obj;CNewFilesLocator.obj;CNewFilesLocatorDlg.obj;CNewFilesLocatorDoc.obj;CNewFilesLocatorView.obj;CNewFilesLocatorFrame.obj;CLocatorExcludedView.obj;CLocatorExcludedDoc.obj;CLocatorExcludedFrame.obj;CFilesToArcView.obj;MArc2.obj;MainFrm.obj;CFilesToArcFrame.obj;CFilesToArcDoc.obj;CFileToArcPropertiesDialog.obj;CProgressBar.obj;LeftView.obj;CInputStringDialog.obj;CTipDlg.obj;CRoomsDoc.obj;CRoomsFrame.obj;CRoomsView.obj;CRoomPropDialog.obj;CCopiesDoc.obj;CCopiesFrame.obj;CCopiesView.obj;CLogDoc.obj;CLogFrame.obj;CLogView.obj;CAboutDlg.obj;COptionsDialog.obj;CProgressDialog.obj;CMyListView.obj;MArcLib.lib;MArcCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MArcLib.lib;MArcCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,7 +82,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\$(Configuration);..\..\$(Configuration);$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>\_Marat\DiskArcher\src\Debug\StdAfx.obj;CNewFilesLocator.obj;CNewFilesLocatorDlg.obj;CNewFilesLocatorDoc.obj;CNewFilesLocatorView.obj;CNewFilesLocatorFrame.obj;CLocatorExcludedView.obj;CLocatorExcludedDoc.obj;CLocatorExcludedFrame.obj;CFilesToArcView.obj;MArc2.obj;MainFrm.obj;CFilesToArcFrame.obj;CFilesToArcDoc.obj;CFileToArcPropertiesDialog.obj;CProgressBar.obj;LeftView.obj;CInputStringDialog.obj;CTipDlg.obj;CRoomsDoc.obj;CRoomsFrame.obj;CRoomsView.obj;CRoomPropDialog.obj;CCopiesDoc.obj;CCopiesFrame.obj;CCopiesView.obj;CLogDoc.obj;CLogFrame.obj;CLogView.obj;CAboutDlg.obj;COptionsDialog.obj;CProgressDialog.obj;CMyListView.obj;MArcLib.lib;MArcCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MArcLib.lib;MArcCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

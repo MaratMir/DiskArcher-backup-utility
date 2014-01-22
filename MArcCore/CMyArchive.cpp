@@ -102,7 +102,8 @@ CMyArchive::~CMyArchive()
 		delete pCurFolder;
 	}
 
-	delete m_pCompressor;	// (13)
+  delete m_pCompressor;
+  delete m_insertDiskDlg;
 }
 
 
@@ -394,9 +395,7 @@ repeat:
       // If there is any copy to add or replace in the Room, then show the "Insert Disk" dialog
       //=======================================================================================
       {
-        if( m_pInsertDiskDlg == NULL )
-          throw new CMyException( L"The 'Insert' Dialog is not found" ); // TODO: MFC-dependent :-S
-        int nRet = m_pInsertDiskDlg->askInsertDiskForCopy( pCurRoom );
+        int nRet = this->getInsertDlg()->askInsertDiskForCopy( pCurRoom );
 
         m_pProgressDlg->isAborted(); // Just to process messages
 

@@ -6,12 +6,17 @@
 
 #pragma once
 
+#include "MArcCore/enums.h"
+
+class CMyArchive;
+
 class UIfactory
 {
 public:
-/*
-  UIfactory(void);
-  ~UIfactory(void);
-*/
-};
+  void init( CMyArchive* i_archive );
+  OpResult initProgressDialog();
 
+private:
+  CMyArchive* m_archive;
+
+};

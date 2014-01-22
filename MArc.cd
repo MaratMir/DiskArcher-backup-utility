@@ -127,14 +127,38 @@
         <Point X="4.75" Y="1.062" />
       </Path>
     </AssociationLine>
+    <AssociationLine Name="m_pRoomsTemplate" Type="CMultiDocTemplate" FixedToPoint="true">
+      <Path>
+        <Point X="2.75" Y="1.938" />
+        <Point X="4.75" Y="1.938" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_pCopiesTemplate" Type="CMultiDocTemplate" FixedToPoint="true">
+      <Path>
+        <Point X="2.75" Y="1.5" />
+        <Point X="4.75" Y="1.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_pLogTemplate" Type="CMultiDocTemplate" FixedToPoint="true">
+      <Path>
+        <Point X="2.75" Y="2.375" />
+        <Point X="4.75" Y="2.375" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_pLocatorTemplate" Type="CMultiDocTemplate" FixedToPoint="true">
+      <Path>
+        <Point X="2.75" Y="2.812" />
+        <Point X="4.75" Y="2.812" />
+      </Path>
+    </AssociationLine>
     <AssociationLine Name="m_pLocatorExclTemplate" Type="CMultiDocTemplate" FixedToPoint="true">
       <Path>
-        <Point X="2.75" Y="3.312" />
-        <Point X="4.75" Y="3.312" />
+        <Point X="2.75" Y="3.25" />
+        <Point X="4.75" Y="3.25" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgADADCAAAAAAAQBAAAAAgRAADABAAABBAA=</HashCode>
+      <HashCode>AAAAAAAAAgADADCAAAAAAAQBAAAAAgRAADABACABBAA=</HashCode>
       <FileName>MArc2.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -144,6 +168,7 @@
       <Field Name="m_pLogTemplate" />
       <Field Name="m_pLocatorTemplate" />
       <Field Name="m_pLocatorExclTemplate" />
+      <Field Name="m_UIfactory" />
     </ShowAsAssociation>
   </Class>
   <Class Name="CMultiDocTemplate">
@@ -158,7 +183,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CMainFrame">
-    <Position X="0.5" Y="4.25" Width="2.5" />
+    <Position X="4" Y="4.5" Width="2.5" />
     <Members>
       <Method Name="AssertValid" Hidden="true" />
       <Method Name="Dump" Hidden="true" />
@@ -171,25 +196,15 @@
       <Method Name="OnUpdateWindowRooms" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AQACCAAAEgKAAIAEiFEAiSJEACEAAAAgAMKAACAAABw=</HashCode>
+      <HashCode>AQACCAAAEgKAAIAECFEAiSJEACEAAAAgAMKAACAAABw=</HashCode>
       <FileName>MainFrm.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CInsertDiskDlg">
-    <Position X="4.75" Y="5.25" Width="2" />
-    <Members>
-      <Method Name="DoDataExchange" Hidden="true" />
-    </Members>
-    <NestedTypes>
-      <Enum Name="CInsertDiskDlg::__unnamed_enum_0014_1" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>CInsertDiskDlg.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
+  <Class Name="UIfactory">
+    <Position X="0.5" Y="4.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAIEAIAAAAAAAIBAAAAAAAAAIAAAAAAAAAAEAAUA=</HashCode>
-      <FileName>CInsertDiskDlg.h</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAQAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>UIfactory.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

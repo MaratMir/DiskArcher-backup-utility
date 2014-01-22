@@ -21,14 +21,15 @@
 #include "stdafx.h"
 #include "MArc2.h"
 
+#include "MArcCore/CMyArchive.h"
+#include "MArcCore/CArchiveDB.h"
+#include "MArcCore/CFileToArc.h"
+
 #include "MainFrm.h"
 #include "CFilesToArcFrame.h"
 #include "CFilesToArcDoc.h"
-#include "MArcCore/CFileToArc.h"
 #include "LeftView.h"
 
-#include "MArcCore/CMyArchive.h"
-#include "MArcCore/CArchiveDB.h"
 #include "CRoomsDoc.h"		// M
 #include "CRoomsFrame.h"	// M
 #include "CRoomsView.h"		// M
@@ -50,6 +51,7 @@
 #include "FileLocator/CLocatorExcludedView.h"
 
 #include "CAboutDlg.h"	// (3)
+#include "UIfactory.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -161,6 +163,8 @@ BOOL CMArc2App::InitInstance()
 
 // (3) CG: This line inserted by 'Tip of the Day' component.
 	ShowTipAtStartup();
+
+  m_UIfactory.init( &g_TheArchive );
 
 	return TRUE;
 }
@@ -311,8 +315,7 @@ LRESULT CMArc2App::ProcessWndProcException( CException* e, const MSG* pMsg )
   UNREFERENCED_PARAMETER( pMsg );
   g_TheArchive.m_bIsWorking = false; // Otherwise a question to stop will be shown by the OnClose handler
   e->ReportError();
-  AfxGetMainWnd()->SendMessage(WM_CLOSE);
-//  CWinApp::ProcessWndProcException( e, pMsg );
+  AfxGetMainWnd()->SendMessage(WM_CLOSE); // It's fatal, you know...
 
   return 0;
 }

@@ -6,6 +6,7 @@
 #pragma once
 
 #include <afxstr.h>
+#include "enums.h"
 
 class IProgressCtrl
 {

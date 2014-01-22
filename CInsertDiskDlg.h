@@ -10,17 +10,20 @@
 
 class CRoom;
 
+class InsertDisk : public IInsertDisk
+{
+// IInsertDisk overrides:
+  virtual int askInsertDiskForCopy( const CRoom* const i_pRoom );
+  virtual int askInsertDiskForExtract( const CRoom* const i_pRoom );
+};
 
-class CInsertDiskDlg : public CDialog, public IInsertDisk
+
+class CInsertDiskDlg : public CDialog
 {
 // Construction
 public:
 	bool m_bEnableSkip; // M
 	CInsertDiskDlg(CWnd* pParent = NULL);   // standard constructor
-
-// IInsertDisk overrides:
-  virtual int askInsertDiskForCopy( const CRoom* const i_pRoom );
-  virtual int askInsertDiskForExtract( const CRoom* const i_pRoom );
 
 
 // Dialog Data

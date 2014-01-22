@@ -52,7 +52,6 @@ public:
 	void CopiesWindowUpdate();	// (2)
 
   OpResult checksBeforeUpdate();
-  OpResult initProgressDialog(); // TODO: Refactor
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;

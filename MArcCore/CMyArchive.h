@@ -34,7 +34,7 @@ class CFileCompressor;
 class IProgressIndicator;
 class IProgressCtrl;
 class IInsertDisk;
-class IFilesLocator; // (14)
+class IFilesLocator;
 
 extern CMyArchive g_TheArchive; // 2014 moved from MArc2.h. TODO: Get rid of global variables
 const CString MyDBFilename = L"MArc.MDB"; // M   TODO: Is it Ok? Move to CArchiveDB??
@@ -61,9 +61,6 @@ public:
   CFilesCopies m_Copies;
   CBundles m_Bundles;
 
-  IInsertDisk* m_pInsertDiskDlg;
-
-
   CMyArchive();
   ~CMyArchive();
 // TODO  CArchiveDB* GetDB()  { return m_pDB; }
@@ -75,6 +72,8 @@ public:
   bool isCompressorDefined();
   void setProgressDlg( IProgressCtrl* i_pProgressDlg )  { m_pProgressDlg = i_pProgressDlg; }
   IProgressCtrl* getProgressDlg() const  { return m_pProgressDlg; }
+  void setInsertDlg( IInsertDisk* i_insertDlg ) { m_insertDiskDlg = i_insertDlg; }
+  IInsertDisk* getInsertDlg() const { return m_insertDiskDlg; }
 
 // Events
 // void onLocatorStart( void );
@@ -86,6 +85,7 @@ protected:
   CString m_sTempPath;
   IProgressIndicator* m_pProgressIndicator; // Just to show a progress bar
   IProgressCtrl* m_pProgressDlg;  // The Dialog for displaying the archiving progress. Lets stop too
+  IInsertDisk* m_insertDiskDlg; // "Please, insert removable disk #" dialog
 
   OpResult doCopying();
   OpResult decideAboutFile( CFileToArc* const i_pFile );

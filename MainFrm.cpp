@@ -33,7 +33,6 @@
 #include "COptionsDialog.h"	// (9)
 #include "FileLocator/CNewFilesLocator.h"
 #include "FileLocator/CNewFilesLocatorFrame.h"
-#include "CProgressDialog.h"	// (9)
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -137,8 +136,8 @@ void CMainFrame::Dump(CDumpContext& dc) const
 //==============================================================================
 void CMainFrame::OnUpdateFileCount(CCmdUI *pCmdUI)
 {
-    pCmdUI->Enable(); 
-// Показ будет в окне "Files To Arc"
+  pCmdUI->Enable(); 
+  // It will be shown in the "Files To Arc" window
 }
 
 
@@ -242,63 +241,27 @@ OpResult CMainFrame::checksBeforeUpdate()
 }
 
 
-// TODO: CMainFrame is not the best place for this method
-// Progress Dialog Init
-//--------------------------------------------------------------------------------------
-OpResult CMainFrame::initProgressDialog()
-{
-  OpResult nResult = OPR_SUCCESSFUL;
-  CProgressDialog* pProgressDlg = NULL;
-  try
-  {
-    pProgressDlg = new CProgressDialog();
-      // It will be deleted in its DestroyWindow().
-
-    if ( ! pProgressDlg->Create( IDD_PROGRESS_DIALOG ) )
-      nResult = OPR_FATAL_STOP;
-  }
-  catch(...)
-  {
-    nResult = OPR_FATAL_STOP;
-  }
-  if( nResult == OPR_FATAL_STOP )
-    AfxMessageBox( L"Error creating copying process dialog." );
-
-  if( nResult <= OPR_WARNINGS )
-    pProgressDlg->resetAndShow();
-
-  //...........................................
-  g_TheArchive.setProgressDlg( pProgressDlg );
-  //...........................................
-
-  return nResult;
-}
-
-
 //==============================================================================
 void CMainFrame::OnArchiveUpdate() 
 {
   EnableControls( false );
 
   if( checksBeforeUpdate() <= OPR_WARNINGS )
-    if( initProgressDialog() <= OPR_WARNINGS )
-      g_TheArchive.update();  /*	(11) Was:
-	if( ! g_TheArchive.update() )
-	// For example, there isn't any file to archive
-		EnableControls( true );	// if success, they will be enabled 
-								            // when progress dialog will be closed */
-	if( m_pFilesToArcFrame != NULL )
-	{
-		CLeftView* pView = m_pFilesToArcFrame->GetLeftPane(); 
-		pView->TrackSelChange(); // OnSelChanged( NULL, NULL );
-	}//		m_pFilesToArcFrame->UpdateList();
+    if( theApp.m_UIfactory.initProgressDialog() <= OPR_WARNINGS )
+      g_TheArchive.update();
+
+  if( m_pFilesToArcFrame != NULL )
+  {
+    CLeftView* pView = m_pFilesToArcFrame->GetLeftPane(); 
+    pView->TrackSelChange();
+  }
 }
 
 
 //==============================================================================
 void CMainFrame::OnUpdateWindowCopies(CCmdUI* pCmdUI) 
 {
-    pCmdUI->Enable(); 
+  pCmdUI->Enable();
 }
 
 

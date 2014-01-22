@@ -66,15 +66,16 @@ BOOL CInsertDiskDlg::OnInitDialog()
 }
 
 
-int CInsertDiskDlg::askInsertDiskForCopy( const CRoom* const i_pRoom )
+int InsertDisk::askInsertDiskForCopy( const CRoom* const i_pRoom )
 {
   CString mess;
+  CInsertDiskDlg insDlg;
   mess.Format( L"Please insert the disk labeled as\n\"Archive Room #%d\""
                L"\ninto drive %s, then press \"OK\"",
                i_pRoom->m_nRoomID, i_pRoom->m_strDrive );
-  m_InsDiskLabel = mess;
+  insDlg.m_InsDiskLabel = mess;
 
-  int nRet = DoModal();
+  int nRet = insDlg.DoModal();
 
   AfxGetMainWnd()->UpdateWindow();
   int nYesNo;
@@ -111,7 +112,7 @@ int CInsertDiskDlg::askInsertDiskForCopy( const CRoom* const i_pRoom )
 }
 
 
-int CInsertDiskDlg::askInsertDiskForExtract( const CRoom* const i_pRoom )
+int InsertDisk::askInsertDiskForExtract( const CRoom* const i_pRoom )
 {
   bool bSuccess = true;
   CInsertDiskDlg insDlg;

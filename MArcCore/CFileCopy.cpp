@@ -52,8 +52,8 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
     {
       while( true )
       {
-        ASSERT( g_TheArchive.m_pInsertDiskDlg );
-        g_TheArchive.m_pInsertDiskDlg->askInsertDiskForExtract( pRoom );
+        ASSERT( g_TheArchive.getInsertDlg() );
+        g_TheArchive.getInsertDlg()->askInsertDiskForExtract( pRoom );
 /*				CInsertDiskDlg insDlg;
         insDlg.m_bEnableSkip = false;
         insDlg.m_InsDiskLabel = mess;

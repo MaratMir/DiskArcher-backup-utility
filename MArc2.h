@@ -21,6 +21,8 @@
 	#error include 'stdafx.h' before including this file for PCH
 #endif
 
+#include "UIfactory.h"
+
 class CMArc2App;
 class CMyArchive;
 
@@ -44,13 +46,15 @@ public:
 	//}}AFX_VIRTUAL
   virtual LRESULT ProcessWndProcException( CException* e, const MSG* pMsg );
 
-// Implementation
+
 	CMultiDocTemplate* m_pFilesToArcTemplate;	// M. FilesToArc window
 	CMultiDocTemplate* m_pRoomsTemplate;		// M. Archive Rooms window
 	CMultiDocTemplate* m_pCopiesTemplate;		// M. File Copies window
 	CMultiDocTemplate* m_pLogTemplate;		    // (1) Log window
 	CMultiDocTemplate* m_pLocatorTemplate;	    // (4) Locator window
 	CMultiDocTemplate* m_pLocatorExclTemplate;  // (6) "Excluded folders" window
+
+  UIfactory m_UIfactory;  // A helper to create popup dialogs
 
 	//{{AFX_MSG(CMArc2App)
 	afx_msg void OnAppAbout();

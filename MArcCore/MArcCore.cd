@@ -14,13 +14,13 @@
       <Field Name="m_sTempPath" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAgQEBgAJAAEAAAAACCAIAgCAGASKAQAAYIBQCIEAAw=</HashCode>
+      <HashCode>AAgQEBgAJAAEAAAAACCAIEgCAGASKAQAAYIBQCIEBCw=</HashCode>
       <FileName>CMyArchive.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="m_pDB" />
       <Field Name="m_pLocator" />
-      <Field Name="m_pInsertDiskDlg" />
+      <Field Name="m_insertDiskDlg" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Field Name="m_Bundles" />
@@ -82,7 +82,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="IInsertDisk">
-    <Position X="0.5" Y="6" Width="2" />
+    <Position X="0.5" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IInsertDisk.h</FileName>
