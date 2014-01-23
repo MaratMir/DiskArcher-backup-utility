@@ -255,6 +255,8 @@ void CMainFrame::OnArchiveUpdate()
     CLeftView* pView = m_pFilesToArcFrame->GetLeftPane(); 
     pView->TrackSelChange();
   }
+
+  EnableControls( true );
 }
 
 

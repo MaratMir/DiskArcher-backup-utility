@@ -27,6 +27,7 @@ MArc2.aps
 *.tli
 *.log
 /TestResults
+*.suo
 
 # MMR: My files
 MArc.MDB
