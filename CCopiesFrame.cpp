@@ -13,8 +13,7 @@
 #include "CCopiesView.h"
 #include "MainFrm.h"
 #include "CFileOnDisk.h"
-//zz#include "CMyArchive.h"		// M
-#include "MArcCore/Miscelaneous.h"	// M
+#include "MArcCore/Miscelaneous.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

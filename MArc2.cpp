@@ -195,40 +195,37 @@ void CMArc2App::OnFileOpen()
 //==============================================================================
 bool CMArc2App::AddFiles()
 {
-	bool success=true;
-	CFileDialog fileDialog( TRUE/*OpenDlg*/, NULL/*NoDefaultExtensionAdded*/,
-		_T("*.*")/*InitialFilename*/, OFN_ALLOWMULTISELECT );
+  bool success=true;
+  CFileDialog fileDialog( TRUE/*OpenDlg*/, NULL/*NoDefaultExtensionAdded*/,
+    _T("*.*")/*InitialFilename*/, OFN_ALLOWMULTISELECT );
 // Replace default buffer for filenames with a larger one
-	wchar_t buffer[ 8192 ] = _T("*.*");	
-	fileDialog.m_ofn.lpstrFile = buffer;
-	fileDialog.m_ofn.nMaxFile = 8191;
+  wchar_t buffer[ 8192 ] = _T("*.*");	
+  fileDialog.m_ofn.lpstrFile = buffer;
+  fileDialog.m_ofn.nMaxFile = 8191;
 
-	int result = fileDialog.DoModal();
-	if (result==IDOK)
-	{
-	// "Open" has been pressed - make a list of selected files
-		POSITION ps=fileDialog.GetStartPosition();
-		while (ps)	// with each selected file
-		{
-		// Create an object for the current file or folder
-			CString curFilename = fileDialog.GetNextPathName(ps);
+  int result = fileDialog.DoModal();
+  if (result==IDOK)
+  {
+  // "Open" has been pressed - make a list of selected files
+    POSITION ps=fileDialog.GetStartPosition();
+    while (ps) // with each selected file
+    {
+    // Create an object for the current file or folder
+      CString curFilename = fileDialog.GetNextPathName(ps);
+      const MArcLib::error* result = g_TheArchive.addFile( curFilename );
+      if( result->getSeverity() > MArcLib::error::everythingIsFine )
+      {
+        AfxMessageBox( result->getMessage() );
+        delete result;
+        break;
+      }
+    }
+  } // end of if (result==IDOK)
+  else 
+  // User canceled selection
+    success = false;
 
-		// (2) Check is it directory		
-			CFileToArc newFile( curFilename );
-			newFile.getInfo();
-			if( newFile.getType() == CDiskItem::DI_FOLDER )
-				g_TheArchive.m_FoldersToArc.AddFolder( curFilename );
-			else
-				if( ! g_TheArchive.m_FilesToArc.FileAdd( curFilename ) )
-				// (7) condition
-					break;	// (7)
-		}
-	}	// end of if (result==IDOK)
-	else 
-	// User canceled selection
-		success = false;
-
-	return success;
+  return success;
 }
 
 

@@ -57,6 +57,7 @@ CMyArchive::CMyArchive()
   m_bIsWorking = false; // (9)
   m_LogFile.m_pArchive = this;
   m_pProgressDlg = NULL;
+  m_insertDiskDlg = NULL;
   m_pCompressor = NULL; // (13)
   m_pLocator = NULL;    // (14)
 }
@@ -776,6 +777,24 @@ bool CMyArchive::saveOptions()
 bool CMyArchive::isCompressorDefined()
 {
 	return ( m_pCompressor != NULL && m_pCompressor->m_strExePath != "" );
+}
+
+
+// 2014
+//==============================================================================
+const MArcLib::error* CMyArchive::addFile( CString i_fileName )
+{
+  const MArcLib::error* result = MArcLib::error::getDefault();
+
+// Check if it is a directory
+  CFileToArc newFile( i_fileName );
+  newFile.getInfo();
+  if( newFile.CDiskItem::getType() == CDiskItem::DI_FOLDER )
+    result = m_FoldersToArc.AddFolder( i_fileName );
+  else
+    result = m_FilesToArc.FileAdd( i_fileName );
+
+  return result;
 }
 
 

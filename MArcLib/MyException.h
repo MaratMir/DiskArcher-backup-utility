@@ -17,6 +17,8 @@ public:
 
   virtual ~CMyException(void) {}
 
+  const CString& getMessage() const { return m_message; }
+
   virtual int ReportError(UINT nType = MB_OK, UINT nMessageID = 0);
 
 private:

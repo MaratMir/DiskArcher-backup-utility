@@ -28,6 +28,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MArc2UnitTest", "MArc2UnitT
 		{4EB0317A-58CE-4A3A-ABC1-2B2724567091} = {4EB0317A-58CE-4A3A-ABC1-2B2724567091}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MArcCoreUnitTest", "MArcCore\MArcCoreUnitTest\MArcCoreUnitTest.vcxproj", "{57B29B54-9A33-4FEC-B929-D16228D6FFB5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14F5463E-5C33-492A-B956-C2A95B0ECA84} = {14F5463E-5C33-492A-B956-C2A95B0ECA84}
+		{4EB0317A-58CE-4A3A-ABC1-2B2724567091} = {4EB0317A-58CE-4A3A-ABC1-2B2724567091}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -56,6 +62,10 @@ Global
 		{8992DCEB-DA7B-4DB2-B461-014E1CBD0D4A}.Debug|Win32.Build.0 = Debug|Win32
 		{8992DCEB-DA7B-4DB2-B461-014E1CBD0D4A}.Release|Win32.ActiveCfg = Release|Win32
 		{8992DCEB-DA7B-4DB2-B461-014E1CBD0D4A}.Release|Win32.Build.0 = Release|Win32
+		{57B29B54-9A33-4FEC-B929-D16228D6FFB5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{57B29B54-9A33-4FEC-B929-D16228D6FFB5}.Debug|Win32.Build.0 = Debug|Win32
+		{57B29B54-9A33-4FEC-B929-D16228D6FFB5}.Release|Win32.ActiveCfg = Release|Win32
+		{57B29B54-9A33-4FEC-B929-D16228D6FFB5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

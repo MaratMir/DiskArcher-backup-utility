@@ -52,5 +52,32 @@
       <FileName>cfileondisk.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="MArcLib::error">
+    <Position X="9.25" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="s_default" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="MArcLib::error::severity">
+        <TypeIdentifier>
+          <NewMemberFileName>error.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAQAAAAAUAgAAAAAAAEAAAAAAAIAAgAAA=</HashCode>
+      <FileName>error.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMyException">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAEAAAAAAAAAAAAEAgAAQ=</HashCode>
+      <FileName>myexception.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

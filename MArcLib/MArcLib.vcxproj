@@ -83,6 +83,7 @@
     <ClInclude Include="CFileOnDisk.h" />
     <ClInclude Include="CFilesOnDisk.h" />
     <ClInclude Include="CFolder.h" />
+    <ClInclude Include="error.h" />
     <ClInclude Include="Misc.h" />
     <ClInclude Include="MyException.h" />
     <ClInclude Include="stdafx.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="CFileOnDisk.cpp" />
     <ClCompile Include="CFilesOnDisk.cpp" />
     <ClCompile Include="CFolder.cpp" />
+    <ClCompile Include="error.cpp" />
     <ClCompile Include="Misc.cpp" />
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="stdafx.cpp">

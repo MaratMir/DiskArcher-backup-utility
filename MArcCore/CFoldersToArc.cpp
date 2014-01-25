@@ -12,37 +12,41 @@
 #include "CMyArchive.h"
 #include "CArchiveDB.h"
 
+using namespace MArcLib;
 
-bool CFoldersToArc::AddFolder( CString name )
+
+const error* CFoldersToArc::AddFolder( CString name )
 {
-	bool bResult = false;
-  AfxMessageBox( _T("You cannot add an entire folder.\n")
-                 _T("Please use the Files Locator to scan a folder.\n")
-                 _T("You can also select and add several files at once.") );
+  const error* result = error::getDefault();
+
+  result = new error( error::unsuccessfulOperation, 
+                      L"You cannot add an entire folder.\n"
+                      L"Please use the Files Locator to scan a folder.\n"
+                      L"You can also select and add several files at once." );
 // TODO: I could start Locator here...
 
 /*
 // Check is this Folder already in the Archive
-	CFolderToArc *pFound = FindFolder( name );
-	if( pFound != NULL )
-		AfxMessageBox( name + ":\nThis Folder is already in the Archive" );		
-	else
-	{
-		CFolderToArc *pNewFolder = new CFolderToArc( name );
-		pNewFolder->m_nUpToCopies = theArchive.m_nDefaultCopies;
-		pNewFolder->m_nFolderID = ...
-		// LATER: pNewFolder->m_bPaused = false;
+  CFolderToArc *pFound = FindFolder( name );
+  if( pFound != NULL )
+    AfxMessageBox( name + ":\nThis Folder is already in the Archive" );		
+  else
+  {
+    CFolderToArc *pNewFolder = new CFolderToArc( name );
+    pNewFolder->m_nUpToCopies = theArchive.m_nDefaultCopies;
+    pNewFolder->m_nFolderID = ...
+    // LATER: pNewFolder->m_bPaused = false;
 
-		// Write to DB
-			bResult = theDB.FolderAdd( pNewFolder );
+    // Write to DB
+      bResult = theDB.FolderAdd( pNewFolder );
 
-		// Add to the list in memory
-			AddTail( pNewFolder );
+    // Add to the list in memory
+      AddTail( pNewFolder );
 
-		bResult = true;
-	}
+    bResult = true;
+  }
 */
-	return bResult;
+  return result;
 }
 
 

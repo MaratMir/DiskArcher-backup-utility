@@ -277,33 +277,36 @@ void CFilesToArcFrame::OnDropFiles(HDROP hDropInfo)
 {
 // M. This code was copied from CFrameWnd::OnDropFiles() from file MFC\Src\WinFrm.Cpp
 
-	SetActiveWindow();      // activate us first !
-	UINT nFiles = ::DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);
+  SetActiveWindow();      // activate us first !
+  UINT nFiles = ::DragQueryFile(hDropInfo, (UINT)-1, NULL, 0);
 
-	CWinApp* pApp = AfxGetApp();
-	ASSERT(pApp != NULL);
-	for (UINT iFile = 0; iFile < nFiles; iFile++)
-	{
-		TCHAR szFileName[_MAX_PATH];
-		::DragQueryFile(hDropInfo, iFile, szFileName, _MAX_PATH);
+  CWinApp* pApp = AfxGetApp();
+  ASSERT(pApp != NULL);
+  for (UINT iFile = 0; iFile < nFiles; iFile++)
+  {
+    TCHAR szFileName[_MAX_PATH];
+    ::DragQueryFile(hDropInfo, iFile, szFileName, _MAX_PATH);
 
-	// (2) Check is it directory		
-		CFileToArc newFile( szFileName );
-		newFile.getInfo();
-		if( newFile.CDiskItem::getType() == CDiskItem::DI_FOLDER )
-		    // (7) Was: if( newFile.getType() == CDiskItem::DI_FOLDER )
-        //     TODO: There is a mess with getType() and GetType() functions!
-			g_TheArchive.m_FoldersToArc.AddFolder( szFileName );
-		else
-			if( ! g_TheArchive.m_FilesToArc.FileAdd( szFileName ) )	// (6)
-				break;												// (6)
-			// (6) Was just: theArchive.m_FilesToArc.FileAdd( szFileName );
-				// M pApp->OpenDocumentFile(szFileName);
-	}
-	::DragFinish(hDropInfo);
+    const MArcLib::error* result = g_TheArchive.addFile( szFileName );
+    if( result->getSeverity() > MArcLib::error::everythingIsFine )
+    {
+      AfxMessageBox( result->getMessage() );
+      delete result;
+      break;  /* 2014. Was:
+    // Check if it is a directory
+    CFileToArc newFile( szFileName );
+    newFile.getInfo();
+    if( newFile.CDiskItem::getType() == CDiskItem::DI_FOLDER )
+      g_TheArchive.m_FoldersToArc.AddFolder( szFileName );
+    else
+      if( ! g_TheArchive.m_FilesToArc.FileAdd( szFileName ) )
+        break;*/
+    }
+  }
+  ::DragFinish(hDropInfo);
 
-	UpdateTree();
-	UpdateList();
+  UpdateTree();
+  UpdateList();
 }
 
 

@@ -19,6 +19,7 @@
 //=========================================================================
 
 #include "stdafx.h"
+#include "MyException.h"
 #include "CMyArchive.h"
 #include "CFilesToArc.h"
 #include "CFileToArc.h"
@@ -26,45 +27,38 @@
 
 
 // Add file by name to the Archive
-//==================================
-bool CFilesToArc::FileAdd(CString name)
+//=======================================================
+const MArcLib::error* CFilesToArc::FileAdd(CString name)
 {
-	bool bResult = false;
+  const MArcLib::error* result = MArcLib::error::getDefault();
 
-// Check is this file already in the Archive
-	CFileToArc *pFound = FileFind( name );
-	if( pFound != NULL )
-	{
-		bResult = true;	// (9) It is not error, just warning
-		AfxMessageBox( name + ":\nThis file is already in the Archive" );		
-	}
-	else
-	{
+  // Check is this file already in the Archive
+  CFileToArc *pFound = FileFind( name );
+  if( pFound != NULL )
+  {
+    result = new MArcLib::error( MArcLib::error::unsuccessfulOperation, name + L":\nThis file is already in the Archive" );
+  }
+  else
+  {
     CFileToArc *pNewFile = new CFileToArc( name );
     pNewFile->m_nStatus = fsNew;
     pNewFile->getInfo();
-    pNewFile->m_nPriority = -1;	// (1) "Not Used"   LATER
-    pNewFile->m_nUpToCopies = g_TheArchive.m_nDefaultCopies;	// (1)
-    pNewFile->m_nFolderID = 0;		// (4)
-    pNewFile->m_bPaused = false;	// (4)
+    pNewFile->m_nPriority = -1; // (1) "Not Used"   LATER
+    pNewFile->m_nUpToCopies = g_TheArchive.m_nDefaultCopies;
+    pNewFile->m_nFolderID = 0;
+    pNewFile->m_bPaused = false;
 
-  /* (4) Out
-      (3) Check is it directory
-    if( pNewFile->GetType() == CDiskItem::DI_FOLDER )
-      AfxMessageBox( "Backup of folders has not been implemented yet." );
-    else
-    {*/
+    // Write to DB
+    if( ! g_TheArchive.m_pDB )
+      throw new CMyException( L"FileAdd(): Database is NULL" ); 
+    if( ! g_TheArchive.m_pDB->FileAdd( pNewFile ) )
+      throw new CMyException( L"Some error in FileAdd()" ); // TODO: DB::FileAdd shall not show any MsgBoxes
 
-  // Write to DB
-    bResult = g_TheArchive.m_pDB->FileAdd( pNewFile );
-
-  // Add to the list in memory
+    // Add to the list in memory
     AddTail( pNewFile );
 
-  /*	}  (4) */
-    bResult = true;
   }
-	return bResult;
+  return result;
 }
 
 

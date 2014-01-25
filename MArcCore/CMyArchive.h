@@ -75,6 +75,8 @@ public:
   void setInsertDlg( IInsertDisk* i_insertDlg ) { m_insertDiskDlg = i_insertDlg; }
   IInsertDisk* getInsertDlg() const { return m_insertDiskDlg; }
 
+  const MArcLib::error* addFile( const CString i_fileName ); // 2014
+
 // Events
 // void onLocatorStart( void );
 
