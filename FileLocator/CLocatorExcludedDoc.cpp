@@ -125,7 +125,7 @@ bool CLocatorExcludedDoc::Save()
 	CString sCmd = "DELETE FROM ProgramOptions"
 				   " WHERE SectionName=\"Locator\"";
 	sCmd += " AND OptionName=\"" + sOptionName + "\"";
-  bSuccess = g_TheArchive.m_pDB->ExecSQL( sCmd );
+  bSuccess = g_TheArchive.m_pDB->execSQL( sCmd );
 
 // Write all items from the list to DB
 	if( bSuccess )
@@ -138,7 +138,7 @@ bool CLocatorExcludedDoc::Save()
 				        _T(" (SectionName, OptionName, OptionValue, OptionValue2)")
 						_T(" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )"),
 						sOptionName, pSrcList->GetNext( pos ) );
-			if( ! g_TheArchive.m_pDB->ExecSQL( cmd ) )
+      if( ! g_TheArchive.m_pDB->execSQL( cmd ) )
 			{
 				bSuccess = false;
 				break;

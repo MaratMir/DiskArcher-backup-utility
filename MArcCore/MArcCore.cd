@@ -15,14 +15,32 @@
     </Members>
     <AssociationLine Name="m_pDB" Type="CArchiveDB" FixedToPoint="true">
       <Path>
-        <Point X="8.25" Y="0.75" />
-        <Point X="16.5" Y="0.75" />
+        <Point X="8.25" Y="0.743" />
+        <Point X="16.5" Y="0.743" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_LogFile" Type="CLogFile" FixedFromPoint="true">
+      <Path>
+        <Point X="6.25" Y="0.812" />
+        <Point X="5" Y="0.812" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_Copies" Type="CFilesCopies" FixedFromPoint="true">
+      <Path>
+        <Point X="6.75" Y="5.132" />
+        <Point X="6.75" Y="6.5" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="m_Bundles" Type="CBundle" FixedToPoint="true">
       <Path>
-        <Point X="8.25" Y="1.5" />
-        <Point X="14.25" Y="1.5" />
+        <Point X="8.25" Y="1.587" />
+        <Point X="14.25" Y="1.587" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_insertDiskDlg" Type="IInsertDisk" FixedFromPoint="true">
+      <Path>
+        <Point X="6.25" Y="2.5" />
+        <Point X="3" Y="2.5" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -31,22 +49,25 @@
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="m_pDB" />
+      <Field Name="m_LogFile" />
+      <Field Name="m_Rooms" />
       <Field Name="m_FilesToArc" />
       <Field Name="m_FoldersToArc" />
       <Field Name="m_pLocator" />
-      <Field Name="m_insertDiskDlg" />
       <Field Name="m_Copies" />
-      <Field Name="m_LogFile" />
-      <Field Name="m_Rooms" />
+      <Field Name="m_insertDiskDlg" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Field Name="m_Bundles" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="CBundle">
-    <Position X="14.25" Y="1.25" Width="1.5" />
+    <Position X="14.25" Y="1.25" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Enum Name="CBundle::bundleType" Collapsed="true">
+      <Enum Name="CBundle::bundleType">
         <TypeIdentifier>
           <NewMemberFileName>CBundle.h</NewMemberFileName>
         </TypeIdentifier>
@@ -62,29 +83,26 @@
     <Members>
       <Method Name="CheckDeleteItField" Hidden="true" />
       <Method Name="CheckFieldsForCompress" Hidden="true" />
+      <Method Name="checkFileSizeIs64" Hidden="true" />
       <Method Name="CheckFilesTableFolderAndPausedFields" Hidden="true" />
       <Method Name="CheckFoldersTable" Hidden="true" />
       <Method Name="CheckIsFileInArc" Hidden="true" />
       <Method Name="CheckIsSystemField" Hidden="true" />
-      <Method Name="CheckIsTableInDB" Hidden="true" />
       <Method Name="CheckLogTable" Hidden="true" />
       <Method Name="CheckOptionsTable" Hidden="true" />
       <Method Name="CheckRecordAboutDB" Hidden="true" />
       <Method Name="CreateArcLogTable" Hidden="true" />
       <Method Name="DBStructureModifications" Hidden="true" />
       <Method Name="DBStructureModifications2" Hidden="true" />
-      <Method Name="doesFieldExist" Hidden="true" />
-      <Method Name="findField" Hidden="true" />
-      <Method Name="GetMaxID" Hidden="true" />
     </Members>
     <AssociationLine Name="m_pArchive" Type="CMyArchive" FixedFromPoint="true">
       <Path>
-        <Point X="16.5" Y="1" />
-        <Point X="8.25" Y="1" />
+        <Point X="16.5" Y="1.062" />
+        <Point X="8.25" Y="1.062" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>YBABAAAQIiABJANgAAQUGAYiCCgSAUEEmwggJACAIAA=</HashCode>
+      <HashCode>YBABQAIQICAAJANgAAQUEAUiCCgCAUEEmwgAZACAIAA=</HashCode>
       <FileName>CArchiveDB.h</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -92,21 +110,21 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="IFilesLocator">
-    <Position X="0.5" Y="2.75" Width="1.75" />
+    <Position X="0.5" Y="3.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>QAIAAAAAAAQAAAABAgBABAAAAAAAIAIAAAAAAAgAAAA=</HashCode>
       <FileName>IFilesLocator.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="IInsertDisk">
-    <Position X="2.75" Y="1" Width="2" />
+    <Position X="1" Y="1.25" Width="2" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>IInsertDisk.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CFileToArc">
-    <Position X="11.5" Y="1.75" Width="2.25" />
+    <Position X="11.5" Y="2" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AABAIASABAYAAogAAAAgAgIEAAEAAAAgACAGAAkAAIA=</HashCode>
       <FileName>CFileToArc.h</FileName>
@@ -134,35 +152,44 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CFilesCopies">
-    <Position X="5.5" Y="6.25" Width="1.5" />
+    <Position X="5.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAAAAAQAAAAAQgAAAAAAACAAAAAAA=</HashCode>
       <FileName>CFilesCopies.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CFileCopy">
-    <Position X="7" Y="6.25" Width="1.5" />
+    <Position X="7" Y="6.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAABAAABAAAkRAAgAAAgAAAAAAAAAgEAAAAAAQAAgAA=</HashCode>
+      <HashCode>gAEBAAABAAAkRAgQAAAgAAAAAAAQAgEACAEAAAIAgAA=</HashCode>
       <FileName>CFileCopy.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CLogFile">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="m_pArchive" Type="CMyArchive" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="1.125" />
+        <Point X="6.25" Y="1.125" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAACAAAACACAAAAAAAAAAAA=</HashCode>
       <FileName>CLogFile.h</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_pArchive" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="CRooms">
-    <Position X="3.75" Y="3.25" Width="1.5" />
+    <Position X="3.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAQAAAAACAEAAABAAAAAAAAAAAA=</HashCode>
       <FileName>CRooms.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CRoom">
-    <Position X="3" Y="5.25" Width="2" />
+    <Position X="2.75" Y="5.75" Width="2" />
     <Members>
       <Method Name="writeContents" Hidden="true" />
     </Members>
@@ -176,9 +203,26 @@
         </TypeIdentifier>
       </Enum>
     </NestedTypes>
+    <AssociationLine Name="m_pArchive" Type="CMyArchive" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="6.062" />
+        <Point X="6.375" Y="6.062" />
+        <Point X="6.375" Y="5.132" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>QAgAIAAIIQQEAAAAQAAAAAASABMAAAAAAQBSAIAEQIA=</HashCode>
+      <HashCode>QAgAIAAIIQQEACAAQAAAAAASABMAAAAAAQBSAIAEQAA=</HashCode>
       <FileName>CRoom.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_pArchive" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ADO_database">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAACAYAAAABAAAAAAAoAAAAAAQQAACACCAAAAAAAQA=</HashCode>
+      <FileName>ADO_database.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

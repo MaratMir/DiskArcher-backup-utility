@@ -105,9 +105,8 @@ OpResult CRoom::doCopying()
         m_pArchive->m_Copies.AddTail( pNewCopy );// And there it will be deleted
         pNewCopy->m_strPath = pCurFile->getFullPath();
         pNewCopy->m_strFilename = pCurFile->m_strName;
-        pNewCopy->m_nSize = pCurFile->m_nSize;
-        pNewCopy->m_nPackedSize = (int)pCurFile->m_nPredictedCompressedSize;
-           // TODO! Get over the limitation of 4GB file size!
+        pNewCopy->m_size = pCurFile->getSize();
+        pNewCopy->m_packedSize = pCurFile->m_nPredictedCompressedSize;
 
       // Send the Copy to a Bundle where isn't any copy of this file
       // LATER: But now every file is placed in a separated bundle
@@ -247,9 +246,9 @@ bool CRoom::DeleteMarkedCopies()
 //  (3) Counts and returns sizes of all NON-DELETED Copies in the Room.
 // (12) Now counts only copies that are not marked for deletion!
 //=====================================================================
-_int64 CRoom::GetOccupiedSpace() const
+__int64 CRoom::GetOccupiedSpace() const
 {
-	_int64 nOccupiedSpace = 0;
+  __int64 nOccupiedSpace = 0;
 
 // Select all this Room's Copies
 	POSITION copiesPos;
@@ -261,9 +260,8 @@ _int64 CRoom::GetOccupiedSpace() const
 			CBundle* pCurBundle = 
 					m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
 			ASSERT( pCurBundle );
-			if( pCurBundle->m_nRoomID == m_nRoomID )
-			// Is this Copy from this Room?
-				nOccupiedSpace += pCurCopy->m_nSize;
+      if( pCurBundle->m_nRoomID == m_nRoomID ) // Is this Copy from this Room?
+        nOccupiedSpace += pCurCopy->m_size;
 		}
 	}
 	return nOccupiedSpace;
@@ -274,13 +272,13 @@ _int64 CRoom::GetOccupiedSpace() const
 //		or -1 if the Room is unavailable.
 // Sets m_nPrognosisFree member variable.
 //===========================================================
-_int64 CRoom::GetPrognosis()
+__int64 CRoom::GetPrognosis()
 {
-	if(		m_nSizeLimit != 0		// Is the Limit has been set
+	if(		m_sizeLimit != 0		// Is the Limit has been set
 		&&	m_nDiskSpaceFree != -1 )// And the Room is available
 	{
-		_int64 nOccupiedSpace = GetOccupiedSpace();
-		m_nPrognosisFree = min( m_nDiskSpaceFree, m_nSizeLimit - nOccupiedSpace );
+    __int64 nOccupiedSpace = GetOccupiedSpace();
+		m_nPrognosisFree = min( m_nDiskSpaceFree, m_sizeLimit - nOccupiedSpace );
 	}
 	else
 		m_nPrognosisFree = m_nDiskSpaceFree;

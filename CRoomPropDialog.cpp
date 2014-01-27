@@ -80,8 +80,11 @@ int CRoomPropDialog::Edit(CRoom *pRoom)
 BOOL CRoomPropDialog::OnInitDialog() 
 {
   CDialog::OnInitDialog();
-  
-  m_Limit = pTheRoom->m_nSizeLimit >> 10; // From Bytes to KB
+
+  // I'm sure a usual int will be enough, if we show the limit in Megabytes, but let's shrink it correctly
+  LARGE_INTEGER li;
+  li.QuadPart = pTheRoom->m_sizeLimit >> 20;  // From Bytes to MB
+  m_Limit = li.LowPart;
   int checkedRadio=0;
   switch( pTheRoom->m_nCompressionMode )
   {
@@ -106,7 +109,7 @@ void CRoomPropDialog::OnOK()
 {
 // Store changed data
   UpdateData( TRUE );
-  pTheRoom->m_nSizeLimit = m_Limit << 10; // From KB to Bytes
+  pTheRoom->m_sizeLimit = m_Limit << 20; // From MB to Bytes
   int checkedRadio = GetCheckedRadioButton( firstRadio, lastRadio );
   switch( checkedRadio )
   {

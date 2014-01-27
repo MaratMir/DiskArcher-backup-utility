@@ -21,15 +21,15 @@
 //======================================================================================
 
 #pragma once
-
+/*zzz
 //#pragma warning (disable:4146)  // (18)
 #import "C:\Program Files\Common Files\system\ado\msadox.dll" // no_namespace
 #import "C:\Program Files\Common Files\system\ado\msado15.dll" no_namespace rename( "EOF", "adoEOF" )
 //#pragma warning (default:4146)  // (18)
+*/
+//#include <afx.h>
 
-#include <afx.h>
-
-#define MyArcUserLen 10
+#include "ADO_database.h"
 
 class CFileToArc;
 class CMyArchive;
@@ -37,14 +37,15 @@ class CRoom;
 class CFileCopy;
 class CBundle;
 
-void ShowADOErrors( _com_error &e, _ConnectionPtr pConnection = NULL, CString strAdditionalInfo = L"" );
-inline void TESTHR(HRESULT x) {if FAILED(x) _com_issue_error(x);};
 
-
-class CArchiveDB
+class CArchiveDB : public ADO_database
 {
 public:
 
+  static const CString MyDBFilename;
+  static const unsigned int MyArcUserLen = 10;
+
+  CArchiveDB( CString i_DBfilename ) : ADO_database( i_DBfilename ) {}
 	int  BundleGetMaxID();
 	bool BundleAdd( CBundle* pBundle );
 	bool BundlesLoad();
@@ -61,10 +62,7 @@ public:
 	bool RoomsLoad();
 	bool RoomDelete( CRoom* pRoom );
 
-	/*_ConnectionPtr*/ _variant_t m_pConnection; // M
-
   bool Create();  // Create a new Archive Database
-	bool PreserveDB();	// (17)
   bool Open();
 	bool IsOpen();	// (3)
   bool Close();
@@ -76,7 +74,6 @@ public:
 
 	bool RoomAdd( CRoom* pNewRoom );	// M
 
-  CString	m_strDBFilename;
   CMyArchive	*m_pArchive;
 
 	bool FoldersLoad();
@@ -86,15 +83,9 @@ public:
 	bool optionRead( CString i_sSection, CString i_sOptionName, 
                    CString& o_sValue );		// (18)
 	void LocatorRestoreDefaultOptions( int nOptionsSection );	// (12)
-	bool ExecSQL( CString cmd ); // (12)
 
 
 protected:
-
-	bool CheckIsTableInDB( ADOX::_CatalogPtr pCatalog, 
-		                     CString strTableName );	// (8)
-	int  GetMaxID( CString strTableName, CString strFieldName, 
-                 CString strAdditionalClauses=L"" );
 
 	void DBStructureModifications();	// (1)
 	void DBStructureModifications2();	// (8)
@@ -108,9 +99,6 @@ protected:
 	void CheckFilesTableFolderAndPausedFields( ADOX::_CatalogPtr pCatalog );
 	void CheckOptionsTable( ADOX::_CatalogPtr pCatalog );	// (12)
 	void CheckFieldsForCompress( ADOX::_CatalogPtr pCatalog );	// (17)
-
-private:
-  ADOX::_ColumnPtr findField( ADOX::_TablePtr i_pTable, CString i_strFieldName );
-	bool doesFieldExist( ADOX::_TablePtr i_pTable, CString i_strFieldName );
+  void checkFileSizeIs64( ADOX::_CatalogPtr pCatalog );
 
 };

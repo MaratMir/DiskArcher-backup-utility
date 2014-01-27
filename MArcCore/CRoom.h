@@ -44,20 +44,18 @@ public:
   bool DeleteMarkedCopies();
 	bool IsAvailable();		// (6)
 	bool DeleteLabel();		// (6)
-  _int64 GetOccupiedSpace() const;
-	_int64 GetPrognosis();
-	bool Delete();
+  __int64 GetOccupiedSpace() const;
+  __int64 GetPrognosis();
+  bool Delete();
   CFilesCopies* GetCopies() const;
   CBundles* GetBundles() const;
 
   ID	m_nRoomID;
   bool	m_bRemovable;
-  /* TODO: ?? If this Room is a removable media, this variable is
-   * the capacity of the media?
-   * If 0, it has not been set */
-  int	m_nSizeLimit;
-  _int64	m_nDiskSpaceFree;
-  _int64	m_nPrognosisFree;
+
+  __int64 m_sizeLimit; // The quota for the Room on the respective disk. If 0, it has not been set
+  __int64 m_nDiskSpaceFree;
+  __int64 m_nPrognosisFree;
 
   CMyArchive* m_pArchive;
 

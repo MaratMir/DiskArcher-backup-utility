@@ -472,7 +472,7 @@ void CFilesToArcView::SetSubItems( int nItem, CFileToArc* pFile )
 		lvItem.iSubItem = m_nSizeColumn;
 		lvItem.mask = LVIF_TEXT;
 		CString tmp;
-		tmp.Format( _T("%d"), pFile->m_nSize );
+    tmp.Format( L"%I64u", pFile->getSize() );
 		LPCTSTR strItem = tmp;
 		lvItem.pszText = (LPTSTR)strItem;
 		VERIFY( ctlList.SetItem( &lvItem ) );

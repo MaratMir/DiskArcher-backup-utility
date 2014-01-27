@@ -229,7 +229,7 @@ bool CFileToArc::PreCompress()
 		else
 		{
 			CString sFileToCompress = getFullName();
-			if( this->m_strName == MyDBFilename )	// If it's the program's database,
+			if( this->m_strName == g_TheArchive.m_pDB->MyDBFilename ) // If it's the program's database,
 				sFileToCompress += '~';		//  it has been copied in file with '~'
 			// at the end, because PKZip can't compress open file
 
@@ -281,12 +281,12 @@ bool CFileToArc::PreCompress()
 				AfxMessageBox( s );
 			}
 
-		// Get compressed file size
-			bSuccess = comprFile.getInfo();
-			if( bSuccess )
-				m_nPredictedCompressedSize = comprFile.m_nSize;
-		}
-	}
+      // Get compressed file size
+      bSuccess = comprFile.getInfo();
+      if( bSuccess )
+        m_nPredictedCompressedSize = comprFile.getSize();
+    }
+  }
 
   return bSuccess;
 }

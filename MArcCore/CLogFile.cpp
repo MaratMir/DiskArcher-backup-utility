@@ -39,8 +39,8 @@ bool CLogFile::AddRecord( CString strFilePath, CString strFilename, CString strM
     bSuccess = true;
   }
   catch(_com_error &e)
-  {	// Notify the user of errors if any
-    ShowADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
+  {
+    g_TheArchive.m_pDB->showADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
   }
   catch(...)
   {

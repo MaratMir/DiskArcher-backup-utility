@@ -57,8 +57,33 @@ namespace MArcCoreUnitTest
         msg.Format( L"  Expected exception: %s", ex->getMessage() );
         Logger::WriteMessage( msg );
       }
-
     }
 
-  };
-}
+
+    //========================================
+    TEST_METHOD(CFileCopy_TestMethod)
+    {
+      CFileCopy fc;
+      fc.m_size = 0xaaaabbbbccccdddd;
+      Assert::AreEqual( true, fc.getSizeHi() == 0xaaaabbbb );
+      Assert::AreEqual( true, fc.getSizeLow() == 0xccccdddd );
+
+      fc.setSize( 0x11112222, 0x33334444 );
+      Assert::AreEqual( true, fc.m_size == 0x1111222233334444 );
+      Assert::AreEqual( true, fc.getSizeHi() == 0x11112222 );
+      Assert::AreEqual( true, fc.getSizeLow() == 0x33334444 );
+    }
+    TEST_METHOD(CFileCopy_packedSize_TestMethod)
+    {
+      CFileCopy fc;
+      fc.m_packedSize = 0xaaaabbbbccccdddd;
+      Assert::AreEqual( true, fc.getPackedSizeHi() == 0xaaaabbbb );
+      Assert::AreEqual( true, fc.getPackedSizeLow() == 0xccccdddd );
+
+      fc.setPackedSize( 0x11112222, 0x33334444 );
+      Assert::AreEqual( true, fc.m_packedSize == 0x1111222233334444 );
+      Assert::AreEqual( true, fc.getPackedSizeHi() == 0x11112222 );
+      Assert::AreEqual( true, fc.getPackedSizeLow() == 0x33334444 );
+    }
+  }; // class
+} // namespace

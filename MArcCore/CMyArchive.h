@@ -37,7 +37,6 @@ class IInsertDisk;
 class IFilesLocator;
 
 extern CMyArchive g_TheArchive; // 2014 moved from MArc2.h. TODO: Get rid of global variables
-const CString MyDBFilename = L"MArc.MDB"; // M   TODO: Is it Ok? Move to CArchiveDB??
 
 
 class CMyArchive

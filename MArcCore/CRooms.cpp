@@ -44,7 +44,7 @@ bool CRooms::RoomCreate()
 	if( bSuccess )
 	{
     pNewRoom = new CRoom( strFolder + L"MArcRoom" );
-    pNewRoom->m_nSizeLimit = 0;
+    pNewRoom->m_sizeLimit = 0; // This means 'has not been set'
     pNewRoom->m_nCompressionMode = CRoom::rcmAllowed;	// (6)
 
 	// Get a new Room ID: it will be maxID+1

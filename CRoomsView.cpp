@@ -150,7 +150,7 @@ m_ctlImage.SetBkColor(GetSysColor(COLOR_WINDOW));
 	VERIFY( (res=ctlList.InsertColumn( 0, _T("RoomID"), LVCFMT_RIGHT, 60 )) >= 0 );
 	res=ctlList.InsertColumn( 1, _T("Path"),		LVCFMT_LEFT,  300 );
 	res=ctlList.InsertColumn( 2, _T("Removable"),	LVCFMT_CENTER, 75 );
-	res=ctlList.InsertColumn( 3, _T("Limit, KB"),	LVCFMT_RIGHT,  60 );
+  res=ctlList.InsertColumn( 3, _T("Limit, MB"),	LVCFMT_RIGHT,  70 );
 	res=ctlList.InsertColumn( 4, _T("Free, KB"),	LVCFMT_RIGHT,  70 );
 	res=ctlList.InsertColumn( 5, _T("Compression"), LVCFMT_CENTER, 85 );	// (6)
 
@@ -284,7 +284,7 @@ bool CRoomsView::SetSubItems( int nItem, CRoom* pRoom )
 	lvItem.mask = LVIF_TEXT;
 	lvItem.iItem = nItem;
 	lvItem.iSubItem = 3;
-	sTmp.Format( _T("%d"), pRoom->m_nSizeLimit >> 10 );
+	sTmp.Format( _T("%d"), pRoom->m_sizeLimit >> 20 /* To Megabytes */ );
 	strItem = sTmp;
 	lvItem.pszText = (LPTSTR)(strItem);
 	if( ! ctlList.SetItem(&lvItem) )

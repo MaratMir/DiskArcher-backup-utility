@@ -99,6 +99,9 @@
     <ClInclude Include="IFilesLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ADO_database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -156,6 +159,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CRoomLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ADO_database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

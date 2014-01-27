@@ -119,7 +119,7 @@ bool CNewFilesLocator::LoadOptions()
     wchar_t* select = L"SELECT * FROM ProgramOptions"
                       L" WHERE SectionName=\"Locator\"";
     hr = rsOptions->Open( select, g_TheArchive.m_pDB->m_pConnection, adOpenStatic, adLockReadOnly, adCmdText );
-    TESTHR( hr );
+    g_TheArchive.m_pDB->TESTHR( hr );
 		while( ! rsOptions->adoEOF )
 		{
 			_bstr_t  bstrTmp; // Temporary string for type conversion
@@ -146,8 +146,7 @@ bool CNewFilesLocator::LoadOptions()
 	}
 	catch(_com_error &e)
 	{
-    // Notify the user of errors if any
-    ShowADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
+    g_TheArchive.m_pDB->showADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
 	}
 	catch(...)
 	{
@@ -325,7 +324,7 @@ bool CNewFilesLocator::AddExcludedToDB( LocatorWhatToExclude nType,
               L" (SectionName, OptionName, OptionValue, OptionValue2)"
               L" VALUES (\"Locator\", \"%s\", \"%s\", \"\" )",
               sOptionName, sName );
-  bSuccess = g_TheArchive.m_pDB->ExecSQL( cmd );
+  bSuccess = g_TheArchive.m_pDB->execSQL( cmd );
   return bSuccess ;
 }
 

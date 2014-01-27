@@ -140,7 +140,7 @@ void CLogView::ShowLog()
     // Select all Copies
     wchar_t* select = _T("SELECT * FROM ArcLog ORDER BY MessDateTime DESC");
     hr = recSet->Open( select, g_TheArchive.m_pDB->m_pConnection, adOpenStatic, adLockReadOnly, adCmdText );
-    TESTHR( hr );
+    g_TheArchive.m_pDB->TESTHR( hr );
 
 		while( ! recSet->adoEOF )
 		{
@@ -204,7 +204,7 @@ void CLogView::ShowLog()
 	catch(_com_error &e)
 	{
     // Notify the user of errors if any
-    ShowADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
+    g_TheArchive.m_pDB->showADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
 	}
 	catch(...)
 	{
@@ -255,8 +255,7 @@ void CLogView::OnLogClear()
   }
   catch(_com_error &e)
   {
-    // Notify the user of errors if any
-    ShowADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
+    g_TheArchive.m_pDB->showADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
   }
   catch(...)
   {

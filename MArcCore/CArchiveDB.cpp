@@ -45,60 +45,7 @@
 #include "CFolderToArc.h"	// (8)
 #include "CZipBundle.h"	// M
 
-
-// Returns a "TRUE" or "FALSE" string.
-//======================================
-const CString TrueFalse( bool value )
-{
-  return ( value ? L"TRUE" : L"FALSE" );
-}
-
-
-// Display a description of the ADO error.
-// Parameters:	- pConnection is not required, default is NULL.
-// LATER: The text of this window must be able to copy to clipboard!!!
-//======================================================================
-void ShowADOErrors( _com_error &e, _ConnectionPtr pConnection,
-				    CString strAdditionalInfo/*(17)*/ )
-{
-	CString mess, tmp;
-
-// Print Provider Errors from Connection object.
-// pErr is a record object in the Connection's Error collection.
-	if( pConnection != NULL )
-	{
-	    ErrorPtr    pErr  = NULL;
-		if( (pConnection->Errors->Count) > 0)
-		{
-			long nCount = pConnection->Errors->Count;
-	        for( long i = 0; i < nCount; i++ )
-		    {
-			    pErr = pConnection->Errors->GetItem(i);
-				tmp.Format( _T("Provider Error %x:\nDescription: %s\n"), pErr->Number,
-							(LPCTSTR)(pErr->Description) );
-	            mess += tmp;
-		    }
-            mess += "\n";
-		}
-    }
-	else									// (15)
-		mess += "pConnection = NULL.\n";	// (15)
-
-// Print COM errors
-	_bstr_t bstrSource( e.Source() );
-	_bstr_t bstrDescription( e.Description() );
-	tmp.Format( _T("COM Error %08lx\n%s"), e.Error(), e.ErrorMessage() );
-	mess += tmp;
-  CString src = bstrSource;
-  mess += L"\nSource: " + src;
-  CString des = bstrDescription;
-  mess += L"\nDescription: " + des;
-
-  if( strAdditionalInfo != "" )	// (17)
-    mess += L"\n" + strAdditionalInfo;
-
-  AfxMessageBox( mess );
-}
+const CString CArchiveDB::MyDBFilename = L"MArc.MDB";
 
 
 // Create the Database and its Tables.
@@ -127,7 +74,7 @@ bool CArchiveDB::Create()
   _bstr_t strcnn( L"Provider=Microsoft.JET.OLEDB.4.0;"
 // LATER: move this strings into constants or resources
         // Can add: "Locale Identifier=1049;" Russian or 1033 USA
-                  L"Data source = " + m_strDBFilename );
+                  L"Data source = " + getDBfilename() );
 	try
 	{
 		step = L"10";	  // (15)
@@ -142,8 +89,7 @@ bool CArchiveDB::Create()
 	}   
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e );
+    showADOErrors( e );
 	}
 	catch(...)
 	{
@@ -236,8 +182,7 @@ bool CArchiveDB::Create()
     }
 	  catch(_com_error &e)
 		{
-		// Notify the user of errors if any
-			ShowADOErrors( e, m_pConnection );
+      showADOErrors( e, m_pConnection );
 		}
 	  catch(...)
 		{
@@ -256,18 +201,6 @@ bool CArchiveDB::Create()
 }
 
 
-// (17) Create a local copy of the database before open it:
-//	some compression utilities cannot copy opened files,
-//	also if the DB is damaged, program cannot start
-//==========================================================
-bool CArchiveDB::PreserveDB()
-{
-	BOOL bOk = CopyFile( m_strDBFilename, m_strDBFilename + "~",
-						           FALSE/*Overwrite existing*/ );
-	return( bOk == TRUE );
-}
-
-
 // Open the Database
 //==============================================================================
 bool CArchiveDB::Open()
@@ -277,7 +210,7 @@ bool CArchiveDB::Open()
   _ConnectionPtr pConnection    = NULL;
   // Set Connection string
   _bstr_t strCnn( L"Provider=Microsoft.JET.OLEDB.4.0;"
-                  L"Data source = " + m_strDBFilename );
+                  L"Data source = " + getDBfilename() );
 // LATER     "Initial Catalog=Pubs;User Id=sa;Password=;");
 //		I should protect data from editing in Access!
 
@@ -305,13 +238,13 @@ bool CArchiveDB::Open()
 		DBStructureModifications2();
 
 	}
-    catch(_com_error &e)
-    {
-		ShowADOErrors( e );
-		bSuccess = false;
-	}
+  catch(_com_error &e)
+  {
+    showADOErrors( e );
+    bSuccess = false;
+  }
 
-	return bSuccess;
+  return bSuccess;
 }
 
 
@@ -368,18 +301,18 @@ bool CArchiveDB::FileAdd(CFileToArc* pFile)
                                      L"FolderID, Paused)"	// (8)
         L" VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %s, %d, %s)",
         pFile->m_strComputer, pFile->m_strDrive, pFile->m_strDir, pFile->m_strName,
-        pFile->m_nPriority, pFile->m_nUpToCopies, TrueFalse( pFile->m_bSystem ),
-        pFile->m_nFolderID/*(8)*/, TrueFalse( pFile->m_bPaused )/*(8)*/ );
+        pFile->m_nPriority, pFile->m_nUpToCopies, trueFalse( pFile->m_bSystem ),
+        pFile->m_nFolderID, trueFalse( pFile->m_bPaused ) );
 		  bstr_t converted = cmd;
 			((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 			bSuccess = true;
 		}
-		catch(_com_error &e)
-		{
-		// Notify the user of errors if any
-			ShowADOErrors( e, m_pConnection );
-		}
-		catch(...)
+    catch(_com_error &e)
+    {
+    // Notify the user of errors if any
+      showADOErrors( e, m_pConnection );
+    }
+    catch(...)
 		{
 			AfxMessageBox( _T("Some error occured in CArchiveDB::FileAdd().") );
 		}
@@ -404,10 +337,10 @@ bool CArchiveDB::FileUpdate(CFileToArc *pFile)
 			_T("WHERE Computer=\"%s\" AND Drive=\"%s\" AND Dir=\"%s\" ")
 				_T("AND Name=\"%s\""),
 		pFile->m_nPriority, pFile->m_nUpToCopies, 
-		TrueFalse( pFile->m_bPaused ), TrueFalse( pFile->m_bCompressIt ),
+    trueFalse( pFile->m_bPaused ), trueFalse( pFile->m_bCompressIt ),
 		pFile->m_strComputer, pFile->m_strDrive, pFile->m_strDir, 
 		pFile->m_strName );
-	bSuccess = ExecSQL( cmd );
+  bSuccess = execSQL( cmd );
 
 	return bSuccess;
 }
@@ -432,8 +365,8 @@ bool CArchiveDB::FileDelete( CFileToArc *pFile )
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    // Notify the user of errors if any
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -523,8 +456,8 @@ bool CArchiveDB::FilesLoad()
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    // Notify the user of errors if any
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -549,15 +482,15 @@ bool CArchiveDB::RoomAdd(CRoom *pRoom)
 			                   L" CompressionMode )\n"	// (17)
 			L" VALUES ( %d, \"%s\", %s, %d, %d, %d )",
 			pRoom->m_nRoomID, pRoom->getFullName(),
-			TrueFalse( pRoom->m_bRemovable ), pRoom->m_nSizeLimit,
+			trueFalse( pRoom->m_bRemovable ), pRoom->m_sizeLimit >> 20 /* To Megabytes */,
 			pRoom->m_nDiskSpaceFree, pRoom->m_nCompressionMode );
 		bstr_t converted = cmd;
 		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 		bSuccess = true;
 	}
 	catch(_com_error &e)
-	{	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+  { // Notify the user of errors if any
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -605,7 +538,8 @@ bool CArchiveDB::RoomsLoad()
       pCurRoom->m_bRemovable = (bool)vtTmp;
 
       vtTmp = rsRooms->Fields->Item["SizeLimit"]->Value;
-      pCurRoom->m_nSizeLimit = (long)vtTmp;
+      pCurRoom->m_sizeLimit = (long)vtTmp;
+      pCurRoom->m_sizeLimit = pCurRoom->m_sizeLimit << 20; // It was saved in Megabytes, return to Bytes
 
       vtTmp = rsRooms->Fields->Item["SpaceFree"]->Value;
       pCurRoom->m_nDiskSpaceFree = (long)vtTmp;
@@ -627,7 +561,7 @@ bool CArchiveDB::RoomsLoad()
 	catch(_com_error &e)
 	{
     // Notify the user of errors if any
-    ShowADOErrors( e, m_pConnection, L"Place: RoomsLoad" );
+    showADOErrors( e, m_pConnection, L"Place: RoomsLoad" );
 	}
 	catch(...)
 	{
@@ -650,11 +584,11 @@ bool CArchiveDB::RoomUpdate(CRoom *pRoom)
 			_T("CompressionMode=%d ")
 		_T("WHERE RoomID=%d"),
 		pRoom->getFullName(),
-		TrueFalse( pRoom->m_bRemovable ),
-		pRoom->m_nSizeLimit, (int)(pRoom->m_nDiskSpaceFree >> 10)/*LATER!*/,
+    trueFalse( pRoom->m_bRemovable ),
+		pRoom->m_sizeLimit >> 20 /* To Megabytes */, (int)(pRoom->m_nDiskSpaceFree >> 10)/*LATER!*/,
 		pRoom->m_nCompressionMode,
 		pRoom->m_nRoomID );
-	bSuccess = ExecSQL( cmd );
+  bSuccess = execSQL( cmd );
 	return bSuccess;
 }
 
@@ -664,7 +598,7 @@ bool CArchiveDB::RoomUpdate(CRoom *pRoom)
 //==============================================================================
 int CArchiveDB::RoomGetMaxID()
 {
-  int nMax = GetMaxID( L"Rooms", L"RoomID" );
+  int nMax = getMaxID( L"Rooms", L"RoomID" );
   return nMax;
 }
 
@@ -685,8 +619,8 @@ bool CArchiveDB::RoomDelete(CRoom *pRoom)
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    // Notify the user of errors if any
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -694,8 +628,6 @@ bool CArchiveDB::RoomDelete(CRoom *pRoom)
 	}
 	return bSuccess;
 }
-
-//======================================================================================
 
 
 // Update the Copy info in the Database.
@@ -705,22 +637,22 @@ bool CArchiveDB::CopyUpdate(CFileCopy *pCopy)
   bool bSuccess = false;
   CString cmd;
   try
-  {	// Update record
+  { // Update record
     CString dt = pCopy->m_FileDateTime.Format();
     cmd.Format( 
       L"UPDATE FileCopies SET Path=\"%s\", FileName=\"%s\", UserID=\"%s\", FileDateTime=\"%s\", "
-             L"SourceSize=%d, PackedSize=%d, BundleID=%d, DeleteIt=%s "
+             L"SourceSizeHiBits=%d, SourceSize=%d, PackedSizeHiBits=%d, PackedSize=%d, BundleID=%d, DeleteIt=%s "
       L"WHERE CopyID=%d",
       pCopy->m_strPath, pCopy->m_strFilename, pCopy->m_strUser, dt,
-      pCopy->m_nSize, pCopy->m_nPackedSize, pCopy->m_nBundleID,					
-      TrueFalse( pCopy->m_bDeleteIt )/*(4)*/, pCopy->m_nCopyID );
+      pCopy->getSizeHi(), pCopy->getSizeLow(), pCopy->getPackedSizeHi(), pCopy->getPackedSizeLow(),
+      pCopy->m_nBundleID, trueFalse( pCopy->m_bDeleteIt ), pCopy->m_nCopyID );
     bstr_t converted = cmd;
     ((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
     bSuccess = true;
   }
   catch(_com_error &e)
-  {	// Notify the user of errors if any
-    ShowADOErrors( e, m_pConnection );
+  {
+    showADOErrors( e, m_pConnection );
   }
   catch(...)
   {
@@ -753,10 +685,12 @@ bool CArchiveDB::CopyAdd( CFileCopy *pCopy )
       // Append the record
       //==================================================
       CString cmd, dt = pCopy->m_FileDateTime.Format();
-      cmd.Format( L"INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, SourceSize, PackedSize, BundleID)"
-                  L" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d)",
+      cmd.Format( L"INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, "
+                  L"   SourceSizeHiBits, SourceSize, PackedSizeHiBits, PackedSize, BundleID)"
+                  L" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d, %d)",
                   pCopy->m_nCopyID, pCopy->m_strPath, pCopy->m_strFilename, pCopy->m_strUser, dt, 
-                  pCopy->m_nSize, pCopy->m_nPackedSize, pCopy->m_nBundleID );
+                  pCopy->getSizeHi(), pCopy->getSizeLow(), pCopy->getPackedSizeHi(), pCopy->getPackedSizeLow(),
+                  pCopy->m_nBundleID );
       bstr_t converted = cmd;
       ((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
 
@@ -764,7 +698,7 @@ bool CArchiveDB::CopyAdd( CFileCopy *pCopy )
     }
     catch( _com_error &e )
     {
-      ShowADOErrors( e, m_pConnection );
+      showADOErrors( e, m_pConnection );
     }
     catch( CException *oe )
     {
@@ -795,8 +729,7 @@ bool CArchiveDB::CopyDelete( CFileCopy *pCopy )
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -811,51 +744,7 @@ bool CArchiveDB::CopyDelete( CFileCopy *pCopy )
 //==============================================================================
 int CArchiveDB::CopyGetMaxID()
 {
-  int nMax = GetMaxID( L"FileCopies", L"CopyID" );
-  return nMax;
-}
-
-
-// Get max ID from Database.
-// Parameters:	- Table name;
-//				- Field name;
-//				- additional SQL clauses.
-// Returns -1 if any error occurs
-//==============================================================================
-int CArchiveDB::GetMaxID( CString strTableName, CString strFieldName, 
-                          CString strAdditionalClauses )
-{
-  int nMax = -1;
-  HRESULT hr;
-  CString cmd;
-  try
-  {
-    _RecordsetPtr rsMax;
-    rsMax.CreateInstance(__uuidof(Recordset)); 
-    cmd.Format( L"SELECT MAX(%s) As MaxID FROM %s %s",
-                strFieldName, strTableName, strAdditionalClauses );
-    bstr_t converted = cmd;
-    hr = rsMax->Open( converted, m_pConnection, adOpenStatic,
-                      adLockReadOnly, adCmdText );
-    TESTHR( hr );
-
-    _variant_t vtTmp;
-    vtTmp = rsMax->Fields->Item["MaxID"]->Value;
-    if( vtTmp.vt == VT_NULL ) // No any record found in the table
-      nMax = 0;
-    else
-      nMax = (long)vtTmp;
-    hr = rsMax->Close();
-    TESTHR( hr );
-  }
-  catch(_com_error &e)
-  {
-    ShowADOErrors( e, m_pConnection );
-  }
-  catch(...)
-  {
-    AfxMessageBox( _T("Some error occured in CArchiveDB::GetMaxID().") );
-  }
+  int nMax = getMaxID( L"FileCopies", L"CopyID" );
   return nMax;
 }
 
@@ -907,15 +796,25 @@ bool CArchiveDB::CopiesLoad()
       vtTmp = recSet->Fields->Item["DeleteIt"]->Value;	// (4)
       pCurCopy->m_bDeleteIt = (bool)vtTmp;				// (4)
 
-      vtTmp = recSet->Fields->Item["SourceSize"]->Value;	// (5)
-      pCurCopy->m_nSize = (long)vtTmp;					// (5)
-      if( pCurCopy->m_nSize < 0 )							// (5) TO DO!
-				pCurCopy->m_nSize = 0;							// (5)
+      vtTmp = recSet->Fields->Item["SourceSizeHiBits"]->Value;
+      int sizeHi = ( vtTmp.vt == VT_NULL ) ? 0 : (long)vtTmp;
+      if( sizeHi < 0 ) // TODO: report it
+        sizeHi = 0;
+      vtTmp = recSet->Fields->Item["SourceSize"]->Value;
+      int sizeLow = (long)vtTmp;
+      if( sizeLow < 0 ) // TODO: report it
+        sizeLow = 0;
+      pCurCopy->setSize( sizeHi, sizeLow );
 
-      vtTmp = recSet->Fields->Item["PackedSize"]->Value;	// (5)
-      pCurCopy->m_nPackedSize = (long)vtTmp;				// (5)
-      if( pCurCopy->m_nPackedSize < 0 )					// (5) TO DO!
-				pCurCopy->m_nPackedSize = 0;					// (5)
+      vtTmp = recSet->Fields->Item["PackedSizeHiBits"]->Value;
+      int packedSizeHi = ( vtTmp.vt == VT_NULL ) ? 0 : (long)vtTmp;
+      if( packedSizeHi < 0 ) // TODO: report it
+        packedSizeHi = 0;
+      vtTmp = recSet->Fields->Item["PackedSize"]->Value;
+      int packedSizeLow = (long)vtTmp;
+      if( packedSizeLow < 0 ) // TODO
+        packedSizeLow = 0;
+      pCurCopy->setPackedSize( packedSizeHi, packedSizeLow );
 
 			m_pArchive->m_Copies.AddTail( pCurCopy );
 			recSet->MoveNext();
@@ -926,10 +825,9 @@ bool CArchiveDB::CopiesLoad()
 		bSuccess = true;
 	}
 	catch(_com_error &e)
-	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
-	}
+  {
+    showADOErrors( e, m_pConnection );
+  }
 	catch(...)
 	{
 		AfxMessageBox( _T("Some error occured in CArchiveDB::CopiesLoad().") );
@@ -1013,8 +911,7 @@ bool CArchiveDB::BundlesLoad()
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -1050,7 +947,7 @@ bool CArchiveDB::BundleAdd(CBundle *pBundle)
 		}
 		catch( _com_error &e )
 		{
-			ShowADOErrors( e, m_pConnection );
+      showADOErrors( e, m_pConnection );
 		}
 		catch( CException *oe )
 		{
@@ -1070,7 +967,7 @@ bool CArchiveDB::BundleAdd(CBundle *pBundle)
 //==============================================================================
 int CArchiveDB::BundleGetMaxID()
 {
-  int nMax = GetMaxID( L"Bundles", L"BundleID" );
+  int nMax = getMaxID( L"Bundles", L"BundleID" );
   return nMax;
 }
 
@@ -1091,8 +988,7 @@ bool CArchiveDB::BundleDelete( CBundle* pBundle )
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -1237,6 +1133,9 @@ void CArchiveDB::DBStructureModifications2()
 //============================================================================
 	CheckFieldsForCompress( pCatalog );
 
+// Check there are the new fields for big numbers.
+//============================================================================
+	checkFileSizeIs64( pCatalog );
 }
 
 
@@ -1244,7 +1143,7 @@ void CArchiveDB::DBStructureModifications2()
 //==============================================================================
 void CArchiveDB::CheckRecordAboutDB()
 {
-	CFileToArc theDBfile( m_strDBFilename );
+  CFileToArc theDBfile( getDBfilename() );
 	theDBfile.getInfo();	// (10) It will change filename's and 
 		// path's capitalization according to current file's info on disk 
 	if( ! CheckIsFileInArc( &theDBfile ) )
@@ -1291,8 +1190,7 @@ bool CArchiveDB::CheckIsFileInArc( CFileToArc* pFile )
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -1335,7 +1233,7 @@ void CArchiveDB::CheckDeleteItField( ADOX::_CatalogPtr pCatalog )
 //==============================================================================
 void CArchiveDB::CheckFoldersTable( ADOX::_CatalogPtr pCatalog )
 {
-  bool bFoldersTableFound = CheckIsTableInDB( pCatalog, L"FoldersToArc" );
+  bool bFoldersTableFound = checkIfTableInDB( pCatalog, L"FoldersToArc" );
 	if( ! bFoldersTableFound )
 	// "FoldersToArc" table not found, create this table
 	{
@@ -1366,62 +1264,6 @@ void CArchiveDB::CheckFoldersTable( ADOX::_CatalogPtr pCatalog )
 
     g_TheArchive.m_LogFile.AddRecord( L"DATABASE", L"UPDATING", L"FoldersToArc Table added" );
   }
-}
-
-
-// Finds a field with a given name in the given table.
-//==============================================================================
-ADOX::_ColumnPtr CArchiveDB::findField( ADOX::_TablePtr i_pTable, CString i_strFieldName )
-{
-	ADOX::_ColumnPtr fieldFound = NULL;
-  _variant_t vIndex;
-	ADOX::ColumnsPtr pColumns = i_pTable->Columns;
-	ADOX::_ColumnPtr pCurColumn = NULL;
-  for ( long lIndex = 0; lIndex < pColumns->Count; lIndex ++ )
-  {
-		vIndex = lIndex;
-    pCurColumn = pColumns->GetItem( vIndex );
-		CString strCurColumnName = pCurColumn->Name.GetBSTR(); // Was (LPCSTR)pCurColumn->Name;
-    if( strCurColumnName == i_strFieldName )
-		{
-			fieldFound = pCurColumn;
-			break;
-		}
-  }
-  return fieldFound;
-}
-
-
-// Check is there a field with a given name in the given table
-//==============================================================================
-bool CArchiveDB::doesFieldExist( ADOX::_TablePtr i_pTable, CString i_strFieldName )
-{
-	ADOX::_ColumnPtr fieldFound = findField( i_pTable, i_strFieldName );
-	return ( fieldFound != NULL );
-}
-
-
-
-// (8) Returns true, if there is a table with given name in the database
-//==============================================================================
-bool CArchiveDB::CheckIsTableInDB( ADOX::_CatalogPtr pCatalog,
-                                   CString strTableName )
-{
-	bool bTableFound = false;
-	ADOX::_TablePtr pTable = NULL;
-  _variant_t vIndex;
-  for (long lIndex = 0; lIndex < pCatalog->Tables->Count; lIndex ++)
-  {
-		vIndex = lIndex;
-    pTable = pCatalog->Tables->GetItem( vIndex );
-		CString strCurTableName = pTable->Name.GetBSTR(); // Was (LPCSTR)pTable->Name;
-    if( strCurTableName == strTableName )
-		{
-			bTableFound = true;
-			break;
-		}
-  }
-	return bTableFound;
 }
 
 
@@ -1537,8 +1379,7 @@ bool CArchiveDB::FoldersLoad()
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -1554,7 +1395,7 @@ bool CArchiveDB::FoldersLoad()
 //============================================================================
 void CArchiveDB::CheckOptionsTable( ADOX::_CatalogPtr pCatalog )
 {
-  bool bOptionsTableFound = CheckIsTableInDB( pCatalog, L"ProgramOptions" );
+  bool bOptionsTableFound = checkIfTableInDB( pCatalog, L"ProgramOptions" );
 	if( ! bOptionsTableFound )
 	// "Options" table not found, create this table
 	{
@@ -1590,7 +1431,7 @@ bool CArchiveDB::optionSave( CString sSection, CString sOptionName,
     CString sCmd = L"DELETE FROM ProgramOptions"
                    L" WHERE SectionName='" + sSection + L"'";
     sCmd += L" AND OptionName='" + sOptionName + L"'";
-    bSuccess = ExecSQL( sCmd );
+    bSuccess = execSQL( sCmd );
 
   // Write the new option value into DB 
     if( bSuccess )
@@ -1600,13 +1441,12 @@ bool CArchiveDB::optionSave( CString sSection, CString sOptionName,
                   L" ( SectionName, OptionName, OptionValue, OptionValue2 )\n"
                   L" VALUES ( '%s', '%s', '%s', '%s' )",
                   sSection, sOptionName, sValue, sValue2 );
-      bSuccess = ExecSQL( cmd );
+      bSuccess = execSQL( cmd );
     }
   }
   catch(_com_error &e)
   {
-  // Notify the user of errors if any
-    ShowADOErrors( e, m_pConnection );
+    showADOErrors( e, m_pConnection );
   }
   catch(...)
   {
@@ -1653,8 +1493,7 @@ bool CArchiveDB::optionRead( CString i_sSection, CString i_sOptionName,
 	}
 	catch(_com_error &e)
 	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection );
+    showADOErrors( e, m_pConnection );
 	}
 	catch(...)
 	{
@@ -1682,7 +1521,7 @@ void CArchiveDB::LocatorRestoreDefaultOptions( int nOptionsSection )
   if(    nOptionsSection == 44/* Locator's Options */
       || nOptionsSection == 99/* All Options */ )
   {
-    bool bOk = ExecSQL( L"DELETE FROM ProgramOptions"
+    bool bOk = execSQL( L"DELETE FROM ProgramOptions"
                         L" WHERE SectionName=\"Locator\"" ); 
             // (14) Was: OptionName
     if( bOk )
@@ -1693,7 +1532,7 @@ void CArchiveDB::LocatorRestoreDefaultOptions( int nOptionsSection )
                     L" (SectionName, OptionName, OptionValue, OptionValue2) "
                     L" VALUES (\"Locator\", \"exclFileType\", \"%s\", \"\" )",
                     fileTypes[i] );
-        bOk = ExecSQL( cmd );
+        bOk = execSQL( cmd );
         if( ! bOk )
           break;
       }
@@ -1705,7 +1544,7 @@ void CArchiveDB::LocatorRestoreDefaultOptions( int nOptionsSection )
                     L" (SectionName, OptionName, OptionValue, OptionValue2) "
                     L" VALUES (\"Locator\", \"exclFolder\", \"%s\", \"\" )",
                     folderNames[i] );
-        bOk = ExecSQL( cmd );
+        bOk = execSQL( cmd );
         if( ! bOk )
           break;
       }
@@ -1746,27 +1585,30 @@ void CArchiveDB::CheckFieldsForCompress( ADOX::_CatalogPtr pCatalog )
 }
 
 
-//== Common database procedures ==============================================
-// (12)
-bool CArchiveDB::ExecSQL( CString cmd )
+// Check that file sizes are big, big numbers.
+// try block is in the calling procedure.
+//-----------------------------------------------------------------------------
+void CArchiveDB::checkFileSizeIs64( ADOX::_CatalogPtr pCatalog )
 {
-	bool bSuccess = false;
-	try
-	{
-		bstr_t converted = cmd;
-		((_ConnectionPtr)m_pConnection)->Execute( converted, NULL, NULL );
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{
-	// Notify the user of errors if any
-		ShowADOErrors( e, m_pConnection, cmd );
-	}
-	catch(...)
-	{
-    AfxMessageBox( L"Some error occured in CArchiveDB::ExecuteSQL().\n" + cmd );
-	}
-	return bSuccess;
+  // "FileCopies" table, "SourceSizeHiBits" field
+  //-----------------------------------------------------------------------------
+  ADOX::_TablePtr pFCtable = pCatalog->Tables->Item["FileCopies"];
+  if( ! doesFieldExist( pFCtable, L"SourceSizeHiBits" ))
+  // The field not found, add it
+  {
+    g_TheArchive.m_LogFile.AddRecord( L"DATABASE", L"UPDATING", L"FileCopies: Adding SourceSizeHiBits field" );
+    pFCtable->Columns->Append( "SourceSizeHiBits", ADOX::adInteger, 0 );
+    g_TheArchive.m_LogFile.AddRecord( L"DATABASE", L"UPDATING", L"FC::SourceSizeHiBits field added" );
+  }
+
+  // "FileCopies" table, "PackedSizeHiBits" field
+  //-----------------------------------------------------------------------------
+  if( ! doesFieldExist( pFCtable, L"PackedSizeHiBits" ))
+  // The field not found, add it
+  {
+    g_TheArchive.m_LogFile.AddRecord( L"DATABASE", L"UPDATING", L"FileCopies: Adding PackedSizeHiBits field" );
+    pFCtable->Columns->Append( "PackedSizeHiBits", ADOX::adInteger, 0 );
+    g_TheArchive.m_LogFile.AddRecord( L"DATABASE", L"UPDATING", L"FC::PackedSizeHiBits field added" );
+  }
+
 }
-
-

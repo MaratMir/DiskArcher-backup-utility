@@ -124,11 +124,10 @@ bool CMyArchive::open( IProgressIndicator* i_pProgressIndicator )
 	VERIFY( ::GetModuleFileName( AfxGetApp()->m_hInstance, szExePathName, _MAX_PATH ));
 // Construct database filename. The directory is the same as the program's directory.
 // So, take exe-fullname and replace filename.
-	CFileOnDisk dbFile( szExePathName );
-	dbFile.m_strName = MyDBFilename;
+  CFileOnDisk dbFile( szExePathName );
+  dbFile.m_strName = g_TheArchive.m_pDB->MyDBFilename;
 
-  m_pDB = new CArchiveDB;
-  m_pDB->m_strDBFilename = dbFile.getFullName();
+  m_pDB = new CArchiveDB( dbFile.getFullName() );
   m_pDB->m_pArchive = this;
 
   if( ! dbFile.checkExistence() )
@@ -145,7 +144,7 @@ bool CMyArchive::open( IProgressIndicator* i_pProgressIndicator )
   else
   // (13) Create a local copy of the database
     // LATER: if( previous session wasn't terminated suddenly )
-      bSuccess = m_pDB->PreserveDB();
+      bSuccess = m_pDB->preserveDB();
     // LATER: else: AfxMessageBox( Restore the database? )
 
 
@@ -513,7 +512,7 @@ bool CMyArchive::deleteOldestCopyOfFile( CFileToArc* const i_pFile )
   // Freeing space because of deleting an old Copy
     CRoom *pRoomDeleteFrom = pCopy->GetRoom();
     if( pRoomDeleteFrom )
-      pRoomDeleteFrom->m_nPrognosisFree += pCopy->m_nPackedSize;
+      pRoomDeleteFrom->m_nPrognosisFree += pCopy->m_packedSize;
   }
   return bSuccess;
 }
@@ -648,11 +647,11 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
             }
 					}
 				}
-				else	// Don't compress
-				  i_pFile->m_nPredictedCompressedSize = i_pFile->m_nSize;
-			}
-			else	// Don't compress
-				i_pFile->m_nPredictedCompressedSize = i_pFile->m_nSize;
+        else // Don't compress
+          i_pFile->m_nPredictedCompressedSize = i_pFile->getSize();
+      }
+      else // Don't compress
+        i_pFile->m_nPredictedCompressedSize = i_pFile->getSize();
 
 			if( pCurRoom->m_nPrognosisFree > 
 				i_pFile->m_nPredictedCompressedSize + 65536/*(15)Was:10240* /
@@ -709,7 +708,7 @@ bool CMyArchive::loadOptions()
                       L" WHERE SectionName=\"Archive\"";
     hr = rsOptions->Open( select, m_pDB->m_pConnection, adOpenStatic,
                           adLockReadOnly, adCmdText );
-    TESTHR( hr );
+    g_TheArchive.m_pDB->TESTHR( hr );
 		while( ! rsOptions->adoEOF )
 		{
 			_bstr_t  bstrTmp; // Temporary string for type conversion
@@ -738,8 +737,7 @@ bool CMyArchive::loadOptions()
 	}
 	catch(_com_error &e)
 	{
-    // Notify the user of errors if any
-    ShowADOErrors( e, m_pDB->m_pConnection );
+    g_TheArchive.m_pDB->showADOErrors( e, m_pDB->m_pConnection );
 	}
 	catch(...)
 	{

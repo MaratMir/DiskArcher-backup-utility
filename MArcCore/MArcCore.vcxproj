@@ -80,6 +80,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ADO_database.h" />
     <ClInclude Include="CArchiveDB.h" />
     <ClInclude Include="CBundle.h" />
     <ClInclude Include="CBundles.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ADO_database.cpp" />
     <ClCompile Include="CArchiveDB.cpp" />
     <ClCompile Include="CBundle.cpp" />
     <ClCompile Include="CBundles.cpp" />
