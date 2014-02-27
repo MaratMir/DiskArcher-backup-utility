@@ -12,14 +12,10 @@
 
 
 //==============================================================================
-static void delCFilesOnDisk( CFileOnDisk* obj )
-{
-  delete obj;
-}
-
 CFilesOnDisk::~CFilesOnDisk()
 {
-  std::for_each( m_files.begin(), m_files.end(), delCFilesOnDisk );
+  for( auto curFile : m_files )
+    delete curFile;
 }
 
 
@@ -32,9 +28,8 @@ unsigned int CFilesOnDisk::remove( CString i_path, CString i_name )
   while( true )
   {
     bool found = false;
-    for( auto fileIter = m_files.begin(); fileIter != m_files.end(); fileIter++ )
+    for( auto curFile : m_files ) // Is this syntax working? Yes! C++ evolves!
     {
-      CFileOnDisk* curFile = *fileIter;
       CString curPath = curFile->getFullPath();
       if( curPath == i_path && curFile->m_strName == i_name )
       {

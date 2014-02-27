@@ -1,6 +1,6 @@
 // DiskArcher.
-// Implementation of the CNewFilesLocatorView class.
-// (C) Marat Mirgaleev, 2002.
+// View with the list of files found by Locator.
+// (C) Marat Mirgaleev, 2002-2014.
 // Created 25.07.2002.
 // Modifications:
 //	(1) 16.01.2003. EraseList() and ShowPopumMenu() moved into the base class.
@@ -51,8 +51,6 @@ CNewFilesLocatorView::CNewFilesLocatorView()
 	m_nNameColumn = 1;	
 	m_nTimeColumn = 2;
 	m_nSizeColumn = 3;
-
-// (3)	m_pDlg = NULL;
 }
 
 
@@ -320,11 +318,12 @@ void CNewFilesLocatorView::OnUpdateLocatorRemove(CCmdUI* pCmdUI)
 
 void CNewFilesLocatorView::OnDestroy() 
 {
-	CMyListView::OnDestroy();
-// Add your message handler code here
+  CMyListView::OnDestroy();
 
-    g_TheArchive.m_pLocator = NULL;   // (3)
-    delete m_pLocator;  // (3)
+  // Add your message handler code here
+
+  g_TheArchive.m_pLocator = nullptr;
+  delete m_pLocator;
 }
 
 
@@ -337,28 +336,27 @@ void CNewFilesLocatorView::OnUpdateLocatorAddExclType(CCmdUI* pCmdUI)
 
 void CNewFilesLocatorView::OnLocatorAddExclType() 
 {
-	CWaitCursor wait;
-	CListCtrl& ctlList = GetListCtrl();
-	int nItem;
-// For every selected file
-	while( true )
-	{
-		POSITION pos = ctlList.GetFirstSelectedItemPosition();
-			// Yes, start it again because of deleting and 
-			//	positions changing
-        bool bRemoved = false;
-		while( pos != NULL )
-        {
-		    nItem = ctlList.GetNextSelectedItem(pos);
-            CFileOnDisk* pCurFile = GetFileFromRow( nItem );
-            bRemoved = m_pLocator->CheckAndAddToExclTypes( pCurFile );
-            delete pCurFile;
-            if( bRemoved )
-                break;  // Start again
-        }
-        if( ! bRemoved )
-            break;  // Done, nothing to remove more
-	}
+  CWaitCursor wait;
+  CListCtrl& ctlList = GetListCtrl();
+  int nItem;
+  // For every selected file
+  while( true )
+  {
+    POSITION pos = ctlList.GetFirstSelectedItemPosition();
+    // Yes, start it again because an item was deleted, so the position changed
+    bool bRemoved = false;
+    while( pos != nullptr )   // 2014. Yeah, nullptr is a new C++ keyword!
+    {
+      nItem = ctlList.GetNextSelectedItem(pos);
+      CFileOnDisk* pCurFile = GetFileFromRow( nItem );
+      bRemoved = m_pLocator->CheckAndAddToExclTypes( pCurFile );
+      delete pCurFile;
+      if( bRemoved )
+        break;  // Start again
+    }
+    if( ! bRemoved )
+      break;  // Done, nothing to remove more
+  }
 }
 
 
