@@ -266,11 +266,12 @@ void CNewFilesLocatorView::OnLocatorAdd()
 		CString name = ctlList.GetItemText( nItem, m_nNameColumn );
 		if( g_TheArchive.m_FilesToArc.FileAdd( AddWithSlash( path, name )) )
 		{
-		// (3) Remove the file from the list of found files
-      m_pLocator->m_foundFiles.Remove( path, name );
-                // It will call delete for the file
+      // (3) Remove the file from the list of found files
+      m_pLocator->m_foundFiles.remove( path, name ); // It will call delete for the file
+
 		// Remove the file from the list control
 			ctlList.DeleteItem( nItem );
+
 			isAnythingAdded = true;
 		}
 		else

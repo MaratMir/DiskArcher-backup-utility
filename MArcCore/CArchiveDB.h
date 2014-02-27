@@ -21,13 +21,6 @@
 //======================================================================================
 
 #pragma once
-/*zzz
-//#pragma warning (disable:4146)  // (18)
-#import "C:\Program Files\Common Files\system\ado\msadox.dll" // no_namespace
-#import "C:\Program Files\Common Files\system\ado\msado15.dll" no_namespace rename( "EOF", "adoEOF" )
-//#pragma warning (default:4146)  // (18)
-*/
-//#include <afx.h>
 
 #include "ADO_database.h"
 

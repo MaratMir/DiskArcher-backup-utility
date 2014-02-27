@@ -161,7 +161,7 @@ bool CNewFilesLocator::LoadOptions()
 //------------------------------------------------------------------------------
 void CNewFilesLocator::addToList( CFileOnDisk* pFile )
 {
-  m_foundFiles.AddTail( pFile );
+  m_foundFiles.m_files.push_back( pFile );
   m_pView->AddFileToListCtrl( pFile );
 }
 
@@ -190,41 +190,39 @@ bool CNewFilesLocator::CheckAndAddToExclTypes( const CFileOnDisk* const pFile )
 }
 
 
-// Remove files of the given type from Locator's list of found files and
-//   from the View.
+// Remove files of the given type from Locator's list of found files and from the View.
 // Returns how many rows are removed from the View.
-//-(5)--------------------------------------------------------------------------
+//-(5)---------------------------------------------------------------------------------
 int CNewFilesLocator::RemoveFilesOfType( const CString& sExtension )
 {
-// Remove files of this type from Locator's list of found files
-    while( true )
+  // Remove files of this type from Locator's list of found files
+  while( true )
+  {
+    bool bRemoved = false;
+
+    for( auto fileIter = m_foundFiles.m_files.begin(); fileIter != m_foundFiles.m_files.end(); fileIter++ )
     {
-        POSITION listPos = m_foundFiles.GetHeadPosition();
-        bool bRemoved = false;
-        while( listPos != NULL )
-        {
-            POSITION prevPos = listPos;
-            CFileOnDisk* pCurFile = m_foundFiles.GetNext( listPos );
-            ASSERT( pCurFile );
-            CString curExt = pCurFile->getExtension();
-            curExt.MakeUpper();
-            if( curExt == sExtension )
-            {
-                m_foundFiles.RemoveAt( prevPos );
-                delete pCurFile; // It is not in use everywhere, delete it
-                bRemoved = true;
-                break;  // Actually, start from the beginning of the list
-            }
-        }
-        if( ! bRemoved )
-            break;  // Now there isn't any appropriate file, stop
-        // else start again
-	}
+      CFileOnDisk* curFile = *fileIter;
+      ASSERT( curFile );
+      CString curExt = curFile->getExtension();
+      curExt.MakeUpper();
+      if( curExt == sExtension )
+      {
+        m_foundFiles.m_files.remove( curFile );
+        delete curFile; // It is not in use anywhere, delete it
+        bRemoved = true;
+        break;  // Actually, start from the beginning of the list
+      }
+    }
+    if( ! bRemoved )
+      break;  // Now there isn't any appropriate file, stop
+    // else start again
+  }
 
-// Remove files of this type from the View
-    int nRemoved = m_pView->RemoveFilesOfType( sExtension );
+  // Remove files of this type from the View
+  int nRemoved = m_pView->RemoveFilesOfType( sExtension );
 
-    return nRemoved;
+  return nRemoved;
 }
 
 

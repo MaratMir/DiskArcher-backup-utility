@@ -1,70 +1,53 @@
 // DiskArcher.
 // CFilesOnDisk class - a list of files.
-// (C) Marat Mirgaleev, 2004.
+// (C) Marat Mirgaleev, 2004-2014.
 // Created 11.07.2004.
 // Modifications:
 //================================================================================
 
 #include "stdafx.h"
+#include <algorithm>
+#include "CFileOnDisk.h"
 #include "CFilesOnDisk.h"
 
 
 //==============================================================================
+static void delCFilesOnDisk( CFileOnDisk* obj )
+{
+  delete obj;
+}
+
 CFilesOnDisk::~CFilesOnDisk()
 {
-	POSITION pos;
-	for( pos = GetHeadPosition(); pos != NULL; )
-	{
-		CFileOnDisk *pCurFile = GetNext( pos );
-		delete pCurFile;
-	}
-}
-
-
-//==============================================================================
-POSITION CFilesOnDisk::FindPos( CString sPath, CString sName ) const
-{
-	POSITION posFound = NULL, prevPos = NULL;
-	for( POSITION pos = GetHeadPosition(); pos != NULL; )
-	{
-    prevPos = pos;
-		CFileOnDisk* pCurFile = GetNext( pos );
-    CString curPath = pCurFile->getFullPath();
-		if( curPath == sPath && pCurFile->m_strName == sName )
-		{
-			posFound = prevPos;
-			break;
-		}
-	}
-	return posFound;
-}
-
-
-// Returns the first occurence of a file given by a path and a name.
-//==============================================================================
-CFileOnDisk* CFilesOnDisk::Find( CString sPath, CString sName ) const
-{
-	CFileOnDisk* pFound = NULL;
-	POSITION pos = FindPos( sPath, sName );
-  if( pos != NULL )
-    pFound = GetAt( pos );
-	return pFound;
+  std::for_each( m_files.begin(), m_files.end(), delCFilesOnDisk );
 }
 
 
 // Finds and removes from the list all files with given path and name.
 // Returns the number of deleted files.
 //==============================================================================
-unsigned int CFilesOnDisk::Remove( CString sPath, CString sName )
+unsigned int CFilesOnDisk::remove( CString i_path, CString i_name )
 {
-    POSITION pos = NULL;
-    unsigned int nFound = 0;
-    while( ( pos = FindPos( sPath, sName ) ) != NULL )
+  unsigned int nFound = 0;
+  while( true )
+  {
+    bool found = false;
+    for( auto fileIter = m_files.begin(); fileIter != m_files.end(); fileIter++ )
     {
-        CFileOnDisk* pFile = GetAt( pos );
-        RemoveAt( pos );
-        delete pFile;
+      CFileOnDisk* curFile = *fileIter;
+      CString curPath = curFile->getFullPath();
+      if( curPath == i_path && curFile->m_strName == i_name )
+      {
+        m_files.remove( curFile );
+        delete curFile;
+        found = true;
         nFound++;
-    }
-    return nFound;
+        break;  // i.e. restart with a new iterator
+      }
+    } // for
+    if( ! found ) // Deleted all matching items
+      break;
+  } // while
+
+  return nFound;
 }

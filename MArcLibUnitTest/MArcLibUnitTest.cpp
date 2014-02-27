@@ -22,21 +22,40 @@ namespace MArcLibUnitTest
     }
 
 
+    TEST_METHOD(CDiskItem_TestMethod)
+    {
+      {
+        CDiskItem item( "readme" ); // No extension
+        CString ext = item.getExtension();
+        Assert::AreEqual( ext, L"" );
+      }
+      {
+        CDiskItem item2( "readme.txt" );
+        CString ext2 = item2.getExtension();
+        Assert::AreEqual( ext2, L"txt" );
+      }
+    }
+
+
     TEST_METHOD(CFilesOnDisk_TestMethod)
     {
       CFilesOnDisk files;
-      Logger::WriteMessage( "CFilesOnDisk_TestMethod" );
+      Logger::WriteMessage( "CFilesOnDisk_TestMethod started." );
 
       // !!! CFileOnDisk aFile( "X:\\WWW\\YYY.UUU" );
-      //   Creating an object on stack leads to an exception in the collection destruction
+      //   Adding an object created on stack leads to an exception in the collection destruction
       CFileOnDisk* aFile = new CFileOnDisk( "X:\\WWW\\YYY.UUU" );
-      files.AddTail( aFile );
-      CFileOnDisk* found = files.Find( "X:\\WWW\\", "YYY.UUU" );
+      files.m_files.push_back( aFile );
+      files.m_files.push_back( new CFileOnDisk( "A:\\BBB\\CCC.DDD" ) );
 
-      // VS test somehow can't compare two CFileOnDisk*, let's cast to void* then
-      void* ptr1 = aFile;
-      void* ptr2 = found;
-      Assert::AreEqual( ptr1, ptr2 );
+      int removed = files.remove( "YOKLMN", "OPRST" );
+      Assert::AreEqual( removed, 0 );
+      Assert::IsTrue( files.m_files.size() == 2 );
+      removed = files.remove( "X:\\WWW\\", "YYY.UUU" );
+      Assert::AreEqual( removed, 1 );
+      Assert::IsTrue( files.m_files.size() == 1 );
+
+      Logger::WriteMessage( "  CFilesOnDisk_TestMethod ended." );
     }
 
 
