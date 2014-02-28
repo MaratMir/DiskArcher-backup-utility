@@ -19,7 +19,7 @@ const error* CFoldersToArc::AddFolder( CString name )
 {
   const error* result = error::getDefault();
 
-  result = new error( error::unsuccessfulOperation, 
+  result = new error( error::severity::unsuccessfulOperation, 
                       L"You cannot add an entire folder.\n"
                       L"Please use the Files Locator to scan a folder.\n"
                       L"You can also select and add several files at once." );

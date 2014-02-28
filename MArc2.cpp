@@ -213,7 +213,7 @@ bool CMArc2App::AddFiles()
     // Create an object for the current file or folder
       CString curFilename = fileDialog.GetNextPathName(ps);
       const MArcLib::error* result = g_TheArchive.addFile( curFilename );
-      if( result->getSeverity() > MArcLib::error::everythingIsFine )
+      if( result->getSeverity() > MArcLib::error::severity::everythingIsFine )
       {
         AfxMessageBox( result->getMessage() );
         delete result;

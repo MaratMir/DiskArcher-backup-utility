@@ -63,10 +63,12 @@ namespace MArcLibUnitTest
     {
       MArcLib::error result;
       Logger::WriteMessage( "error_TestMethod" );
-      Assert::AreEqual( true, result.getSeverity()==MArcLib::error::everythingIsFine );
+      Assert::AreEqual( true, result.getSeverity()==MArcLib::error::severity::everythingIsFine );
 
       const MArcLib::error* defResult = MArcLib::error::getDefault();
-      Assert::AreEqual( true, defResult->getSeverity()==MArcLib::error::everythingIsFine );
+      Assert::AreEqual( true, defResult->getSeverity()==MArcLib::error::severity::everythingIsFine );
+
+      Assert::IsTrue( MArcLib::error::severity::forInformation > MArcLib::error::severity::everythingIsFine );
     }
 
   };

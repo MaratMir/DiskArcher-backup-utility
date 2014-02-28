@@ -14,10 +14,10 @@ namespace MArcLib
   class error
   {
   public:
-    enum severity { everythingIsFine, forInformation, warning, unsuccessfulOperation, fatal };
+    enum class severity { everythingIsFine, forInformation, warning, unsuccessfulOperation, fatal };
 
     error()
-      { m_severity = everythingIsFine; m_message = "Success"; }
+      { m_severity = severity::everythingIsFine; m_message = "Success"; }
     error( const severity i_severity, const CString i_message )
       { m_severity = i_severity; m_message = i_message; }
     virtual ~error(void) {}

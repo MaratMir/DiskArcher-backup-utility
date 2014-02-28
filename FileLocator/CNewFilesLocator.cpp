@@ -200,16 +200,15 @@ int CNewFilesLocator::RemoveFilesOfType( const CString& sExtension )
   {
     bool bRemoved = false;
 
-    for( auto fileIter = m_foundFiles.m_files.begin(); fileIter != m_foundFiles.m_files.end(); fileIter++ )
+    for( auto curFile : m_foundFiles.m_files ) // The magic of the modern C++
     {
-      CFileOnDisk* curFile = *fileIter;
       ASSERT( curFile );
       CString curExt = curFile->getExtension();
       curExt.MakeUpper();
       if( curExt == sExtension )
       {
         m_foundFiles.m_files.remove( curFile );
-        delete curFile; // It is not in use anywhere, delete it
+        delete curFile; // Now it is not in use anywhere, delete it
         bRemoved = true;
         break;  // Actually, start from the beginning of the list
       }

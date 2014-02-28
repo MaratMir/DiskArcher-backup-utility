@@ -288,7 +288,7 @@ void CFilesToArcFrame::OnDropFiles(HDROP hDropInfo)
     ::DragQueryFile(hDropInfo, iFile, szFileName, _MAX_PATH);
 
     const MArcLib::error* result = g_TheArchive.addFile( szFileName );
-    if( result->getSeverity() > MArcLib::error::everythingIsFine )
+    if( result->getSeverity() > MArcLib::error::severity::everythingIsFine )
     {
       AfxMessageBox( result->getMessage() );
       delete result;

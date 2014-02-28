@@ -36,7 +36,8 @@ const MArcLib::error* CFilesToArc::FileAdd(CString name)
   CFileToArc *pFound = FileFind( name );
   if( pFound != NULL )
   {
-    result = new MArcLib::error( MArcLib::error::unsuccessfulOperation, name + L":\nThis file is already in the Archive" );
+    result = new MArcLib::error( MArcLib::error::severity::unsuccessfulOperation, 
+                                 name + L":\nThis file is already in the Archive" );
   }
   else
   {

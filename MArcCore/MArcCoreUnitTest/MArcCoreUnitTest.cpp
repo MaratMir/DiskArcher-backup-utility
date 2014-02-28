@@ -21,7 +21,7 @@ namespace MArcCoreUnitTest
       Logger::WriteMessage( "CFoldersToArc_TestMethod" );
       CFoldersToArc folders;
       const MArcLib::error* res = folders.AddFolder( "XYZ_ABC" );
-      Assert::AreEqual( true, res->getSeverity() == MArcLib::error::unsuccessfulOperation );
+      Assert::AreEqual( true, res->getSeverity() == MArcLib::error::severity::unsuccessfulOperation );
     }
 
 
@@ -35,7 +35,7 @@ namespace MArcCoreUnitTest
 
       // Attempt to add a folder must fail 
       const MArcLib::error* res = archive.addFile( "C:\\Temp" );
-      Assert::AreEqual( true, res->getSeverity() == MArcLib::error::unsuccessfulOperation );
+      Assert::AreEqual( true, res->getSeverity() == MArcLib::error::severity::unsuccessfulOperation );
     }
 
 
