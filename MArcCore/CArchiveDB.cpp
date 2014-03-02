@@ -687,7 +687,7 @@ bool CArchiveDB::CopyAdd( CFileCopy *pCopy )
       CString cmd, dt = pCopy->m_FileDateTime.Format();
       cmd.Format( L"INSERT INTO FileCopies (CopyID, Path, Filename, UserID, FileDateTime, "
                   L"   SourceSizeHiBits, SourceSize, PackedSizeHiBits, PackedSize, BundleID)"
-                  L" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d, %d)",
+                  L" VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, %d, %d, %d, %d)",
                   pCopy->m_nCopyID, pCopy->m_strPath, pCopy->m_strFilename, pCopy->m_strUser, dt, 
                   pCopy->getSizeHi(), pCopy->getSizeLow(), pCopy->getPackedSizeHi(), pCopy->getPackedSizeLow(),
                   pCopy->m_nBundleID );
