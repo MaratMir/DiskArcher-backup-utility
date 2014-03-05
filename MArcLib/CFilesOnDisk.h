@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include <list>
+#include <vector>
 
-class CFileOnDisk;
+#include "CFileOnDisk.h"
 
 class CFilesOnDisk
 {
@@ -28,6 +28,6 @@ public:
 
 public:
 
-  std::list<CFileOnDisk*> m_files;
+  std::vector<CFileOnDisk*> m_files;
 
 };

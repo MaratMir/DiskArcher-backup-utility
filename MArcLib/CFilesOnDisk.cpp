@@ -14,7 +14,7 @@
 //==============================================================================
 CFilesOnDisk::~CFilesOnDisk()
 {
-  for( auto curFile : m_files )
+  for( const auto& curFile : m_files )
     delete curFile;
 }
 
@@ -28,12 +28,13 @@ unsigned int CFilesOnDisk::remove( CString i_path, CString i_name )
   while( true )
   {
     bool found = false;
-    for( auto curFile : m_files ) // Is this syntax working? Yes! C++ evolves!
+    for( auto curFileIt = m_files.begin(); curFileIt != m_files.end(); curFileIt++ )
     {
+      auto curFile = *curFileIt;
       CString curPath = curFile->getFullPath();
       if( curPath == i_path && curFile->m_strName == i_name )
       {
-        m_files.remove( curFile );
+        m_files.erase( curFileIt );
         delete curFile;
         found = true;
         nFound++;

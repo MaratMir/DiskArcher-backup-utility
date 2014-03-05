@@ -8,3 +8,9 @@ The highest rating in search engines was being shown on the 1st page (i.e. top 1
 If you search for 'DiskArcher', there are still thousands of links to it. Although, I have not been supporting a Web site for it for many years now.
 
 I use DiskArcher for my backups and I am proud that it is very stable and reliable.
+
+
+The source code consists of a number of subprojects, some of them are static libraries.
+
+As a result of the project build, only one .exe file is produced, no any .dlls or other files are built.
+This .exe relies of MS VC redistributables and usual Windows dlls. 

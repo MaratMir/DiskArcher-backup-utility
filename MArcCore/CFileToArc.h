@@ -15,12 +15,12 @@
 #if !defined(CFileToArc_h)
 #define CFileToArc_h
 
-#include <list>
+#include <vector>
 #include "../MArcLib/CFileOnDisk.h"
 #include "fileStatus.h"
 #include "MyCommon.h"
+#include "CRoom.h"
 
-class CRoom;
 class CBundle;
 
 class CFileToArc : public CFileOnDisk
@@ -43,7 +43,7 @@ public:
 
 // In which Rooms to create copies.
 // Only for temporary assignments during the Archive update. Isn't stored in DB.
-  std::list<CRoom*> m_CopyToRooms;
+  std::vector<CRoom*> m_CopyToRooms;
   unsigned int CountCopies( const CRoom* const i_pRoom ) const;
 
 // Only for temporary assignment during updating the Archive. Isn't stored in DB.

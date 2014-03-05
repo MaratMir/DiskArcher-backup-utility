@@ -89,8 +89,7 @@ OpResult CRoom::doCopying()
     CFileToArc *pCurFile = m_pArchive->m_FilesToArc.GetNext( filesPos );
 
     // Find and process all the copies of this file assigned to this Room
-    std::list<CRoom*>::iterator copyRoomIter = std::find( pCurFile->m_CopyToRooms.begin(), 
-                                                          pCurFile->m_CopyToRooms.end(), this );
+    auto copyRoomIter = std::find( pCurFile->m_CopyToRooms.begin(), pCurFile->m_CopyToRooms.end(), this );
     for( ; copyRoomIter != pCurFile->m_CopyToRooms.end(); copyRoomIter++ )
      // 2014. Was: if( pCurFile->m_pRoom != NULL && pCurFile->m_pRoom->m_nRoomID == m_nRoomID )
     {
@@ -203,8 +202,7 @@ unsigned CRoom::CountFilesBeingCopied() const
   for( filesPos = m_pArchive->m_FilesToArc.GetHeadPosition(); filesPos != NULL; )
   {
     CFileToArc *pCurFile = m_pArchive->m_FilesToArc.GetNext( filesPos );
-    std::list<CRoom*>::iterator copyRoomIter = std::find( pCurFile->m_CopyToRooms.begin(), 
-                                                          pCurFile->m_CopyToRooms.end(), this );
+    auto copyRoomIter = std::find( pCurFile->m_CopyToRooms.begin(), pCurFile->m_CopyToRooms.end(), this );
     for( ; copyRoomIter != pCurFile->m_CopyToRooms.end(); copyRoomIter++ )
       // 2014. Was: if( pCurFile->m_pRoom != NULL && pCurFile->m_pRoom->m_nRoomID == m_nRoomID )
     {
