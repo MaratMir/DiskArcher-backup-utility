@@ -88,12 +88,18 @@ BOOL CRoomPropDialog::OnInitDialog()
   int checkedRadio=0;
   switch( pTheRoom->m_nCompressionMode )
   {
-  case CRoom::rcmAllowed: checkedRadio = IDC_ROOM_COMPRESSION_ALLOWED;
-                          break;
-  case CRoom::rcmNever:   checkedRadio = IDC_ROOM_COMPRESSION_NEVER;
-                          break;
-  case CRoom::rcmAlways:  checkedRadio = IDC_ROOM_COMPRESSION_ALWAYS;
-                          break;
+  case CRoom::roomCompressionMode::rcmAllowed: 
+    checkedRadio = IDC_ROOM_COMPRESSION_ALLOWED;
+    break;
+  case CRoom::roomCompressionMode::rcmNever:
+    checkedRadio = IDC_ROOM_COMPRESSION_NEVER;
+    break;
+  case CRoom::roomCompressionMode::rcmAlways:
+    checkedRadio = IDC_ROOM_COMPRESSION_ALWAYS;
+    break;
+  default:
+    ASSERT(false);
+    break;
   }
   CheckRadioButton( firstRadio, lastRadio, checkedRadio );
   UpdateData( FALSE );
@@ -114,13 +120,16 @@ void CRoomPropDialog::OnOK()
   switch( checkedRadio )
   {
   case IDC_ROOM_COMPRESSION_ALLOWED:
-    pTheRoom->m_nCompressionMode = CRoom::rcmAllowed;
+    pTheRoom->m_nCompressionMode = CRoom::roomCompressionMode::rcmAllowed;
     break;
   case IDC_ROOM_COMPRESSION_NEVER:
-    pTheRoom->m_nCompressionMode = CRoom::rcmNever;
+    pTheRoom->m_nCompressionMode = CRoom::roomCompressionMode::rcmNever;
     break;
   case IDC_ROOM_COMPRESSION_ALWAYS:
-    pTheRoom->m_nCompressionMode = CRoom::rcmAlways;
+    pTheRoom->m_nCompressionMode = CRoom::roomCompressionMode::rcmAlways;
+    break;
+  default:
+    ASSERT(false);
     break;
   }
   

@@ -504,32 +504,31 @@ bool CArchiveDB::RoomAdd(CRoom *pRoom)
 //==============================================================================
 bool CArchiveDB::RoomsLoad()
 {
-	bool bSuccess = false;
+  bool bSuccess = false;
 
-	_RecordsetPtr rsRooms;
-	rsRooms.CreateInstance(__uuidof(Recordset)); 
-	HRESULT hr;
-	try
-	{
-	// Select all Rooms
+  _RecordsetPtr rsRooms;
+  rsRooms.CreateInstance(__uuidof(Recordset)); 
+  HRESULT hr;
+  try
+  {
+  // Select all Rooms
     CString select = L"SELECT * FROM Rooms";  // LATER: ORDER BY
-		bstr_t converted = select;
-		hr = rsRooms->Open( converted, m_pConnection, adOpenStatic,
-							 adLockReadOnly, adCmdText );
+    bstr_t converted = select;
+    hr = rsRooms->Open( converted, m_pConnection, adOpenStatic, adLockReadOnly, adCmdText );
     TESTHR( hr );
 
-// (17)	if( ! rsRooms->adoEOF )
-// (17)		rsRooms->MoveFirst();	// ? Is not necessary?
-		while( ! rsRooms->adoEOF )
-		{
-			_bstr_t  bstrTmp; // Temporary string for type conversion
-			_variant_t vtTmp;
-			CString strTmp;
+// (17) if( ! rsRooms->adoEOF )
+// (17)   rsRooms->MoveFirst();	// ? Is not necessary?
+    while( ! rsRooms->adoEOF )
+    {
+      _bstr_t  bstrTmp; // Temporary string for type conversion
+      _variant_t vtTmp;
+      CString strTmp;
       bstrTmp = rsRooms->Fields->Item["Filename"]->Value;
-			strTmp = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
-			strTmp.TrimRight();
-			CRoom *pCurRoom = new CRoom( strTmp );
-			  // It will be freed in CMyArchive destructor
+      strTmp = bstrTmp.GetBSTR(); // Was (LPCSTR)bstrTmp;
+      strTmp.TrimRight();
+      CRoom *pCurRoom = new CRoom( strTmp ); 
+        // It will be freed in CMyArchive destructor
 
       vtTmp = rsRooms->Fields->Item["RoomID"]->Value;
       pCurRoom->m_nRoomID = (long)vtTmp;
@@ -543,32 +542,39 @@ bool CArchiveDB::RoomsLoad()
 
       vtTmp = rsRooms->Fields->Item["SpaceFree"]->Value;
       pCurRoom->m_nDiskSpaceFree = (long)vtTmp;
-			pCurRoom->m_nDiskSpaceFree = pCurRoom->m_nDiskSpaceFree << 10;	// LATER ???
+      pCurRoom->m_nDiskSpaceFree = pCurRoom->m_nDiskSpaceFree << 10; // LATER ???
 
       vtTmp = rsRooms->Fields->Item["CompressionMode"]->Value;
-      if( vtTmp.vt == VT_NULL )	// The value not assigned
-        pCurRoom->m_nCompressionMode = CRoom::rcmAllowed;
+      if( vtTmp.vt == VT_NULL )  // The value not assigned
+        pCurRoom->m_nCompressionMode = CRoom::roomCompressionMode::rcmAllowed;
       else
-        pCurRoom->m_nCompressionMode = (enum CRoom::roomCompressionMode)((long)vtTmp);
+      {
+        int compMode = static_cast<int>(vtTmp);
+        if(    ( compMode < 0 )
+            || ( compMode >= CRoom::roomCompressionMode::rcmCount ) )
+        // A wrong value
+          pCurRoom->m_nCompressionMode = CRoom::roomCompressionMode::rcmAllowed;
+        else
+          pCurRoom->m_nCompressionMode = static_cast<CRoom::roomCompressionMode>(compMode);
+      }
+      m_pArchive->m_Rooms.AddTail( pCurRoom );
+      rsRooms->MoveNext();
+    }
+    rsRooms->Close();
 
-			m_pArchive->m_Rooms.AddTail( pCurRoom );
-			rsRooms->MoveNext();
-		}
-		rsRooms->Close();
-
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{
+    bSuccess = true;
+  }
+  catch(_com_error &e)
+  {
     // Notify the user of errors if any
     showADOErrors( e, m_pConnection, L"Place: RoomsLoad" );
-	}
-	catch(...)
-	{
-		AfxMessageBox( _T("Some error occured in CArchiveDB::RoomsLoad().") );
-	}
+  }
+  catch(...)
+  {
+    AfxMessageBox( _T("Some error occured in CArchiveDB::RoomsLoad().") );
+  }
 
-	return bSuccess;
+  return bSuccess;
 }
 
 

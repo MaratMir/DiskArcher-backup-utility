@@ -632,8 +632,8 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 		//		Refer to the project documentation.
 			if( isCompressorDefined() )									// (13)
 			{
-        if(   ( pCurRoom->m_nCompressionMode == CRoom::rcmAlways )	// (13)
-           || ( pCurRoom->m_nCompressionMode == CRoom::rcmAllowed &&  // (13)
+        if(   ( pCurRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )	// (13)
+           || ( pCurRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAllowed &&  // (13)
                 i_pFile->m_bCompressIt ))
 				{
 					if( ! i_pFile->IsPreCompressed() )		// (13)

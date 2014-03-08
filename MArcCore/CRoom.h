@@ -1,6 +1,6 @@
 // DiskArcher.
 // A folder to place several files of copies.
-// (C) Marat Mirgaleev, 2001-2002.
+// (C) Marat Mirgaleev, 2001-2014.
 // Modifications:
 //  (1) 10.02.2002. m_Bundles deleted.
 //  (3) 11.02.2002. m_nPrognosisFree, GetOccupiedSpace(),
@@ -27,11 +27,14 @@ class CRoom : public CFolder
 {
 public:
 
+  // 2014: I would use 'enum class', but then I'd have difficulties to write the values to the DB.
+  // They will be saved to the database as 0, 1 or 2
   enum roomCompressionMode
   {
     rcmAllowed = 0, // Compress a file if it is defined for the file. Otherwise don't compress
     rcmNever   = 1, // Never compress files on the Room because this Room is big and fast
-    rcmAlways  = 2  // Compress all files on this Room, except non-compressable files (jpg, zip, ...)
+    rcmAlways  = 2, // Compress all files on this Room, except non-compressable files (jpg, zip, ...)
+    rcmCount   = 3  // Will be used to validate the values
   };
 
   bool GetDiskSpaceFree();

@@ -45,7 +45,7 @@ bool CRooms::RoomCreate()
   {
     pNewRoom = new CRoom( strFolder + L"MArcRoom" );
     pNewRoom->m_sizeLimit = 0; // This means 'has not been set'
-    pNewRoom->m_nCompressionMode = CRoom::rcmAllowed;	// (6)
+    pNewRoom->m_nCompressionMode = CRoom::roomCompressionMode::rcmAllowed;	// (6)
 
     // Get a new Room ID: it will be maxID+1
     //==========================================
@@ -321,5 +321,5 @@ bool CRooms::Delete( CRoom* pRoom )
   else
     AfxMessageBox( L"There were some errors during Room deletion.\n" );
 
-    return (bool)0;
+  return (bool)0;
 }

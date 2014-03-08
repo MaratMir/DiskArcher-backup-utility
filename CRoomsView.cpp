@@ -315,12 +315,15 @@ bool CRoomsView::SetSubItems( int nItem, CRoom* pRoom )
   lvItem.iSubItem = 5;
   switch( pRoom->m_nCompressionMode )
   {
-  case CRoom::rcmAllowed:
+  case CRoom::roomCompressionMode::rcmAllowed:
     sTmp = "Allowed"; break;
-  case CRoom::rcmNever:
+  case CRoom::roomCompressionMode::rcmNever:
     sTmp = "Never";   break;
-  case CRoom::rcmAlways:
+  case CRoom::roomCompressionMode::rcmAlways:
     sTmp = "Always";  break;
+  default:
+    ASSERT(false);
+    sTmp = "UNEXPECTED";  break;
   }
   strItem = sTmp;
   lvItem.pszText = (LPTSTR)(strItem);

@@ -114,11 +114,12 @@ OpResult CRoom::doCopying()
         if( m_pArchive->isCompressorDefined() )	// (13)
           if( ! pCurFile->m_bCompressIt )
           {
-            if( m_nCompressionMode == rcmAlways )
+            if( m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )
               theBundleType = CBundle::btZipFile;
           }
           else
-            if( m_nCompressionMode == rcmAllowed || m_nCompressionMode == rcmAlways )
+            if(    m_nCompressionMode == CRoom::roomCompressionMode::rcmAllowed 
+                || m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )
               theBundleType = CBundle::btZipFile;
 
         CBundle* pNewBundle = m_pArchive->m_Bundles.BundleCreate( *copyRoomIter, theBundleType );
