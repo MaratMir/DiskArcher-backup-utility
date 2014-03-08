@@ -65,21 +65,17 @@ bool CRooms::RoomCreate()
 //==========================================
 
 // Get selected drive's type
-  CString driveName = L"";
+  std::wstring driveName = L"";
 	if( bSuccess )
 	{
 		driveName = pNewRoom->m_strComputer + pNewRoom->m_strDrive;
-		if( driveName.Right(1) != "\\" )	// (3) Prevent double slash
-      driveName = driveName + L"\\";
-					/*(1) Without this slash drive type works in NT, 
-							  but in 98 it says "DRIVE_NO_ROOT_DIR 1" */;
 			// m_strComputer is empty when it is "My Computer"
 	}
-	CDrive drive( driveName );
+	MArcLib::CDrive drive( driveName );
 
 	if( bSuccess )
 	{
-		if( drive.m_nDriveType == DRIVE_FIXED || drive.m_nDriveType == DRIVE_REMOTE )
+		if( drive.m_driveType == DRIVE_FIXED || drive.m_driveType == DRIVE_REMOTE )
 		{
 		// Check is this directory already in the Archive
 			CRoom* foundRoom = RoomFind( pNewRoom->getFullName() );
@@ -90,13 +86,13 @@ bool CRooms::RoomCreate()
 			}
 			pNewRoom->m_bRemovable = false;
 		}
-		else if( drive.m_nDriveType == DRIVE_REMOVABLE )
+		else if( drive.m_driveType == DRIVE_REMOVABLE )
 		{
 			pNewRoom->m_bRemovable = true;
 			if( AfxMessageBox( _T("Please insert the disk and press Ok."), MB_OKCANCEL ) != IDOK )
 				bSuccess = false;
 		}
-		else if( drive.m_nDriveType == DRIVE_CDROM )
+		else if( drive.m_driveType == DRIVE_CDROM )
 		{
 			pNewRoom->m_bRemovable = true;
 			if( AfxMessageBox( _T("Are you sure that this CD-drive is recordable\n")
@@ -108,7 +104,7 @@ bool CRooms::RoomCreate()
 			CString tmp;
 			tmp.Format( L"Error: Cannot get the drive's type.\n"
 						      L"DriveName: <%s>. DriveType: %d", 
-						      driveName, drive.m_nDriveType );
+						      driveName, drive.m_driveType );
 			AfxMessageBox( tmp );
 			bSuccess = false;
 		}
@@ -168,8 +164,8 @@ bool CRooms::RoomCreate()
 	// Add the Room to the list in memory
 		AddTail( pNewRoom );
 
-		if( drive.m_nDriveType == DRIVE_REMOVABLE
-		 ||	drive.m_nDriveType == DRIVE_CDROM )	// (5)
+		if( drive.m_driveType == DRIVE_REMOVABLE
+		 ||	drive.m_driveType == DRIVE_CDROM )	// (5)
 		{
 			CString mess;
 			mess.Format( _T("Please label the disk as \"Archive Room #%d\""), 

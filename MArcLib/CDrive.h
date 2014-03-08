@@ -1,31 +1,31 @@
+// DiskArcher.
+// CDrive class - a disk drive.
+//   Now I would call it simply Drive, but that's a historical style comming from VS.
+// (C) Marat Mirgaleev, 2004-2014.
+//================================================================================
+
 #pragma once
 
-#include <afx.h>
+#include <string>
+#include <Windows.h>
 
-class CFolder;
-class CDiskItem;
-
-class CDrive
+namespace MArcLib
 {
-public:
 
-    CDrive( const CString& name );
-    ~CDrive();
-    /*
-     * for network drives - long name: \\comp\share
-     */
-    CString	m_strName;
-    /*
-     * See WinAPI GetDriveType() description
-     */
-    UINT	m_nDriveType;
-    CFolder*	m_RootFolder;
-    CDiskItem	*m_Items;
+  class CDrive
+  {
+  public:
 
-protected:
+    CDrive( const std::wstring& name );
 
+    std::wstring m_name;  // For network drives - long name: \\comp\share
+    UINT m_driveType;     // See WinAPI GetDriveType() description
+    
+    /* They were here, but not used:
+    CFolder* m_rootFolder;
+    CDiskItem *m_items;
+    */
 
-private:
+  };
 
-
-};
+}

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <afx.h>
 #include "CppUnitTest.h"
 
 #include "CDrive.h"
@@ -16,9 +17,16 @@ namespace MArcLibUnitTest
     
     TEST_METHOD(CDrive_TestMethod)
     {
-      CDrive drive("C:");
-      Logger::WriteMessage( "CDrive_TestMethod: " + drive.m_strName );
-      Assert::AreEqual(drive.m_nDriveType, (UINT)DRIVE_FIXED);
+      {
+        MArcLib::CDrive drive1(L"C:"); // A slash will be added
+        Logger::WriteMessage( ( L"CDrive_TestMethod: " + drive1.m_name ).c_str() );
+        Assert::IsTrue( drive1.m_name == L"C:\\" );
+        Assert::AreEqual(drive1.m_driveType, (UINT)DRIVE_FIXED);
+      }
+      {
+        MArcLib::CDrive drive2(L"D:\\"); // Don't need to add a slash, it's already there
+        Assert::IsTrue( drive2.m_name == L"D:\\" );
+      }
     }
 
 
