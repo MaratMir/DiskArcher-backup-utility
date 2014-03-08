@@ -327,8 +327,8 @@
     <None Include="res\Toolbar.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="ReadMe.txt" />
     <None Include="MArc.cd" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resource.h">

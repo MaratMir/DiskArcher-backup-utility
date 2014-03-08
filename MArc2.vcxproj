@@ -370,6 +370,7 @@ makehm IDW_,HIDW_,0x50000 resource.h &gt;&gt;"hlp\$(TargetName).hm"
   </ItemGroup>
   <ItemGroup>
     <None Include="MArc.cd" />
+    <None Include="README.md" />
     <None Include="res\__dummy_.bmp" />
     <None Include="res\bitmap1.bmp" />
     <None Include="res\bmp00002.bmp" />
@@ -400,7 +401,6 @@ makehm IDW_,HIDW_,0x50000 resource.h &gt;&gt;"hlp\$(TargetName).hm"
     <None Include="res\RoomsTB.bmp" />
     <None Include="res\tick.bmp" />
     <None Include="res\Toolbar.bmp" />
-    <None Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

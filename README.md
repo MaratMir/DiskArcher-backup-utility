@@ -11,6 +11,11 @@ I use DiskArcher for my backups and I am proud that it is very stable and reliab
 
 
 The source code consists of a number of subprojects, some of them are static libraries.
+MArc2 is the main subproject, it represents all the program UI.
 
 As a result of the project build, only one .exe file is produced, no any .dlls or other files are built.
-This .exe relies of MS VC redistributables and usual Windows dlls. 
+This .exe relies of MS VC redistributables and usual Windows dlls.
+
+As it is a quite old project, currently there is a mix of coding styles. So,
+  TODO: - Get rid of the Hungarian notation;
+        - Use 2 spaces instead of tabs.
