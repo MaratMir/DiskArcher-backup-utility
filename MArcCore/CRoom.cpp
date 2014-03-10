@@ -34,24 +34,24 @@
 //==============================================================================
 bool CRoom::GetDiskSpaceFree()
 {
-	bool bSuccess;
+  bool bSuccess;
 
-	ULARGE_INTEGER i64FreeBytesToCaller, i64TotalBytes;
-	BOOL Ok = GetDiskFreeSpaceEx( getFullName(),
-		(PULARGE_INTEGER)&i64FreeBytesToCaller, (PULARGE_INTEGER)&i64TotalBytes, NULL );
-	bSuccess = ( Ok != 0 );
-	if( bSuccess )
-		m_nDiskSpaceFree = i64FreeBytesToCaller.QuadPart;
-	else
-		m_nDiskSpaceFree = -1;
+  ULARGE_INTEGER i64FreeBytesToCaller, i64TotalBytes;
+  BOOL Ok = GetDiskFreeSpaceEx( getFullName(), 
+    (PULARGE_INTEGER)&i64FreeBytesToCaller, (PULARGE_INTEGER)&i64TotalBytes, NULL );
+  bSuccess = ( Ok != 0 );
+  if( bSuccess )
+    m_nDiskSpaceFree = i64FreeBytesToCaller.QuadPart;
+  else
+    m_nDiskSpaceFree = -1;
 
-	return bSuccess;
+  return bSuccess;
 }
 
 
 //==============================================================================
 CRoom::CRoom(const CString& strName)
-	 : CFolder( strName ) // M
+   : CFolder( strName ) // M
 {
 }
 
@@ -111,7 +111,7 @@ OpResult CRoom::doCopying()
       // LATER: But now every file is placed in a separated bundle
       // Check the File and the Rooms settings and choose type of the bundle
         CBundle::bundleType theBundleType = CBundle::btSingleFile;
-        if( m_pArchive->isCompressorDefined() )	// (13)
+        if( m_pArchive->isCompressorDefined() ) // (13)
           if( ! pCurFile->m_bCompressIt )
           {
             if( m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )
@@ -174,10 +174,10 @@ OpResult CRoom::doCopying()
 //==============================================================================
 bool CRoom::CheckLabel()
 {
-	CRoomLabel lbl;
-	lbl.m_pRoom = this;
-	bool bSuccess = lbl.Check();
-	return bSuccess;
+  CRoomLabel lbl;
+  lbl.m_pRoom = this;
+  bool bSuccess = lbl.Check();
+  return bSuccess;
 }
 
 
@@ -219,26 +219,26 @@ unsigned CRoom::CountFilesBeingCopied() const
 //===========================================================
 bool CRoom::DeleteMarkedCopies()
 {
-	bool bSuccess = true;
+  bool bSuccess = true;
 
   m_pArchive->getProgressDlg()->setMessage( L"Deleting excessive copies..." );
 
 // Select all this Room's Copies
-	POSITION copiesPos;
-	for( copiesPos = m_pArchive->m_Copies.GetHeadPosition(); copiesPos != NULL; )
-	{
-		CFileCopy *pCurCopy = m_pArchive->m_Copies.GetNext( copiesPos );
-		if( pCurCopy->m_bDeleteIt )
-		{
-			CBundle* pCurBundle = m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
-			ASSERT( pCurBundle );
-			if( pCurBundle->m_nRoomID == m_nRoomID )
-			// Is this Copy from this Room?
-				bSuccess &=  m_pArchive->m_Copies.DeleteCopy( pCurCopy );
-		}
+  POSITION copiesPos;
+  for( copiesPos = m_pArchive->m_Copies.GetHeadPosition(); copiesPos != NULL; )
+  {
+    CFileCopy *pCurCopy = m_pArchive->m_Copies.GetNext( copiesPos );
+    if( pCurCopy->m_bDeleteIt )
+    {
+      CBundle* pCurBundle = m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
+      ASSERT( pCurBundle );
+      if( pCurBundle->m_nRoomID == m_nRoomID )
+      // Is this Copy from this Room?
+        bSuccess &=  m_pArchive->m_Copies.DeleteCopy( pCurCopy );
+    }
 // LATER: progressDlg.IsAborted() ?
-	}
-	return bSuccess;
+  }
+  return bSuccess;
 }
 
 
@@ -250,38 +250,37 @@ __int64 CRoom::GetOccupiedSpace() const
   __int64 nOccupiedSpace = 0;
 
 // Select all this Room's Copies
-	POSITION copiesPos;
-	for( copiesPos = m_pArchive->m_Copies.GetHeadPosition(); copiesPos != NULL; )
-	{
-		CFileCopy *pCurCopy = m_pArchive->m_Copies.GetNext( copiesPos );
-		if( ! pCurCopy->m_bDeleteIt )	// (12) "if" added
-		{
-			CBundle* pCurBundle = 
-					m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
-			ASSERT( pCurBundle );
+  POSITION copiesPos;
+  for( copiesPos = m_pArchive->m_Copies.GetHeadPosition(); copiesPos != NULL; )
+  {
+    CFileCopy *pCurCopy = m_pArchive->m_Copies.GetNext( copiesPos );
+    if( ! pCurCopy->m_bDeleteIt ) // (12) "if" added
+    {
+      CBundle* pCurBundle = 
+          m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
+      ASSERT( pCurBundle );
       if( pCurBundle->m_nRoomID == m_nRoomID ) // Is this Copy from this Room?
         nOccupiedSpace += pCurCopy->m_size;
-		}
-	}
-	return nOccupiedSpace;
+    }
+  }
+  return nOccupiedSpace;
 }
 
 
-// (3) Returns prognosis of free space in the Room
-//		or -1 if the Room is unavailable.
+// (3) Returns prognosis of free space in the Room or -1 if the Room is unavailable.
 // Sets m_nPrognosisFree member variable.
-//===========================================================
+//===================================================================================
 __int64 CRoom::GetPrognosis()
 {
-	if(		m_sizeLimit != 0		// Is the Limit has been set
-		&&	m_nDiskSpaceFree != -1 )// And the Room is available
-	{
+  if(   m_sizeLimit != 0		// Is the Limit has been set
+    &&  m_nDiskSpaceFree != -1 )// And the Room is available
+  {
     __int64 nOccupiedSpace = GetOccupiedSpace();
-		m_nPrognosisFree = min( m_nDiskSpaceFree, m_sizeLimit - nOccupiedSpace );
-	}
-	else
-		m_nPrognosisFree = m_nDiskSpaceFree;
-	return m_nPrognosisFree;
+    m_nPrognosisFree = min( m_nDiskSpaceFree, m_sizeLimit - nOccupiedSpace );
+  }
+  else
+    m_nPrognosisFree = m_nDiskSpaceFree;
+  return m_nPrognosisFree;
 }
 
 
@@ -290,30 +289,30 @@ __int64 CRoom::GetPrognosis()
 //=========================================================
 CFilesCopies* CRoom::GetCopies() const
 {
-	CFilesCopies* roomCopies = new CFilesCopies;
-	POSITION pos;
-	for( pos = g_TheArchive.m_Copies.GetHeadPosition(); pos != NULL; )
-	{
-		CFileCopy *pCurCopy = g_TheArchive.m_Copies.GetNext( pos );
-		if( pCurCopy->GetRoom()->m_nRoomID == this->m_nRoomID )
-			roomCopies->AddTail( pCurCopy );
-	}
-    return roomCopies;
+  CFilesCopies* roomCopies = new CFilesCopies;
+  POSITION pos;
+  for( pos = g_TheArchive.m_Copies.GetHeadPosition(); pos != NULL; )
+  {
+    CFileCopy *pCurCopy = g_TheArchive.m_Copies.GetNext( pos );
+    if( pCurCopy->GetRoom()->m_nRoomID == this->m_nRoomID )
+      roomCopies->AddTail( pCurCopy );
+  }
+  return roomCopies;
 }
 
 
 //==============================================================================
 CBundles* CRoom::GetBundles() const
 {
-	CBundles* roomBundles = new CBundles;
-	POSITION pos;
-	for( pos = g_TheArchive.m_Bundles.GetHeadPosition(); pos != NULL; )
-	{
-		CBundle *pCurBundle = g_TheArchive.m_Bundles.GetNext( pos );
-		if( pCurBundle->m_nRoomID == this->m_nRoomID )
-			roomBundles->AddTail( pCurBundle );
-	}
-    return roomBundles;
+  CBundles* roomBundles = new CBundles;
+  POSITION pos;
+  for( pos = g_TheArchive.m_Bundles.GetHeadPosition(); pos != NULL; )
+  {
+    CBundle *pCurBundle = g_TheArchive.m_Bundles.GetNext( pos );
+    if( pCurBundle->m_nRoomID == this->m_nRoomID )
+      roomBundles->AddTail( pCurBundle );
+  }
+  return roomBundles;
 }
 
 
@@ -331,17 +330,17 @@ bool CRoom::Delete()
 //==============================================================================
 bool CRoom::IsAvailable()
 {
-	return ( m_nDiskSpaceFree != -1 );
+  return ( m_nDiskSpaceFree != -1 );
 }
 
 
 //==============================================================================
 bool CRoom::DeleteLabel()
 {
-	CRoomLabel lbl;
-	lbl.m_pRoom = this;
-	bool bSuccess = lbl.Erase();
-	return bSuccess;
+  CRoomLabel lbl;
+  lbl.m_pRoom = this;
+  bool bSuccess = lbl.Erase();
+  return bSuccess;
 }
 
 
@@ -350,41 +349,38 @@ bool CRoom::DeleteLabel()
 bool CRoom::writeContents()
 {
   bool bSuccess = true;
-	CStdioFile contFile;
+  CStdioFile contFile;
   CString sRoomNum;
-	sRoomNum.Format( _T("Room #%d"), m_nRoomID ); // (13)
+  sRoomNum.Format( _T("Room #%d"), m_nRoomID ); // (13)
   enum steps { eWriting, eClosing };
   steps nStep = eWriting;
-	try
-	{
+  try
+  {
     m_pArchive->getProgressDlg()->setMessage( L"Writing Room's contents..." );
-		contFile.Open( getFullName() + "\\Contents.txt",
-				           CFile::modeCreate | CFile::modeWrite | CFile::typeText );
-		contFile.WriteString( _T("Archive Room Contents\n---------------------\n") );
+    contFile.Open( getFullName() + "\\Contents.txt", CFile::modeCreate | CFile::modeWrite | CFile::typeText );
+    contFile.WriteString( _T("Archive Room Contents\n---------------------\n") );
 
-		POSITION copiesPos;
-		for( copiesPos = m_pArchive->m_Copies.GetHeadPosition(); copiesPos != NULL; )
-		{
-			CFileCopy* pCurCopy = m_pArchive->m_Copies.GetNext( copiesPos );
-			CBundle* pCurBundle = 
-				            	m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
-			if( pCurBundle == NULL )
-				AfxMessageBox( _T("CRoom::DoCopying: Can't find the bundle") );
-			else
-				if( pCurBundle->m_nRoomID == m_nRoomID )
-				{
-					contFile.WriteString( pCurBundle->m_strName + ": "
-			        				+ pCurCopy->m_strPath + pCurCopy->m_strFilename + "\n" );
-        // And write the type of the bundle? - There will be the extension (ZIP),
-        //    it's enough
-				}
-		}
+    POSITION copiesPos;
+    for( copiesPos = m_pArchive->m_Copies.GetHeadPosition(); copiesPos != NULL; )
+    {
+      CFileCopy* pCurCopy = m_pArchive->m_Copies.GetNext( copiesPos );
+      CBundle* pCurBundle = m_pArchive->m_Bundles.BundleFind( pCurCopy->m_nBundleID );
+      if( pCurBundle == NULL )
+        AfxMessageBox( _T("CRoom::DoCopying: Can't find the bundle") );
+      else
+        if( pCurBundle->m_nRoomID == m_nRoomID )
+        {
+          contFile.WriteString( pCurBundle->m_strName + ": "
+                      + pCurCopy->m_strPath + pCurCopy->m_strFilename + "\n" );
+        // And write the type of the bundle? - There will be the extension (ZIP), it's enough
+        }
+    }
 
     nStep = eClosing;
-		contFile.Close();
+    contFile.Close();
 
-	}
-	catch(...) // (13) Was: ( CFileException e )
+  }
+  catch(...) // (13) Was: ( CFileException e )
   {
     CString mess;
     if( nStep == eWriting )
