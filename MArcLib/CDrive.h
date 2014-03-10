@@ -16,7 +16,7 @@ namespace MArcLib
   {
   public:
 
-    CDrive( const std::wstring& name );
+    CDrive( const std::wstring& name ); // Don't create it with an empty string
 
     std::wstring m_name;  // For network drives - long name: \\comp\share
     UINT m_driveType;     // See WinAPI GetDriveType() description

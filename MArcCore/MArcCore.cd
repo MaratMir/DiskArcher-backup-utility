@@ -28,7 +28,7 @@
     <AssociationLine Name="m_Copies" Type="CFilesCopies" FixedFromPoint="true">
       <Path>
         <Point X="6.75" Y="5.132" />
-        <Point X="6.75" Y="6.5" />
+        <Point X="6.75" Y="7.25" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="m_Bundles" Type="CBundle" FixedToPoint="true">
@@ -152,14 +152,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="CFilesCopies">
-    <Position X="5.5" Y="6.5" Width="1.5" />
+    <Position X="5.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAAAAAQAAAAAQgAAAAAAACAAAAAAA=</HashCode>
       <FileName>CFilesCopies.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CFileCopy">
-    <Position X="7" Y="6.25" Width="1.75" />
+    <Position X="7" Y="7.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>gAEBAAABAAAkRAgQAAAgAAAAAAAQAgEACAEAAAIAgAA=</HashCode>
       <FileName>CFileCopy.h</FileName>
@@ -184,12 +184,12 @@
   <Class Name="CRooms">
     <Position X="3.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAAAAAAAAQAAAAACAEAAABAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAgACAEAAABACAAAAAAEAAA=</HashCode>
       <FileName>CRooms.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CRoom">
-    <Position X="2.75" Y="5.75" Width="2" />
+    <Position X="2.75" Y="6.25" Width="2" />
     <Members>
       <Method Name="writeContents" Hidden="true" />
     </Members>
@@ -205,8 +205,8 @@
     </NestedTypes>
     <AssociationLine Name="m_pArchive" Type="CMyArchive" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="4.75" Y="6.062" />
-        <Point X="6.375" Y="6.062" />
+        <Point X="4.75" Y="6.562" />
+        <Point X="6.375" Y="6.562" />
         <Point X="6.375" Y="5.132" />
       </Path>
     </AssociationLine>

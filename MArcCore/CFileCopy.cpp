@@ -38,7 +38,7 @@ bool CFileCopy::Extract( const CString strExtractToPath ) const
 	CRoom *pRoom = NULL;
 	if( bSuccess )
 	{
-		pRoom = g_TheArchive.m_Rooms.RoomFind( pBundle->m_nRoomID );
+		pRoom = g_TheArchive.m_Rooms.find( pBundle->m_nRoomID );
 		if( pRoom == NULL )
 		{
 			AfxMessageBox( _T("CFileCopy::Extract(): Can't find the Room.") );
@@ -173,7 +173,7 @@ CRoom* CFileCopy::GetRoom() const
 
 	CBundle *pBundle = g_TheArchive.m_Bundles.BundleFind( m_nBundleID );
 	ASSERT( pBundle );
-	pFoundRoom = g_TheArchive.m_Rooms.RoomFind( pBundle->m_nRoomID );
+	pFoundRoom = g_TheArchive.m_Rooms.find( pBundle->m_nRoomID );
 
 	return pFoundRoom;
 }

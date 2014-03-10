@@ -149,10 +149,9 @@ void CRoomsView::ShowRoomList()
 // Generate Column Headers
   EraseList();
 
-  for( POSITION pos=g_TheArchive.m_Rooms.GetHeadPosition(); pos != NULL; )
+  for( auto curRoom : g_TheArchive.m_Rooms.m_rooms )
   {
-    CRoom *pCurRoom = g_TheArchive.m_Rooms.GetNext(pos);
-/*
+/* TODO??
     int nImageIndex = imgOk;
     if( pCurRoom->m_bRemovable )
       nImageIndex = imgRemovable;
@@ -164,7 +163,7 @@ void CRoomsView::ShowRoomList()
     lvItem.mask = LVIF_TEXT;
     lvItem.iItem = ctlList.GetItemCount();	// Insert at the end
     lvItem.iSubItem = 0;
-    sTmp.Format( _T("%d"), pCurRoom->m_nRoomID );
+    sTmp.Format( _T("%d"), curRoom->m_nRoomID );
     LPCTSTR strItem = sTmp;
     lvItem.pszText = (LPTSTR)strItem;
     lvItem.mask |= LVIF_IMAGE;
@@ -183,18 +182,10 @@ void CRoomsView::ShowRoomList()
       LVIS_STATEIMAGEMASK );//INDEXTOSTATEIMAGEMASK(nState) );
     DBG_UNREFERENCED_LOCAL_VARIABLE(res);
 
-    SetSubItems( newItem, pCurRoom );
+    SetSubItems( newItem, curRoom );
   }
 }
 
-/* (4)
-void CRoomsView::EraseList()
-{
-  CListCtrl& ctlList = GetListCtrl();
-  ctlList.DeleteAllItems();
-//	while( ctlList.DeleteColumn(0) );
-}
-*/
 
 void CRoomsView::OnRoomProperties() 
 {
@@ -322,7 +313,7 @@ bool CRoomsView::SetSubItems( int nItem, CRoom* pRoom )
 // Create a new Archive Room
 void CRoomsView::OnRoomNew() 
 {
-  if( g_TheArchive.m_Rooms.RoomCreate() )
+  if( g_TheArchive.m_Rooms.createRoom() )
     ShowRoomList();
 }
 
@@ -369,7 +360,7 @@ void CRoomsView::OnRoomDelete()
     int nSelItem;
     CRoom* pSelRoom = GetSelectedRoom( nSelItem );
 
-    g_TheArchive.m_Rooms.Delete( pSelRoom );
+    g_TheArchive.m_Rooms.erase( pSelRoom );
 
   // Update display
     ShowRoomList();
@@ -390,7 +381,7 @@ CRoom* CRoomsView::GetSelectedRoom( int& nSelectedItem )
     nSelectedItem = ctlList.GetNextSelectedItem( pos );
     CString txt = ctlList.GetItemText( nSelectedItem, m_nIDColumn );
     int nID = _ttoi(txt); // atoi( txt );
-    pSelRoom = g_TheArchive.m_Rooms.RoomFind( nID );
+    pSelRoom = g_TheArchive.m_Rooms.find( nID );
   }
   return pSelRoom;
 }

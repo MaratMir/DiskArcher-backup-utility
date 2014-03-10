@@ -12,8 +12,7 @@
 // (13) 24.05.2006. Error tracking improved.
 //=======================================================================
 
-#if !defined(CRoom_h)
-#define CRoom_h
+#pragma once
 
 #include "../MArcLib/CFolder.h"
 #include "MyCommon.h"
@@ -37,9 +36,13 @@ public:
     rcmCount   = 3  // Will be used to validate the values
   };
 
+  // Constructor, one and the only
+  CRoom(const CString& strName)
+   : CFolder( strName )
+  {
+  }
+
   bool GetDiskSpaceFree();
-  CRoom() {};
-  CRoom(const CString& strName);
   OpResult/*(7)*/ doCopying();
   bool CheckLabel();
   unsigned int CountAllFiles() const;
@@ -71,5 +74,3 @@ protected:
   bool writeContents();
 
 };
-
-#endif /* CRoom_h */

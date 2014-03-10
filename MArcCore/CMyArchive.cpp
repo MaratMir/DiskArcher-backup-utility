@@ -75,12 +75,8 @@ CMyArchive::~CMyArchive()
 		delete pCurFile;
 	}
 
-// Clear Room list
-	for( pos = m_Rooms.GetHeadPosition(); pos != NULL; )
-	{
-		CRoom *pCurRoom = m_Rooms.GetNext( pos );
-		delete pCurRoom;
-	}
+// Clear the Rooms list
+  m_Rooms.free();
 
 // Clear Copies list
 	for( pos = m_Copies.GetHeadPosition(); pos != NULL; )
@@ -181,7 +177,7 @@ bool CMyArchive::open( IProgressIndicator* i_pProgressIndicator )
 			bSuccess = m_pDB->BundlesLoad();
     m_pProgressIndicator->stepIt(); // Let's count them: 6
 		if( bSuccess )
-			bSuccess = m_Rooms.RoomsLoad();
+			bSuccess = m_Rooms.load();
     m_pProgressIndicator->stepIt(); // Let's count them: 7
 
 		if( bSuccess )	// (13)
@@ -375,10 +371,8 @@ OpResult CMyArchive::doCopying()
 
 // Removable Rooms first
 //-----------------------
-	POSITION roomPos;
-	CRoom *pCurRoom;
-	for( roomPos = m_Rooms.GetHeadPosition(); roomPos != NULL; )
-	{
+  for( auto curRoom : m_Rooms.m_rooms )
+  {
     if(   m_pProgressDlg->isAborted() // Interrupted by the user
         || m_bStopWorking )
       // Their order is important! Becase m_bStopWorking is changed during isAborted()!
@@ -387,15 +381,13 @@ OpResult CMyArchive::doCopying()
 			break;
 		}
 
-		pCurRoom = m_Rooms.GetNext( roomPos );
-
 repeat:
-    if( pCurRoom->m_bRemovable )
-      if( pCurRoom->CountFilesBeingCopied() > 0 )
+    if( curRoom->m_bRemovable )
+      if( curRoom->CountFilesBeingCopied() > 0 )
       // If there is any copy to add or replace in the Room, then show the "Insert Disk" dialog
       //=======================================================================================
       {
-        int nRet = this->getInsertDlg()->askInsertDiskForCopy( pCurRoom );
+        int nRet = this->getInsertDlg()->askInsertDiskForCopy( curRoom );
 
         m_pProgressDlg->isAborted(); // Just to process messages
 
@@ -403,9 +395,9 @@ repeat:
         if( nRet == ID_SKIP_DISK )
         {
           CString mess;
-          mess.Format( L"Archive Room #%d skipped", pCurRoom->m_nRoomID );
+          mess.Format( L"Archive Room #%d skipped", curRoom->m_nRoomID );
           m_LogFile.AddRecord( L"", L"", mess );
-          m_pProgressDlg->advance( pCurRoom->CountAllFiles() );
+          m_pProgressDlg->advance( curRoom->CountAllFiles() );
           nResult = max( OPR_WARNINGS, nResult );
           continue;
         }
@@ -413,7 +405,7 @@ repeat:
         // Check it is Room #N
         if( nResult <= OPR_NONFATAL_ERRORS )
         {
-          bCheckedOk = pCurRoom->CheckLabel();
+          bCheckedOk = curRoom->CheckLabel();
           if( ! bCheckedOk )
             goto repeat;	// Repeat with the same Room
         }
@@ -422,7 +414,7 @@ repeat:
         {
           // Write copies to this Room
           //=========================================================
-          OpResult nCurResult = pCurRoom->doCopying();
+          OpResult nCurResult = curRoom->doCopying();
           nResult = max( nCurResult, nResult );
           //=========================================================
         }
@@ -435,7 +427,7 @@ repeat:
 #endif
       } // if Count > 0
       else
-        m_pProgressDlg->advance( pCurRoom->CountAllFiles() );
+        m_pProgressDlg->advance( curRoom->CountAllFiles() );
 
 #ifdef _DEBUG
 //    /*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
@@ -447,7 +439,7 @@ repeat:
   //--------------------------
   if( nResult <= OPR_NONFATAL_ERRORS )  // (16) Was: if( bContinue )
 	{
-		for( roomPos = m_Rooms.GetHeadPosition(); roomPos != NULL; )
+		for( auto curRoom : m_Rooms.m_rooms )
 		{
 			if( m_pProgressDlg->isAborted() )	// Interrupted by user
 			{
@@ -456,19 +448,18 @@ repeat:
         nResult = OPR_USER_STOP;
 				break;
 			}
-			CRoom *pCurRoom = m_Rooms.GetNext( roomPos );
-			if( ! pCurRoom->m_bRemovable )
+			if( ! curRoom->m_bRemovable )
 			{
-				if( pCurRoom->m_nDiskSpaceFree != -1 )  // -1 - the Room is unavailable
+				if( curRoom->m_nDiskSpaceFree != -1 )  // -1 - the Room is unavailable
 				{
 				// Check is it Room #N
-					bCheckedOk = pCurRoom->CheckLabel();
+					bCheckedOk = curRoom->CheckLabel();
 					if( bCheckedOk )
 
 					// Write copies to this Room. Write the results to DB or to log
 					//=============================================================
           {
-            OpResult nCurResult = pCurRoom->doCopying();
+            OpResult nCurResult = curRoom->doCopying();
             nResult = max( nCurResult, nResult );
 						    // (16) Was: bContinue = pCurRoom->DoCopying();
           }
@@ -478,7 +469,7 @@ repeat:
 					{
 						CString mess;
 						mess.Format( _T("Archive Room #%d skipped because it has a bad label"), 
-									 pCurRoom->m_nRoomID );
+									 curRoom->m_nRoomID );
 // TODO: Counter - "There were N errors!" 
 						m_LogFile.AddRecord( L"", L"", mess );
 					}
@@ -487,7 +478,7 @@ repeat:
 #endif
 				}
 				else	// The Room is unavailable - move the Progress Bar
-					m_pProgressDlg->advance( pCurRoom->CountAllFiles() );
+					m_pProgressDlg->advance( curRoom->CountAllFiles() );
 			}
 #ifdef _DEBUG
 //    /*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
@@ -622,18 +613,16 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 //	 for the file and which has the least number of this File's Copies
   CRoom *pRoomTo = NULL;
   int leastCopies = 999999;
-  POSITION pos;
-  for( pos = m_Rooms.GetHeadPosition(); pos != NULL; )
+  for( auto curRoom : m_Rooms.m_rooms )
   {
-    CRoom *pCurRoom = m_Rooms.GetNext( pos );
-    if( pCurRoom->m_nDiskSpaceFree != -1 )	// Is the Room accessible?
+    if( curRoom->m_nDiskSpaceFree != -1 )	// Is the Room accessible?
     { 
 		// To compress or not to compress (for this very Room)?
 		//		Refer to the project documentation.
 			if( isCompressorDefined() )									// (13)
 			{
-        if(   ( pCurRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )	// (13)
-           || ( pCurRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAllowed &&  // (13)
+        if(   ( curRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )	// (13)
+           || ( curRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAllowed &&  // (13)
                 i_pFile->m_bCompressIt ))
 				{
 					if( ! i_pFile->IsPreCompressed() )		// (13)
@@ -653,19 +642,19 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
       else // Don't compress
         i_pFile->m_nPredictedCompressedSize = i_pFile->getSize();
 
-			if( pCurRoom->m_nPrognosisFree > 
+			if( curRoom->m_nPrognosisFree > 
 				i_pFile->m_nPredictedCompressedSize + 65536/*(15)Was:10240* /
                             /*Reserve space for Room's contents and so on*/ )
 				// (13) Was: if( pCurRoom->m_nPrognosisFree > pFile->m_nSize + 5000 )
 			// Is there enough space? -------------------------------------
 			{
-				int curCopiesCount = m_Copies.GetCopiesCount( i_pFile, pCurRoom->m_nRoomID );
-        curCopiesCount += i_pFile->CountCopies( pCurRoom );
+				int curCopiesCount = m_Copies.GetCopiesCount( i_pFile, curRoom->m_nRoomID );
+        curCopiesCount += i_pFile->CountCopies( curRoom );
 				if( curCopiesCount < leastCopies )
 				// Yes, this Room has least number of Copies
 				{
 					leastCopies = curCopiesCount;
-					pRoomTo = pCurRoom;
+					pRoomTo = curRoom;
 				}
 			}
 		}

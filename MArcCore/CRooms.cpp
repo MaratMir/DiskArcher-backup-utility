@@ -28,7 +28,7 @@
 
 // Create a new Archive Room
 //===========================
-bool CRooms::RoomCreate()
+bool CRooms::createRoom()
 {
   bool bSuccess = true;
   CString strFolder;
@@ -71,16 +71,17 @@ bool CRooms::RoomCreate()
     driveName = pNewRoom->m_strComputer + pNewRoom->m_strDrive;
       // m_strComputer is empty when it is "My Computer"
   }
-  MArcLib::CDrive drive( driveName );
+  MArcLib::CDrive drive( driveName );  // TODO: Shouldn't create it if not bSuccess,
+                                       //       but how to make it available at all the method's scope?
 
   if( bSuccess )
   {
     if( drive.m_driveType == DRIVE_FIXED || drive.m_driveType == DRIVE_REMOTE )
     {
       // Check is this directory already in the Archive
-      CRoom* foundRoom = RoomFind( pNewRoom->getFullName() );
+      CRoom* foundRoom = find( pNewRoom->getFullName() );
       if( foundRoom != NULL )
-      {	AfxMessageBox( _T("There is already an Archive Room at given path.") );
+      { AfxMessageBox( _T("There is already an Archive Room at given path.") );
           // TODO: May be, in this case create another one Room?
         bSuccess = false;
       }
@@ -162,7 +163,7 @@ bool CRooms::RoomCreate()
   if( bSuccess )
   {
     // Add the Room to the list in memory
-    AddTail( pNewRoom );
+    m_rooms.push_back( pNewRoom );
 
     if( drive.m_driveType == DRIVE_REMOVABLE
      || drive.m_driveType == DRIVE_CDROM ) // (5)
@@ -184,64 +185,58 @@ bool CRooms::RoomCreate()
 
 // Find the Room in Archive by ID
 //===================================
-CRoom* CRooms::RoomFind(ID roomID)
+CRoom* CRooms::find(ID roomID)
 {
-  CRoom* pFound = NULL;
-  POSITION pos;
-  for( pos = GetHeadPosition(); pos != NULL; )
+  CRoom* found = nullptr;
+  for( auto curRoom : m_rooms )
   {
-    CRoom *pCurRoom = GetNext( pos );
-    if( pCurRoom->m_nRoomID == roomID )
+    if( curRoom->m_nRoomID == roomID )
     {
-      pFound = pCurRoom;
+      found = curRoom;
       break;
     }
   }
-  return pFound;
+  return found;
 }
 
 
 // Find the Room in Archive by filename
 //========================================
-CRoom* CRooms::RoomFind(CString filename)
+CRoom* CRooms::find(CString filename)
 {
-  CRoom* pFound = NULL;
-  POSITION pos;
-  for( pos = GetHeadPosition(); pos != NULL; )
-  {
-    CRoom *pCurRoom = GetNext( pos );
-    if( pCurRoom->getFullName() == filename )
+  CRoom* found = nullptr;
+  for( auto curRoom : m_rooms )
+    if( curRoom->getFullName() == filename )
     {
-      pFound = pCurRoom;
+      found = curRoom;
       break;
     }
-  }
-  return pFound;
+  return found;
 }
 
 
 // Find the Room in Archive by one of its Copies
 //================================================
-CRoom* CRooms::RoomFind(CFileCopy* pCopy)
+CRoom* CRooms::find(CFileCopy* pCopy)
 {
   CRoom *pFound = NULL;
   CBundle *pBundle = g_TheArchive.m_Bundles.BundleFind( pCopy->m_nBundleID );
   if( pBundle != NULL )
-    pFound = RoomFind( pBundle->m_nRoomID );
+    pFound = find( pBundle->m_nRoomID );
   return pFound;
 }
 
 
-// Load Room list from DB into memory.
-//====================================
-bool CRooms::RoomsLoad()
+// Load the Room list from the DB into the memory
+//================================================
+bool CRooms::load()
 {
   // Load from DB
   bool bSuccess = g_TheArchive.m_pDB->RoomsLoad();
 
   // Get free space (for non-removable only)
   if( bSuccess )
-    RoomsUpdate();
+    update();
 
   return bSuccess;
 }
@@ -250,21 +245,22 @@ bool CRooms::RoomsLoad()
 // Update all Rooms info.
 // 29.12.2001
 //==================================================================================
-void CRooms::RoomsUpdate()
+void CRooms::update()
 {
-  POSITION pos;
-  for( pos = GetHeadPosition(); pos != NULL; )
+  for( auto curRoom : m_rooms )
   {
-    CRoom *pCurRoom = GetNext( pos );
-    if( ! pCurRoom->m_bRemovable )
-      pCurRoom->GetDiskSpaceFree();
-    pCurRoom->m_pArchive = &g_TheArchive;
-    pCurRoom->GetPrognosis();
+    if( ! curRoom->m_bRemovable )
+      curRoom->GetDiskSpaceFree();
+    curRoom->m_pArchive = &g_TheArchive; // TODO: Looks ugly
+    curRoom->GetPrognosis();
   }
 }
 
 
-bool CRooms::Delete( CRoom* pRoom )
+// Get rid of the Room - delete copies etc.
+// TODO: Check how the class diagram helps to understand this method
+//===================================================================
+bool CRooms::erase( CRoom* pRoom )
 {
   bool bSuccess = true;
 
@@ -306,9 +302,12 @@ bool CRooms::Delete( CRoom* pRoom )
   // Delete the Room from memory and from the list
   if( bSuccess )
   {
-    POSITION pos = Find( pRoom );
+    /*POSITION pos = Find( pRoom );
     ASSERT( pos );
-    RemoveAt( pos );
+    RemoveAt( pos );*/
+    auto it = std::find( m_rooms.begin(), m_rooms.end(), pRoom );
+    ASSERT( it == m_rooms.end() );
+    m_rooms.erase( it );
   }
 
   if( bSuccess )
@@ -322,4 +321,13 @@ bool CRooms::Delete( CRoom* pRoom )
     AfxMessageBox( L"There were some errors during Room deletion.\n" );
 
   return (bool)0;
+}
+
+
+void CRooms::free()
+{
+
+  for( auto curRoom : m_rooms )
+    delete curRoom;
+  m_rooms.clear();
 }

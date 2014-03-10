@@ -1,10 +1,11 @@
 #include "stdafx.h"
-#include "CppUnitTest.h"
 
 #include "../../MArcLib/MyException.h"
 
 #include "../CFoldersToArc.h"
 #include "../CMyArchive.h"
+#include "../CRoom.h"
+#include "../CRooms.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -85,5 +86,39 @@ namespace MArcCoreUnitTest
       Assert::AreEqual( true, fc.getPackedSizeHi() == 0x11112222 );
       Assert::AreEqual( true, fc.getPackedSizeLow() == 0x33334444 );
     }
+
+
+    TEST_METHOD(CRoom_TestMethod)
+    {
+      Logger::WriteMessage( "CRoom_TestMethod" );
+      CRoom room( L"C:\\Temp");
+      bool res = room.GetDiskSpaceFree();
+      Assert::IsTrue( res );
+      Assert::IsTrue( room.m_nDiskSpaceFree >= 0 );
+    }
+
+
+    TEST_METHOD(CRooms_TestMethod)
+    {
+      Logger::WriteMessage( "CRooms_TestMethod" );
+
+      CRoom *room1 = new CRoom( L"C:\\Temp");
+      room1->m_nRoomID = 333;
+
+      CRoom *room2 = new CRoom( L"C:\\Windows");
+      room2->m_nRoomID = 777;
+
+      CRooms rooms;
+      rooms.m_rooms.push_back( room1 );
+      rooms.m_rooms.push_back( room2 );
+
+      CRoom *found = rooms.find( L"C:\\Windows" );
+      Assert::IsTrue( room2 == found );
+
+      found = rooms.find( 333 );
+      Assert::IsTrue( room1 == found );
+
+    }
+
   }; // class
 } // namespace

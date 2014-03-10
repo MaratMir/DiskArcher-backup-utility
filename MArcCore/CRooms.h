@@ -1,35 +1,38 @@
 // DiskArcher.
 // CRooms class - collection of Rooms.
-// (C) Marat Mirgaleev, 2001-2002.
+// (C) Marat Mirgaleev, 2001-2014.
 // Created 16.02.2002.
 //=================================================================
 
-#if !defined(CRooms_h)
-#define CRooms_h
+#pragma once
 
-#include <afxtempl.h>
+#include <vector>
 #include "MyCommon.h"
 
 class CRoom;
 class CFileCopy;
 
-class CRooms : public CList< CRoom*, CRoom* >
+class CRooms
 {
+
 public:
 
-  bool RoomCreate();
-  CRoom* RoomFind(ID roomID);
-  CRoom* RoomFind(CString filename);
-  CRoom* RoomFind(CFileCopy* pCopy);
-  bool RoomsLoad();
-  void RoomsUpdate();
-  bool Delete( CRoom* pRoom );
+  bool createRoom();                // Create a new Archive Room
 
-protected:
+  // Find a Room in the collection
+  CRoom* find( ID roomID );         // by ID
+  CRoom* find( CString filename );  // by the Room folder name
+  CRoom* find( CFileCopy* pCopy );  // by one of the copies from this Room
 
-private:
+  bool load();                // Load the Room list from the DB into the memory
+  void update();              // Get info about the Rooms: disk space etc.
+  bool erase( CRoom* pRoom ); // Get rid of the Room - delete copies etc.
 
+  void free();                // Just cleans, i.e. removes all the Rooms from the memory
+
+
+public:
+
+  std::vector<CRoom*> m_rooms;  // Making it private doesn't make my life easier
 
 };
-
-#endif /* CRooms_h */

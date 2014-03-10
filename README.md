@@ -8,6 +8,7 @@ The highest rating in search engines was being shown on the 1st page (i.e. top 1
 If you search for 'DiskArcher', there are still thousands of links to it. Although, I have not been supporting a Web site for it for many years now.
 
 I use DiskArcher for my backups and I am proud that it is very stable and reliable.
+Also it is a place where I can try new C++11 things I've learnt.
 
 
 The source code consists of a number of subprojects, some of them are static libraries.
@@ -16,6 +17,11 @@ MArc2 is the main subproject, it represents all the program UI.
 As a result of the project build, only one .exe file is produced, no any .dlls or other files are built.
 This .exe relies of MS VC redistributables and usual Windows dlls.
 
-As it is a quite old project, currently there is a mix of coding styles. So,
-  TODO: - Get rid of the Hungarian notation;
-        - Use 2 spaces instead of tabs.
+TODO:
+  Style: As it is a quite old project, currently there is a mix of coding styles. So:
+    - Get rid of the Hungarian notation;
+    - Use 2 spaces instead of tabs;
+    - Use namespaces.
+  Libraries:
+    - Migrate to std::vector etc. from MFC collections (CList etc.);
+    - Migrate to std::wstring? from MFC CString.

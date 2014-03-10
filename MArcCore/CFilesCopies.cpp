@@ -143,7 +143,7 @@ int CFilesCopies::GetCopiesCount( CFileToArc* pFile, ID nRoomID ) const
 			else
 			{
 				CRoom *pRoom;
-				if( ( pRoom = g_TheArchive.m_Rooms.RoomFind( pCurCopy ) ) == NULL )
+				if( ( pRoom = g_TheArchive.m_Rooms.find( pCurCopy ) ) == NULL )
 					AfxMessageBox( _T("Cannot find the Room!") );	// TO DO
 				else
 					if( pRoom->m_nRoomID == nRoomID )

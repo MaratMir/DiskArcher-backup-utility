@@ -2,15 +2,15 @@
 // CMainFrame class - the main window of the program.
 // (C) Marat Mirgaleev, 2001-2002.
 // Modifications:
-//	(1) 15.01.2002. Log added.
-//	(2) 12.02.2002. CopiesWindowUpdate() added.
-//	(3) 05.03.2002. OnDropFiles() added.
-//	(4) 09.05.2002. Nag screen added.
-//	(5) 03.07.2002. OnClose() - interrupt archiving process.
-//	(6) 20.08.2002. Locator added.
-//	(7)	19.11.2002. Menu disabled during Archiving.
-//	(8) 12.01.2003. "Excluded files" window added.
-//	(9) 24.09.2003. "Options" dialog.
+//  (1) 15.01.2002. Log added.
+//  (2) 12.02.2002. CopiesWindowUpdate() added.
+//  (3) 05.03.2002. OnDropFiles() added.
+//  (4) 09.05.2002. Nag screen added.
+//  (5) 03.07.2002. OnClose() - interrupt archiving process.
+//  (6) 20.08.2002. Locator added.
+//  (7) 19.11.2002. Menu disabled during Archiving.
+//  (8) 12.01.2003. "Excluded files" window added.
+//  (9) 24.09.2003. "Options" dialog.
 // (10) 25.07.2004. Locator reconstructed.
 // (11) 08.05.2006. "Register" added in the main menu.
 //==============================================================================
@@ -27,10 +27,10 @@
 #include "CFilesToArcFrame.h"
 #include "CRoomsFrame.h"
 #include "CCopiesFrame.h"
-#include "CLogFrame.h"	    // (1)
+#include "CLogFrame.h"      // (1)
 #include "CCopiesView.h"
 #include "LeftView.h"
-#include "COptionsDialog.h"	// (9)
+#include "COptionsDialog.h" // (9)
 #include "FileLocator/CNewFilesLocator.h"
 #include "FileLocator/CNewFilesLocatorFrame.h"
 
@@ -202,7 +202,7 @@ OpResult CMainFrame::checksBeforeUpdate()
 
   // Check is there any room
   if( nResult == OPR_SUCCESSFUL )
-    if( g_TheArchive.m_Rooms.GetCount() == 0 )
+    if( g_TheArchive.m_Rooms.m_rooms.size() == 0 )
     {
       AfxMessageBox( L"Please create Archive Rooms first.\n"
                      L"To do this press \"Show Rooms\" button on the toolbar,\n"
@@ -213,12 +213,10 @@ OpResult CMainFrame::checksBeforeUpdate()
   // Check is there any unavailable room and calculate free space
   if( nResult == OPR_SUCCESSFUL )
   {
-    g_TheArchive.m_Rooms.RoomsUpdate();
-    POSITION pos;
-    for( pos = g_TheArchive.m_Rooms.GetHeadPosition(); pos != NULL; )
+    g_TheArchive.m_Rooms.update();
+    for( auto curRoom : g_TheArchive.m_Rooms.m_rooms )
     {
-      CRoom *pCurRoom = g_TheArchive.m_Rooms.GetNext( pos );
-      if( pCurRoom->m_nDiskSpaceFree == -1 )  // -1 - the Room is unavailable
+      if( curRoom->m_nDiskSpaceFree == -1 )  // -1 - the Room is unavailable
       {
         ShowRooms();
         m_pRoomsFrame->UpdateList();
@@ -229,14 +227,13 @@ OpResult CMainFrame::checksBeforeUpdate()
         if( nResult == OPR_WARNINGS )
         {
           CString mess;
-          mess.Format( _T("Archive Room #%d is unavailable"), pCurRoom->m_nRoomID );
+          mess.Format( _T("Archive Room #%d is unavailable"), curRoom->m_nRoomID );
           g_TheArchive.m_LogFile.AddRecord( "", "", mess );
         }
         break;
       }
-    }
+    } // for
   }
-
   return nResult;
 }
 

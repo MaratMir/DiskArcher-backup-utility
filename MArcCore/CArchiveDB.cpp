@@ -552,12 +552,13 @@ bool CArchiveDB::RoomsLoad()
         int compMode = static_cast<int>(vtTmp);
         if(    ( compMode < 0 )
             || ( compMode >= CRoom::roomCompressionMode::rcmCount ) )
-        // A wrong value
+          // A wrong value
           pCurRoom->m_nCompressionMode = CRoom::roomCompressionMode::rcmAllowed;
         else
           pCurRoom->m_nCompressionMode = static_cast<CRoom::roomCompressionMode>(compMode);
       }
-      m_pArchive->m_Rooms.AddTail( pCurRoom );
+      m_pArchive->m_Rooms.m_rooms.push_back( pCurRoom );
+
       rsRooms->MoveNext();
     }
     rsRooms->Close();
@@ -586,13 +587,12 @@ bool CArchiveDB::RoomUpdate(CRoom *pRoom)
 	CString cmd;
 	cmd.Format( 
 		_T("UPDATE Rooms ")
-		_T("SET FileName=\"%s\", Removable=%s, SizeLimit=%d, SpaceFree=%d, ")
+		_T("SET FileName=\"%s\", Removable=%s, SizeLimit=%I64u, SpaceFree=%I64u, ")
 			_T("CompressionMode=%d ")
 		_T("WHERE RoomID=%d"),
-		pRoom->getFullName(),
-    trueFalse( pRoom->m_bRemovable ),
-		pRoom->m_sizeLimit >> 20 /* To Megabytes */, (int)(pRoom->m_nDiskSpaceFree >> 10)/*LATER!*/,
-		pRoom->m_nCompressionMode,
+		pRoom->getFullName(), trueFalse( pRoom->m_bRemovable ),
+		pRoom->m_sizeLimit >> 20 /*To Megabytes*/, pRoom->m_nDiskSpaceFree >> 10/*To Kilobytes*/,
+		static_cast<int>(pRoom->m_nCompressionMode),
 		pRoom->m_nRoomID );
   bSuccess = execSQL( cmd );
 	return bSuccess;

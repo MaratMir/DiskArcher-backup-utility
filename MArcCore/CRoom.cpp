@@ -50,13 +50,6 @@ bool CRoom::GetDiskSpaceFree()
 
 
 //==============================================================================
-CRoom::CRoom(const CString& strName)
-   : CFolder( strName ) // M
-{
-}
-
-
-//==============================================================================
 OpResult CRoom::doCopying()
 {
   OpResult nResult = OPR_SUCCESSFUL; // (13) Was: bool bSuccess=false;
