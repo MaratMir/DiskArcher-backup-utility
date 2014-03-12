@@ -46,7 +46,7 @@ CNewFilesLocator::CNewFilesLocator( CMultiDocTemplate* i_locatorTemplate )
 //------------------------------------------------------------------------------
 CNewFilesLocator::~CNewFilesLocator()
 {
-	delete m_pStartFolder;
+  delete m_pStartFolder;
 }
 
 
@@ -105,56 +105,56 @@ void CNewFilesLocator::enableControls( bool bOnOff )
 //------------------------------------------------------------------------------
 bool CNewFilesLocator::LoadOptions()
 {
-	bool bSuccess = false;
+  bool bSuccess = false;
 
-	m_excludedFolders.RemoveAll();	// (3)
-	m_excludedFileTypes.RemoveAll();	// (3)
-	
-	_RecordsetPtr rsOptions;
-	rsOptions.CreateInstance(__uuidof(Recordset)); 
-	HRESULT hr;
-	try
-	{
+  m_excludedFolders.RemoveAll();	// (3)
+  m_excludedFileTypes.RemoveAll();	// (3)
+  
+  _RecordsetPtr rsOptions;
+  rsOptions.CreateInstance(__uuidof(Recordset)); 
+  HRESULT hr;
+  try
+  {
     // Select all Options
     wchar_t* select = L"SELECT * FROM ProgramOptions"
                       L" WHERE SectionName=\"Locator\"";
     hr = rsOptions->Open( select, g_TheArchive.m_pDB->m_pConnection, adOpenStatic, adLockReadOnly, adCmdText );
     g_TheArchive.m_pDB->TESTHR( hr );
-		while( ! rsOptions->adoEOF )
-		{
-			_bstr_t  bstrTmp; // Temporary string for type conversion
-			_variant_t vtTmp;
-			
+    while( ! rsOptions->adoEOF )
+    {
+      _bstr_t  bstrTmp; // Temporary string for type conversion
+      _variant_t vtTmp;
+      
       bstrTmp = rsOptions->Fields->Item["OptionName"]->Value;
-			CString strOption = bstrTmp.GetBSTR(); // Was: (LPCSTR)bstrTmp;
-			strOption.TrimRight();
+      CString strOption = bstrTmp.GetBSTR(); // Was: (LPCSTR)bstrTmp;
+      strOption.TrimRight();
 
       bstrTmp = rsOptions->Fields->Item["OptionValue"]->Value;
-			CString strValue = bstrTmp.GetBSTR(); // Was: (LPCSTR)bstrTmp;
-			strValue.TrimRight();
-			strValue.MakeUpper();	// (3)
+      CString strValue = bstrTmp.GetBSTR(); // Was: (LPCSTR)bstrTmp;
+      strValue.TrimRight();
+      strValue.MakeUpper();	// (3)
 
-			if ( strOption == "exclFileType" )
-				m_excludedFileTypes.AddHead( strValue );
-			if ( strOption == "exclFolder" )
-				m_excludedFolders.AddHead( strValue );
-			rsOptions->MoveNext();
-		}
-		rsOptions->Close();
+      if ( strOption == "exclFileType" )
+        m_excludedFileTypes.AddHead( strValue );
+      if ( strOption == "exclFolder" )
+        m_excludedFolders.AddHead( strValue );
+      rsOptions->MoveNext();
+    }
+    rsOptions->Close();
 
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{
+    bSuccess = true;
+  }
+  catch(_com_error &e)
+  {
     g_TheArchive.m_pDB->showADOErrors( e, g_TheArchive.m_pDB->m_pConnection );
-	}
-	catch(...)
-	{
-		AfxMessageBox( _T("Some error occured")
-					   _T(" in CNewFilesLocator::LocatorLoadOptions().") );
-	}
+  }
+  catch(...)
+  {
+    AfxMessageBox( _T("Some error occured")
+             _T(" in CNewFilesLocator::LocatorLoadOptions().") );
+  }
 
-	return bSuccess;
+  return bSuccess;
 }
 
 
@@ -247,57 +247,57 @@ void CNewFilesLocator::Analyze( const CString& startPath/*(5)Added*/ )
   if( m_pStartFolder != NULL )    // For repeated
       delete m_pStartFolder;      //      use
   m_pStartFolder = new CLocatorFolder( startPath, this );
-	m_pStartFolder->GetItems();
-	m_pStartFolder->Analyze(); // Recursively
+  m_pStartFolder->GetItems();
+  m_pStartFolder->Analyze(); // Recursively
 /* (1) Was:
 // First of all - check subfolders
-	for( POSITION pos=m_Items.GetHeadPosition(); pos != NULL; )
-	{
-		if( m_pDlg->IsAborted() 	// Interrupted by user
-		 || theArchive.m_bStopWorking )
-			break;
+  for( POSITION pos=m_Items.GetHeadPosition(); pos != NULL; )
+  {
+    if( m_pDlg->IsAborted() 	// Interrupted by user
+     || theArchive.m_bStopWorking )
+      break;
 
-		CDiskItem *curItem = m_Items.GetNext(pos);
-		if( curItem->GetType() == CDiskItem::DI_FOLDER )
-		{
-			m_pDlg->m_strCurrentFolder = curItem->GetFullName();
-			m_pDlg->UpdateData( FALSE );
-			CFolder *curFolder = (CFolder*)curItem;
-			CNewFilesLocator locator( *curFolder, m_pView, m_pDlg );
-			if( locator.Init() )
-			{
-				locator.GetItems();
-				locator.Analyze(); // Recursively
-			}
-		}
-	}
+    CDiskItem *curItem = m_Items.GetNext(pos);
+    if( curItem->GetType() == CDiskItem::DI_FOLDER )
+    {
+      m_pDlg->m_strCurrentFolder = curItem->GetFullName();
+      m_pDlg->UpdateData( FALSE );
+      CFolder *curFolder = (CFolder*)curItem;
+      CNewFilesLocator locator( *curFolder, m_pView, m_pDlg );
+      if( locator.Init() )
+      {
+        locator.GetItems();
+        locator.Analyze(); // Recursively
+      }
+    }
+  }
 
 
 // Then check files in this folder
-	for( pos=m_Items.GetHeadPosition(); pos != NULL; )
-	{
-		if( m_pDlg->IsAborted() 	// Interrupted by user
-		 || theArchive.m_bStopWorking )
-			break;
+  for( pos=m_Items.GetHeadPosition(); pos != NULL; )
+  {
+    if( m_pDlg->IsAborted() 	// Interrupted by user
+     || theArchive.m_bStopWorking )
+      break;
 
-		CDiskItem *curItem = m_Items.GetNext(pos);
-		if( curItem->GetType() == CDiskItem::DI_FILE )
-		{
-			m_pDlg->ShowProgress( curItem->GetFullPath() );
+    CDiskItem *curItem = m_Items.GetNext(pos);
+    if( curItem->GetType() == CDiskItem::DI_FILE )
+    {
+      m_pDlg->ShowProgress( curItem->GetFullPath() );
 
-			COleDateTime curT = COleDateTime::GetCurrentTime();
-			COleDateTimeSpan timeDiff = curT - curItem->m_LastWriteTime;
-			if( timeDiff.GetTotalHours() <= m_pDlg->m_nDays * 24 )
-			{
-			// If this file is not in Archive yet
-				CFileToArc* pFound = 
-					theArchive.m_FilesToArc.FileFind( curItem->GetFullName() );
-				if( ! pFound )
-				// Add this file to the ListCtrl
-					m_pView->AddFileToListCtrl( (CFileOnDisk*)curItem );
-			}
-		}
-	}
+      COleDateTime curT = COleDateTime::GetCurrentTime();
+      COleDateTimeSpan timeDiff = curT - curItem->m_LastWriteTime;
+      if( timeDiff.GetTotalHours() <= m_pDlg->m_nDays * 24 )
+      {
+      // If this file is not in Archive yet
+        CFileToArc* pFound = 
+          theArchive.m_FilesToArc.FileFind( curItem->GetFullName() );
+        if( ! pFound )
+        // Add this file to the ListCtrl
+          m_pView->AddFileToListCtrl( (CFileOnDisk*)curItem );
+      }
+    }
+  }
 */
 }
 
@@ -307,16 +307,16 @@ bool CNewFilesLocator::AddExcludedToDB( LocatorWhatToExclude nType,
                                         const CString& sName )
 {
     bool bSuccess = false;
-	CString sOptionName;
-	switch( nType )
-	{
-		case LocExclFileTypes:
-			sOptionName = "exclFileType";
-			break;
-		case LocExclFolders:
-			sOptionName = "exclFolder";
-			break;
-	}
+  CString sOptionName;
+  switch( nType )
+  {
+    case LocExclFileTypes:
+      sOptionName = "exclFileType";
+      break;
+    case LocExclFolders:
+      sOptionName = "exclFolder";
+      break;
+  }
   CString cmd;
   cmd.Format( L"INSERT INTO ProgramOptions"
               L" (SectionName, OptionName, OptionValue, OptionValue2)"
