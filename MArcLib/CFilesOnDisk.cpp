@@ -6,7 +6,6 @@
 //================================================================================
 
 #include "stdafx.h"
-#include <algorithm>
 #include "CFileOnDisk.h"
 #include "CFilesOnDisk.h"
 

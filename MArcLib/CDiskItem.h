@@ -25,10 +25,10 @@ class CDiskItem
 
 public:
 
-	enum ItemType/*(1)*/ { DI_FOLDER=1, DI_FILE };  // M
+  enum ItemType/*(1)*/ { DI_FOLDER=1, DI_FILE };
 
-	CDiskItem() {}
-	CDiskItem( const CString& strFullName );
+  CDiskItem() {}
+  CDiskItem( const CString& strFullName );
   virtual ~CDiskItem() {}
 
   ItemType getType() const { return m_nType; }
@@ -37,8 +37,8 @@ public:
   CString getFullName() const;
   CString getExtension() const;   // (4)
 
-	bool checkExistence();
-	bool getInfo();
+  bool checkExistence();
+  bool getInfo();
 
 
   CString	m_strComputer;
@@ -49,12 +49,12 @@ public:
 // Item's last write time
   COleDateTime m_LastWriteTime;
 
-  CFolder	*m_pParentFolder;
+  CFolder *m_pParentFolder;
 
 protected:
 
-	void setType( ItemType nType )  
-		{ m_nType = nType; };	// (3)
+  void setType( ItemType nType )  
+    { m_nType = nType; }; // (3)
 
 private:
 
