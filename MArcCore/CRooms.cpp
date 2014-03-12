@@ -326,7 +326,6 @@ bool CRooms::erase( CRoom* pRoom )
 
 void CRooms::free()
 {
-
   for( auto curRoom : m_rooms )
     delete curRoom;
   m_rooms.clear();
