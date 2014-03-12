@@ -38,12 +38,11 @@ void CLocatorFolder::Analyze()
 {
 
 // First of all - check subfolders
-  for( POSITION pos=m_Items.GetHeadPosition(); pos != NULL; )
+  for( auto curItem : m_items )
   {
     if( m_pLocator->isAborted() ) // Interrupted by user
       break;
 
-    CDiskItem *curItem = m_Items.GetNext(pos);
     if( curItem->getType() == CDiskItem::DI_FOLDER )
     {
       // Skipping useless folders if it is required
@@ -57,19 +56,18 @@ void CLocatorFolder::Analyze()
       m_pLocator->showFolderInDlg( curItem->getFullName() );
       CFolder *curFolder = (CFolder*)curItem;
       CLocatorFolder locator( *curFolder, m_pLocator );
-      locator.GetItems();
+      locator.getItems();
       locator.Analyze(); // Recursively
     }
   }
 
 
 // Then check files in this folder
-  for( POSITION pos=m_Items.GetHeadPosition(); pos != NULL; )
+  for( auto curItem : m_items )
   {
     if( m_pLocator->isAborted() ) // Interrupted by user
       break;
 
-    CDiskItem *curItem = m_Items.GetNext(pos);
     if( curItem->getType() == CDiskItem::DI_FILE )
     {
     // Skipping useless files if it is required

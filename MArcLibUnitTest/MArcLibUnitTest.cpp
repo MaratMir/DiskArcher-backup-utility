@@ -5,6 +5,7 @@
 #include "CDrive.h"
 #include "CFileOnDisk.h"
 #include "CFilesOnDisk.h"
+#include "CFolder.h"
 #include "error.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -42,6 +43,24 @@ namespace MArcLibUnitTest
         CString ext2 = item2.getExtension();
         Assert::AreEqual( ext2, L"txt" );
       }
+    }
+
+
+    TEST_METHOD(CFolder_TestMethod)
+    {
+      // TODO: Make the path configurable or relative
+      CFolder folder( "Z:\\_Marat\\DiskArcher\\src\\MArcLibUnitTest\\ForCFolderUnitTest" );
+      folder.getInfo();
+      folder.getItems();
+      Assert::IsTrue( folder.m_items.size() == 1 );
+
+      CDiskItem *item = folder.m_items[0]; // There is only one file
+      item->getInfo();
+      long long size = item->getSize(); 
+      Assert::IsTrue( size == 55 );
+
+      folder.clear();
+      Assert::IsTrue( folder.m_items.size() == 0 );
     }
 
 

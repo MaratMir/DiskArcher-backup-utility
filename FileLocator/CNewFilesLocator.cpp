@@ -26,19 +26,19 @@
 
 // Static members of the class.
 // I think they will be destroyed automatically when the program exits.
-CStringList CNewFilesLocator::m_excludedFolders;	// (3)
-CStringList CNewFilesLocator::m_excludedFileTypes;	// (3)
+CStringList CNewFilesLocator::m_excludedFolders; // (3)
+CStringList CNewFilesLocator::m_excludedFileTypes; // (3)
 
 
 //------------------------------------------------------------------------------
 CNewFilesLocator::CNewFilesLocator( CMultiDocTemplate* i_locatorTemplate )
 {
   m_locatorTemplate = i_locatorTemplate; // 2014
-  m_doc = NULL; // 2014
-  m_pFrame = NULL;
-  m_pView = NULL;
-  m_pDlg = NULL;
-  m_pStartFolder = NULL;
+  m_doc             = nullptr; // 2014
+  m_pFrame          = nullptr;
+  m_pView           = nullptr;
+  m_pDlg            = nullptr;
+  m_pStartFolder    = nullptr;
 }
 
 
@@ -107,8 +107,8 @@ bool CNewFilesLocator::LoadOptions()
 {
   bool bSuccess = false;
 
-  m_excludedFolders.RemoveAll();	// (3)
-  m_excludedFileTypes.RemoveAll();	// (3)
+  m_excludedFolders.RemoveAll(); // (3)
+  m_excludedFileTypes.RemoveAll(); // (3)
   
   _RecordsetPtr rsOptions;
   rsOptions.CreateInstance(__uuidof(Recordset)); 
@@ -132,7 +132,7 @@ bool CNewFilesLocator::LoadOptions()
       bstrTmp = rsOptions->Fields->Item["OptionValue"]->Value;
       CString strValue = bstrTmp.GetBSTR(); // Was: (LPCSTR)bstrTmp;
       strValue.TrimRight();
-      strValue.MakeUpper();	// (3)
+      strValue.MakeUpper(); // (3)
 
       if ( strOption == "exclFileType" )
         m_excludedFileTypes.AddHead( strValue );
@@ -151,7 +151,7 @@ bool CNewFilesLocator::LoadOptions()
   catch(...)
   {
     AfxMessageBox( _T("Some error occured")
-             _T(" in CNewFilesLocator::LocatorLoadOptions().") );
+                   _T(" in CNewFilesLocator::LocatorLoadOptions().") );
   }
 
   return bSuccess;
@@ -176,7 +176,7 @@ bool CNewFilesLocator::CheckAndAddToExclTypes( const CFileOnDisk* const pFile )
     CString sExt = pFile->getExtension();   // Get the type of selected file
     sExt.MakeUpper();
 
-// Is the type in the Excluded already?
+    // Is the type in the Excluded already?
     POSITION found = m_excludedFileTypes.Find( sExt );
     if( !found )    // Isn't - add
     {
@@ -247,58 +247,8 @@ void CNewFilesLocator::Analyze( const CString& startPath/*(5)Added*/ )
   if( m_pStartFolder != NULL )    // For repeated
       delete m_pStartFolder;      //      use
   m_pStartFolder = new CLocatorFolder( startPath, this );
-  m_pStartFolder->GetItems();
+  m_pStartFolder->getItems();
   m_pStartFolder->Analyze(); // Recursively
-/* (1) Was:
-// First of all - check subfolders
-  for( POSITION pos=m_Items.GetHeadPosition(); pos != NULL; )
-  {
-    if( m_pDlg->IsAborted() 	// Interrupted by user
-     || theArchive.m_bStopWorking )
-      break;
-
-    CDiskItem *curItem = m_Items.GetNext(pos);
-    if( curItem->GetType() == CDiskItem::DI_FOLDER )
-    {
-      m_pDlg->m_strCurrentFolder = curItem->GetFullName();
-      m_pDlg->UpdateData( FALSE );
-      CFolder *curFolder = (CFolder*)curItem;
-      CNewFilesLocator locator( *curFolder, m_pView, m_pDlg );
-      if( locator.Init() )
-      {
-        locator.GetItems();
-        locator.Analyze(); // Recursively
-      }
-    }
-  }
-
-
-// Then check files in this folder
-  for( pos=m_Items.GetHeadPosition(); pos != NULL; )
-  {
-    if( m_pDlg->IsAborted() 	// Interrupted by user
-     || theArchive.m_bStopWorking )
-      break;
-
-    CDiskItem *curItem = m_Items.GetNext(pos);
-    if( curItem->GetType() == CDiskItem::DI_FILE )
-    {
-      m_pDlg->ShowProgress( curItem->GetFullPath() );
-
-      COleDateTime curT = COleDateTime::GetCurrentTime();
-      COleDateTimeSpan timeDiff = curT - curItem->m_LastWriteTime;
-      if( timeDiff.GetTotalHours() <= m_pDlg->m_nDays * 24 )
-      {
-      // If this file is not in Archive yet
-        CFileToArc* pFound = 
-          theArchive.m_FilesToArc.FileFind( curItem->GetFullName() );
-        if( ! pFound )
-        // Add this file to the ListCtrl
-          m_pView->AddFileToListCtrl( (CFileOnDisk*)curItem );
-      }
-    }
-  }
-*/
 }
 
 
@@ -306,7 +256,7 @@ void CNewFilesLocator::Analyze( const CString& startPath/*(5)Added*/ )
 bool CNewFilesLocator::AddExcludedToDB( LocatorWhatToExclude nType, 
                                         const CString& sName )
 {
-    bool bSuccess = false;
+  bool bSuccess = false;
   CString sOptionName;
   switch( nType )
   {
