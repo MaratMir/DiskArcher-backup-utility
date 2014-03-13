@@ -67,37 +67,41 @@ CMyArchive::CMyArchive()
 //===========================
 CMyArchive::~CMyArchive()
 {
+
+// TODO: It's very strange that it's done this way
+// WHERE IS INCAPSULATION?
+
 // Clear File list
-	POSITION pos;
-	for( pos = m_FilesToArc.GetHeadPosition(); pos != NULL; )
-	{
-		CFileToArc *pCurFile = m_FilesToArc.GetNext( pos );
-		delete pCurFile;
-	}
+  POSITION pos;
+  for( pos = m_FilesToArc.GetHeadPosition(); pos != NULL; )
+  {
+    CFileToArc *pCurFile = m_FilesToArc.GetNext( pos );
+    delete pCurFile;
+  }
 
 // Clear the Rooms list
   m_Rooms.free();
 
 // Clear Copies list
-	for( pos = m_Copies.GetHeadPosition(); pos != NULL; )
-	{
-		CFileCopy *pCurCopy = m_Copies.GetNext( pos );
-		delete pCurCopy;
-	}
+  for( pos = m_Copies.GetHeadPosition(); pos != NULL; )
+  {
+    CFileCopy *pCurCopy = m_Copies.GetNext( pos );
+    delete pCurCopy;
+  }
 
 // Clear Bundles list
-	for( pos = m_Bundles.GetHeadPosition(); pos != NULL; )
-	{
-		CBundle *pCurBundle = m_Bundles.GetNext( pos );
-		delete pCurBundle;
-	}
+  for( pos = m_Bundles.GetHeadPosition(); pos != NULL; )
+  {
+    CBundle *pCurBundle = m_Bundles.GetNext( pos );
+    delete pCurBundle;
+  }
 
 // Clear Folders list
-	for( pos = m_FoldersToArc.GetHeadPosition(); pos != NULL; )
-	{
-		CFolderToArc *pCurFolder = m_FoldersToArc.GetNext( pos );
-		delete pCurFolder;
-	}
+  for( pos = m_FoldersToArc.GetHeadPosition(); pos != NULL; )
+  {
+    CFolderToArc *pCurFolder = m_FoldersToArc.GetNext( pos );
+    delete pCurFolder;
+  }
 
   delete m_pCompressor;
   delete m_insertDiskDlg;
@@ -116,8 +120,8 @@ bool CMyArchive::open( IProgressIndicator* i_pProgressIndicator )
 //---------------------------------------------------------
 
 // Let's know the program directory
-	TCHAR szExePathName[_MAX_PATH];
-	VERIFY( ::GetModuleFileName( AfxGetApp()->m_hInstance, szExePathName, _MAX_PATH ));
+  TCHAR szExePathName[_MAX_PATH];
+  VERIFY( ::GetModuleFileName( AfxGetApp()->m_hInstance, szExePathName, _MAX_PATH ));
 // Construct database filename. The directory is the same as the program's directory.
 // So, take exe-fullname and replace filename.
   CFileOnDisk dbFile( szExePathName );
@@ -155,38 +159,38 @@ bool CMyArchive::open( IProgressIndicator* i_pProgressIndicator )
 
     bSuccess = m_pDB->Open();
     m_pProgressIndicator->stepIt(); // Let's count them: 1
-		bool bDBOpen =  bSuccess;	// (4)
-		if( bSuccess )
-			bSuccess = m_pDB->CopiesLoad();
+    bool bDBOpen =  bSuccess; // (4)
+    if( bSuccess )
+      bSuccess = m_pDB->CopiesLoad();
     m_pProgressIndicator->stepIt(); // Let's count them: 2
-		if( bSuccess )
-			bSuccess = m_pDB->FilesLoad();
+    if( bSuccess )
+      bSuccess = m_pDB->FilesLoad();
     m_pProgressIndicator->stepIt(); // Let's count them: 3
-		if( bSuccess )
-			bSuccess = m_FoldersToArc.Load();
+    if( bSuccess )
+      bSuccess = m_FoldersToArc.Load();
     m_pProgressIndicator->stepIt(); // Let's count them: 4
     int updatedSysFiles;
     if( bSuccess )
       m_nFilesToUpdate = m_FilesToArc.FilesGetStatus( updatedSysFiles );
           // m_nFilesToUpdate here is preliminary
-/* (6)	Moved after BundlesLoad because we need Bundles to calculate Room's Free Space
-		if( bSuccess )
-			bSuccess = m_Rooms.RoomsLoad(); */
+/* (6) Moved after BundlesLoad because we need Bundles to calculate Room's Free Space
+    if( bSuccess )
+      bSuccess = m_Rooms.RoomsLoad(); */
     m_pProgressIndicator->stepIt(); // Let's count them: 5
-		if( bSuccess )
-			bSuccess = m_pDB->BundlesLoad();
+    if( bSuccess )
+      bSuccess = m_pDB->BundlesLoad();
     m_pProgressIndicator->stepIt(); // Let's count them: 6
-		if( bSuccess )
-			bSuccess = m_Rooms.load();
+    if( bSuccess )
+      bSuccess = m_Rooms.load();
     m_pProgressIndicator->stepIt(); // Let's count them: 7
 
-		if( bSuccess )	// (13)
-		{
-			m_pCompressor = new CFileCompressor();
+    if( bSuccess )	// (13)
+    {
+      m_pCompressor = new CFileCompressor();
 
-			bSuccess = loadOptions();
-			CZipBundle::m_pCompressor = m_pCompressor;
-		}
+      bSuccess = loadOptions();
+      CZipBundle::m_pCompressor = m_pCompressor;
+    }
     m_pProgressIndicator->stepIt(); // Let's count them: 8
       // Eighth steps for now
 
@@ -198,11 +202,11 @@ bool CMyArchive::open( IProgressIndicator* i_pProgressIndicator )
   }
 
 // (13) Get system's Temp directory
-	wchar_t tmpDir[_MAX_PATH];
-	/*int len =*/ ::GetTempPath( _MAX_PATH, tmpDir );
-	m_sTempPath = tmpDir;
-	
-	return bSuccess;
+  wchar_t tmpDir[_MAX_PATH];
+  /*int len =*/ ::GetTempPath( _MAX_PATH, tmpDir );
+  m_sTempPath = tmpDir;
+  
+  return bSuccess;
 }
 
 
@@ -226,12 +230,12 @@ bool CMyArchive::close()
 /*
 int CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lParam, LPARAM lpData)
 {
-	if( uMsg == BFFM_VALIDATEFAILED )
-	{
-		AfxMessageBox( "Invalid folder name!" );
-		return 1;
-	}
- 	return 0;
+  if( uMsg == BFFM_VALIDATEFAILED )
+  {
+    AfxMessageBox( "Invalid folder name!" );
+    return 1;
+  }
+  return 0;
 }
 */
 
@@ -255,15 +259,15 @@ OpResult CMyArchive::update()
   // It also prevents the dialog to stick in left upper corner
   ASSERT( m_pProgressDlg );
   if( m_pProgressDlg->isAborted()
-    || m_bStopWorking )			// (13)
-    nResult = OPR_USER_STOP; // (16) Was: bContinue = false;			// (13)
-  else							// (13)
-  {								// (13)
+    || m_bStopWorking )  // (13)
+    nResult = OPR_USER_STOP; // (16) Was: bContinue = false; // (13)
+  else// (13)
+  {   // (13)
   //.. Read files' time stamps again ...................
     m_nFilesToUpdate = m_FilesToArc.FilesGetStatus( updatedSysFiles );
   //....................................................
     if( m_pProgressDlg->isAborted() // Interrupted by user
-      || m_bStopWorking )				// (13)
+      || m_bStopWorking ) // (13)
       nResult = OPR_USER_STOP; // (16) Was: bContinue = false; // (13)
   }
 
@@ -285,27 +289,27 @@ OpResult CMyArchive::update()
     m_nFilesToUpdate = 0;  // Let's count it again, more carefully.
                           // For example, we will not count files
                          //  if we don't find an appropriate room for it.
-		for( pos = m_FilesToArc.GetHeadPosition(); pos != NULL; )
-		{
-			CFileToArc *pCurFile = m_FilesToArc.GetNext( pos );
+    for( pos = m_FilesToArc.GetHeadPosition(); pos != NULL; )
+    {
+      CFileToArc *pCurFile = m_FilesToArc.GetNext( pos );
 
-		// Assign a Room, a Bundle for the file, if necessary
-		//----------------------------------------------------
+    // Assign a Room, a Bundle for the file, if necessary
+    //----------------------------------------------------
       OpResult nCurResult = decideAboutFile( pCurFile );
     //....................................................
       nResult = max( nResult, nCurResult );
-			if( nResult >= OPR_FATAL_STOP )
-				break;
+      if( nResult >= OPR_FATAL_STOP )
+        break;
       
       m_nFilesToUpdate += pCurFile->m_CopyToRooms.size();
       m_pProgressDlg->advance( 1 );
     }
     m_pProgressDlg->analysisDone();
-	}
+  }
 #if 0  // for debugging
-	if( m_pProgressDlg )
-		if( m_pProgressDlg->m_hWnd )
-			int poz = m_pProgressDlg->m_Progress.GetPos();
+  if( m_pProgressDlg )
+    if( m_pProgressDlg->m_hWnd )
+      int poz = m_pProgressDlg->m_Progress.GetPos();
 #endif
 
 
@@ -313,7 +317,7 @@ OpResult CMyArchive::update()
 //------------------------------------------------------------------------------
   if( nResult <= OPR_NONFATAL_ERRORS )  // (16) Was: if( bContinue )
   {
-		OpResult nCurResult = doCopying();  // (16) Was: bContinue = DoCopying();
+    OpResult nCurResult = doCopying();  // (16) Was: bContinue = DoCopying();
     nResult = max( nResult, nCurResult );
   }
 
@@ -322,28 +326,28 @@ OpResult CMyArchive::update()
 
 // (13) Clear non-actual info in Files, including deletion of temporary files
 //..............................................................................
-	this->m_FilesToArc.ResetRuntimeData();
+  this->m_FilesToArc.ResetRuntimeData();
 
 // Reload Copies -----------------------------------
-//	if( bContinue )	- Unconditional !!! 
-//			Because there could be copied some files before user break
-//	{
-	// Delete all them from memory first 
-		POSITION pos;
-		for( pos = m_Copies.GetHeadPosition(); pos != NULL; )
-		{
-			CFileCopy *pCurCopy = m_Copies.GetNext( pos );
-			delete pCurCopy;
-		}
-		m_Copies.RemoveAll();
-		/*bContinue = - Continue anyway */ m_pDB->CopiesLoad();
+// if( bContinue ) - Unconditional !!! 
+//      Because there could be copied some files before user break
+//  {
+  // Delete all them from memory first 
+    POSITION pos;
+    for( pos = m_Copies.GetHeadPosition(); pos != NULL; )
+    {
+      CFileCopy *pCurCopy = m_Copies.GetNext( pos );
+      delete pCurCopy;
+    }
+    m_Copies.RemoveAll();
+    /*bContinue = - Continue anyway */ m_pDB->CopiesLoad();
     // TODO: RELOAD BUNDLES?
-//	}
+// }
 
 #ifdef _DEBUGGGG // Progress indicator debugging
-	if( m_pProgressDlg )	// (12)
-		if( m_pProgressDlg->m_hWnd )
-			/*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
+  if( m_pProgressDlg ) // (12)
+    if( m_pProgressDlg->m_hWnd )
+      /*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
 #endif
 
 
@@ -373,13 +377,13 @@ OpResult CMyArchive::doCopying()
 //-----------------------
   for( auto curRoom : m_Rooms.m_rooms )
   {
-    if(   m_pProgressDlg->isAborted() // Interrupted by the user
+    if(    m_pProgressDlg->isAborted() // Interrupted by the user
         || m_bStopWorking )
       // Their order is important! Becase m_bStopWorking is changed during isAborted()!
-		{
-   		nResult = OPR_USER_STOP; // (16) Was: bContinue = false;
-			break;
-		}
+    {
+      nResult = OPR_USER_STOP; // (16) Was: bContinue = false;
+      break;
+    }
 
 repeat:
     if( curRoom->m_bRemovable )
@@ -438,55 +442,54 @@ repeat:
   // Then Non-Removable Rooms
   //--------------------------
   if( nResult <= OPR_NONFATAL_ERRORS )  // (16) Was: if( bContinue )
-	{
-		for( auto curRoom : m_Rooms.m_rooms )
-		{
-			if( m_pProgressDlg->isAborted() )	// Interrupted by user
-			{
+  {
+    for( auto curRoom : m_Rooms.m_rooms )
+    {
+      if( m_pProgressDlg->isAborted() ) // Interrupted by the user
+      {
         m_LogFile.AddRecord( L"", L"", L"User break" );
 
         nResult = OPR_USER_STOP;
-				break;
-			}
-			if( ! curRoom->m_bRemovable )
-			{
-				if( curRoom->m_nDiskSpaceFree != -1 )  // -1 - the Room is unavailable
-				{
-				// Check is it Room #N
-					bCheckedOk = curRoom->CheckLabel();
-					if( bCheckedOk )
+        break;
+      }
+      if( ! curRoom->m_bRemovable )
+      {
+        if( curRoom->m_nDiskSpaceFree != -1 )  // -1 - the Room is unavailable
+        {
+        // Check is it Room #N
+          bCheckedOk = curRoom->CheckLabel();
+          if( bCheckedOk )
 
-					// Write copies to this Room. Write the results to DB or to log
-					//=============================================================
+          // Write copies to this Room. Write the results to DB or to log
+          //=============================================================
           {
             OpResult nCurResult = curRoom->doCopying();
             nResult = max( nCurResult, nResult );
-						    // (16) Was: bContinue = pCurRoom->DoCopying();
+                // (16) Was: bContinue = pCurRoom->DoCopying();
           }
-					//=============================================================
+          //=============================================================
 
-					else
-					{
-						CString mess;
-						mess.Format( _T("Archive Room #%d skipped because it has a bad label"), 
-									 curRoom->m_nRoomID );
+          else
+          {
+            CString mess;
+            mess.Format( _T("Archive Room #%d skipped because it has a bad label"), curRoom->m_nRoomID );
 // TODO: Counter - "There were N errors!" 
-						m_LogFile.AddRecord( L"", L"", mess );
-					}
+            m_LogFile.AddRecord( L"", L"", mess );
+          }
 #ifdef _DEBUG
 //  /*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
 #endif
-				}
-				else	// The Room is unavailable - move the Progress Bar
-					m_pProgressDlg->advance( curRoom->CountAllFiles() );
-			}
+        }
+        else // The Room is unavailable - move the Progress Bar
+          m_pProgressDlg->advance( curRoom->CountAllFiles() );
+      }
 #ifdef _DEBUG
 //    /*int poz =*/ m_pProgressDlg->m_Progress.GetPos();
 #endif
-		} // for
-	}
-	
-	return nResult; // (16) Was: bContinue;
+    } // for
+  }
+  
+  return nResult; // (16) Was: bContinue;
 
 } // End of doCopying()
 
@@ -511,8 +514,8 @@ bool CMyArchive::deleteOldestCopyOfFile( CFileToArc* const i_pFile )
 
 // Analyse the file's status and decide what to do with it - add a copy or replace...
 // TODO:
-//	From network drive - to my local disk. From local disk - to network Room...
-//		Then among local phisycal drives. Then among local logical drives.
+//  From network drive - to my local disk. From local disk - to network Room...
+//    Then among local phisycal drives. Then among local logical drives.
 //==============================================================================
 OpResult CMyArchive::decideAboutFile( CFileToArc* const i_pFile )
 {
@@ -610,55 +613,55 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
   OpResult nSuccess = OPR_SUCCESSFUL;
 
 // Select a Room - only from accessible Rooms, which has enough space 
-//	 for the file and which has the least number of this File's Copies
+//   for the file and which has the least number of this File's Copies
   CRoom *pRoomTo = NULL;
   int leastCopies = 999999;
   for( auto curRoom : m_Rooms.m_rooms )
   {
-    if( curRoom->m_nDiskSpaceFree != -1 )	// Is the Room accessible?
+    if( curRoom->m_nDiskSpaceFree != -1 ) // Is the Room accessible?
     { 
-		// To compress or not to compress (for this very Room)?
-		//		Refer to the project documentation.
-			if( isCompressorDefined() )									// (13)
-			{
-        if(   ( curRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )	// (13)
+    // To compress or not to compress (for this very Room)?
+    //  Refer to the project documentation.
+      if( isCompressorDefined() )  // (13)
+      {
+        if(   ( curRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAlways )    // (13)
            || ( curRoom->m_nCompressionMode == CRoom::roomCompressionMode::rcmAllowed &&  // (13)
                 i_pFile->m_bCompressIt ))
-				{
-					if( ! i_pFile->IsPreCompressed() )		// (13)
-					// The file could be compressed during negotiation 
-					//	with one of previous Rooms
-					{
-						if( ! i_pFile->PreCompress() )	// (13) Pre-compress file
+        {
+          if( ! i_pFile->IsPreCompressed() )  // (13)
+          // The file could be compressed during negotiation 
+          //   with one of previous Rooms
+          {
+            if( ! i_pFile->PreCompress() )	// (13) Pre-compress file
             {
-						  nSuccess = OPR_NONFATAL_ERRORS; // TODO: Is it Non-Fatal?
-							break;							// (13)
+              nSuccess = OPR_NONFATAL_ERRORS; // TODO: Is it Non-Fatal?
+              break;  // (13)
             }
-					}
-				}
+          }
+        }
         else // Don't compress
           i_pFile->m_nPredictedCompressedSize = i_pFile->getSize();
       }
       else // Don't compress
         i_pFile->m_nPredictedCompressedSize = i_pFile->getSize();
 
-			if( curRoom->m_nPrognosisFree > 
-				i_pFile->m_nPredictedCompressedSize + 65536/*(15)Was:10240* /
+      if( curRoom->m_nPrognosisFree > 
+        i_pFile->m_nPredictedCompressedSize + 65536/*(15)Was:10240* /
                             /*Reserve space for Room's contents and so on*/ )
-				// (13) Was: if( pCurRoom->m_nPrognosisFree > pFile->m_nSize + 5000 )
-			// Is there enough space? -------------------------------------
-			{
-				int curCopiesCount = m_Copies.GetCopiesCount( i_pFile, curRoom->m_nRoomID );
+        // (13) Was: if( pCurRoom->m_nPrognosisFree > pFile->m_nSize + 5000 )
+      // Is there enough space? -------------------------------------
+      {
+        int curCopiesCount = m_Copies.GetCopiesCount( i_pFile, curRoom->m_nRoomID );
         curCopiesCount += i_pFile->CountCopies( curRoom );
-				if( curCopiesCount < leastCopies )
-				// Yes, this Room has least number of Copies
-				{
-					leastCopies = curCopiesCount;
-					pRoomTo = curRoom;
-				}
-			}
-		}
-	} // End of for - Selecting Room
+        if( curCopiesCount < leastCopies )
+        // Yes, this Room has least number of Copies
+        {
+          leastCopies = curCopiesCount;
+          pRoomTo = curRoom;
+        }
+      }
+    }
+  } // End of for - Selecting Room
 
   if( nSuccess <= OPR_NONFATAL_ERRORS )
     if( pRoomTo == NULL )
@@ -685,23 +688,22 @@ OpResult CMyArchive::addCopyOfFile( CFileToArc* const i_pFile )
 //==============================================================================
 bool CMyArchive::loadOptions()
 {
-	bool bSuccess = false;
+  bool bSuccess = false;
 
-	_RecordsetPtr rsOptions;
-	rsOptions.CreateInstance(__uuidof(Recordset)); 
-	HRESULT hr;
-	try
-	{
+  _RecordsetPtr rsOptions;
+  rsOptions.CreateInstance(__uuidof(Recordset)); 
+  HRESULT hr;
+  try
+  {
   // Select all Options
     wchar_t* select = L"SELECT * FROM ProgramOptions"
                       L" WHERE SectionName=\"Archive\"";
-    hr = rsOptions->Open( select, m_pDB->m_pConnection, adOpenStatic,
-                          adLockReadOnly, adCmdText );
+    hr = rsOptions->Open( select, m_pDB->m_pConnection, adOpenStatic, adLockReadOnly, adCmdText );
     g_TheArchive.m_pDB->TESTHR( hr );
-		while( ! rsOptions->adoEOF )
-		{
-			_bstr_t  bstrTmp; // Temporary string for type conversion
-			_variant_t vtTmp;
+    while( ! rsOptions->adoEOF )
+    {
+      _bstr_t  bstrTmp; // Temporary string for type conversion
+      _variant_t vtTmp;
 
       bstrTmp = rsOptions->Fields->Item["OptionName"]->Value;
       CString strOption = bstrTmp;
@@ -711,29 +713,29 @@ bool CMyArchive::loadOptions()
       CString strValue = bstrTmp;
       strValue.TrimRight();
 
-			if ( strOption == "nDefaultCopies" )
-				m_nDefaultCopies = _ttoi(strValue) ;//atoi( strValue );
-			if ( strOption == "CompressorName" )
-				m_pCompressor->m_strName = strValue;
-			if ( strOption == "CompressorPath" )
-				m_pCompressor->m_strExePath = strValue;
+      if ( strOption == "nDefaultCopies" )
+        m_nDefaultCopies = _ttoi(strValue) ;//atoi( strValue );
+      if ( strOption == "CompressorName" )
+        m_pCompressor->m_strName = strValue;
+      if ( strOption == "CompressorPath" )
+        m_pCompressor->m_strExePath = strValue;
 
-			rsOptions->MoveNext();
-		}
-		rsOptions->Close();
+      rsOptions->MoveNext();
+    }
+    rsOptions->Close();
 
-		bSuccess = true;
-	}
-	catch(_com_error &e)
-	{
+    bSuccess = true;
+  }
+  catch(_com_error &e)
+  {
     g_TheArchive.m_pDB->showADOErrors( e, m_pDB->m_pConnection );
-	}
-	catch(...)
-	{
-		AfxMessageBox( _T("Some error occured in CMyArchive::LoadOptions().") );
-	}
+  }
+  catch(...)
+  {
+    AfxMessageBox( _T("Some error occured in CMyArchive::LoadOptions().") );
+  }
 
-	return bSuccess;
+  return bSuccess;
 }
 
 
@@ -742,16 +744,16 @@ bool CMyArchive::saveOptions()
 {
   bool bSuccess=false;
 
-// Default number of copies
+  // Default number of copies
   CString tmp;
   tmp.Format( L"%d", m_nDefaultCopies );
   bSuccess = m_pDB->optionSave( L"Archive", L"nDefaultCopies", tmp );
 
-// Compression utility name
+  // Compression utility name
   if( bSuccess )
     bSuccess = m_pDB->optionSave( L"Archive", L"CompressorName", m_pCompressor->m_strName );
 
-// Compression utility path
+  // Compression utility path
   if( bSuccess )
     bSuccess = m_pDB->optionSave( L"Archive", L"CompressorPath", m_pCompressor->m_strExePath );
 
@@ -763,7 +765,7 @@ bool CMyArchive::saveOptions()
 //==============================================================================
 bool CMyArchive::isCompressorDefined()
 {
-	return ( m_pCompressor != NULL && m_pCompressor->m_strExePath != "" );
+  return ( m_pCompressor != NULL && m_pCompressor->m_strExePath != "" );
 }
 
 
