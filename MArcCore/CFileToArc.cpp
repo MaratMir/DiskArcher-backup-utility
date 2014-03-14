@@ -14,12 +14,14 @@
 //==================================================================
 
 #include "stdafx.h"
+#include <memory>
+#include "..\MArcLib\Misc.h"
+#include "..\MArcCore\Miscelaneous.h"
 #include "CFileToArc.h"
 #include "CMyArchive.h"
-#include "..\MArcLib\Misc.h"
 #include "CArchiveDB.h"
 #include "CFileCompressor.h"
-#include "../MArcCore/Miscelaneous.h"
+
 
 CFileToArc::CFileToArc()
 {
@@ -28,7 +30,7 @@ CFileToArc::CFileToArc()
 
 
 CFileToArc::CFileToArc(CString fullName)
-  : CFileOnDisk( fullName )// M
+  : CFileOnDisk( fullName )
 {
   Init(); // (5)
 }
@@ -68,8 +70,8 @@ bool CFileToArc::Delete()
 {
   bool bSuccess = true;
 
-// Mark all Copies of the File for deletion first
-  CFilesCopies* copies = g_TheArchive.m_Copies.GetFileCopies( this );
+  // Mark all the Copies of this File for deletion first
+  std::unique_ptr<CFilesCopies> copies( g_TheArchive.m_Copies.GetFileCopies( this ) );
   POSITION pos;
   for( pos = copies->GetHeadPosition(); pos != NULL; )
   {
@@ -77,7 +79,6 @@ bool CFileToArc::Delete()
     if( ! pCurCopy->MarkForDeletion() )
       g_TheArchive.m_LogFile.AddRecord( getFullPath(), m_strName, L"Could not delete a Copy of the File" );
   }
-  delete copies;
 
   bSuccess = g_TheArchive.m_pDB->FileDelete( this );
   return bSuccess;
@@ -153,7 +154,7 @@ bool CFileToArc::GetStatus()
     }
     // End of (7)
   }
-  return 	bMustBeUpdated;
+  return bMustBeUpdated;
 }
 
 
